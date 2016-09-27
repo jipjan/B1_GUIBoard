@@ -1,4 +1,8 @@
 #BlueJ class context
 comment0.params=
-comment0.target=void\ testWerking()
-numComments=1
+comment0.target=GUI_Gebruik()
+comment1.params=
+comment1.target=void\ countFirstDigit()
+comment2.params=
+comment2.target=void\ testWerking()
+numComments=3
