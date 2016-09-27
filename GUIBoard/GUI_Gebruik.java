@@ -28,12 +28,7 @@ public class GUI_Gebruik
             IO.writeShort(0x18, j);
             IO.delay(100);
         }
-    }
-    
-    public void countToMaxWithLeading() {
-        for (int i = 0; i < 100000; i++)
-            GUI_Helper.intToGui(i, true);
-    }
+    }    
     
     public void runAnimation() {
         GUI_Helper.animationMultipleseg(0x10);
