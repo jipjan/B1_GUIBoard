@@ -25,11 +25,11 @@ public class GUI_Helper
     }
 
     public static void movieAnimation() {
-        movieAnimationSim(0x30, 0x32, 0x34);       
-  
+        movieAnimation(0x30, 0x32, 0x34);
+        movieAnimationSim(0x30, 0x32, 0x34);     
     }
 
-    public static void movieAnimation(int... addresses) {
+    private static void movieAnimation(int... addresses) {
         for (int i = 0; i < addresses.length; i++) {
             // step 1
             animation(new int[] { addresses[i], addresses[i] }, 100, true, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);
@@ -47,7 +47,7 @@ public class GUI_Helper
         }        
     }
 
-    public static void movieAnimationSim(int... addresses) {
+    private static void movieAnimationSim(int... addresses) {
         // step 1
         animationSim(addresses, 100, true, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);
         animationSim(addresses, 100, true, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);      
