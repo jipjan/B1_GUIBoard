@@ -30,6 +30,11 @@ public class GUI_Gebruik
         }
     }
     
+    public void countToMaxWithLeading() {
+        for (int i = 0; i < 100000; i++)
+            GUI_Helper.intToGui(i, true);
+    }
+    
     public static void testWerking() {
         IO.init();
         IO.writeShort(0x22, 7); // Display het  (decimale)  getal  7  op element 0x22
