@@ -13,28 +13,26 @@ public class GUI_Helper
     } 
     
     public static void snakeAnimation(int... addresses) {
-        animation(addresses, Segments.dp, Segments.d, Segments.e, Segments.g, Segments.b, Segments.a, Segments.f, Segments.g, Segments.c, Segments.d);
+        animation(addresses, 100, Segments.dp, Segments.d, Segments.e, Segments.g, Segments.b, Segments.a, Segments.f, Segments.g, Segments.c, Segments.d);
     }
     
     public static void loopAnimation(int... addresses) {
-        animation(addresses, Segments.dp, Segments.d, Segments.e, Segments.f, Segments.a, Segments.b, Segments.c, Segments.d); 
+        animation(addresses, 100, Segments.dp, Segments.d, Segments.e, Segments.f, Segments.a, Segments.b, Segments.c, Segments.d); 
     }
     
-    public static void animation(int[] addresses, int... animation) { 
+    public static void animationMultipleseg(int... addresses){
+        animation(addresses, 200, Segments.a, Segments.f | Segments.b, Segments.g, Segments.e | Segments.c, Segments.d);
+    }
+    
+    public static void animation(int[] addresses, int delay, int... animation) { 
         for (int i = 0; i < addresses.length; i++) {
             for (int j = 0; j < animation.length; j++) {
                 IO.writeShort(addresses[i], 0x100 | animation[j]);
-                IO.delay(100);
+                IO.delay(delay);
             }
             IO.writeShort(addresses[i], 0x100);
         }
-    }
-    
-    public static void animationMultipleseg(int... address){
-        animation(address, Segments.a | Segments.dp);
-    }
-    
-      
+    }     
 }
 
 
