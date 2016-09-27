@@ -13,90 +13,75 @@ public class GUI_Helper
     } 
 
     public static void snakeAnimation(int... addresses) {
-        animation(addresses, 100, true, Segments.dp, Segments.d, Segments.e, Segments.g, Segments.b, Segments.a, Segments.f, Segments.g, Segments.c, Segments.d);
+        animation(false, addresses, 100, true, Segments.dp, Segments.d, Segments.e, Segments.g, Segments.b, Segments.a, Segments.f, Segments.g, Segments.c, Segments.d);
     }
 
     public static void loopAnimation(int... addresses) {
-        animation(addresses, 100, true, Segments.dp, Segments.d, Segments.e, Segments.f, Segments.a, Segments.b, Segments.c, Segments.d); 
+        animation(false, addresses, 100, true, Segments.dp, Segments.d, Segments.e, Segments.f, Segments.a, Segments.b, Segments.c, Segments.d); 
     }
 
     public static void animationMultipleseg(int... addresses) {
-        animation(addresses, 200, true, Segments.a, Segments.f | Segments.b, Segments.g, Segments.e | Segments.c, Segments.d);
+        animation(false, addresses, 200, true, Segments.a, Segments.f | Segments.b, Segments.g, Segments.e | Segments.c, Segments.d);
     }
 
     public static void movieAnimation() {
-        movieAnimation(0x30, 0x32, 0x34);
-        movieAnimationSim(0x30, 0x32, 0x34);     
+        movieAnimation(false, 0x30);
+        movieAnimation(false, 0x32);
+        movieAnimation(false, 0x34);
+        movieAnimation(true, 0x30, 0x32, 0x34);     
     }
 
-    private static void movieAnimation(int... addresses) {
-        for (int i = 0; i < addresses.length; i++) {
-            // step 1
-            animation(new int[] { addresses[i], addresses[i] }, 100, true, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);
-            // step 2
-            animation(new int[] { addresses[i] }, 100, false, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);
-            // step 3
-            animation(new int[] { addresses[i] }, 100, true,
-                Segments.b | Segments.c | Segments.d | Segments.e | Segments.f,
-                Segments.c | Segments.d | Segments.e | Segments.f,
-                Segments.d | Segments.e | Segments.f,
-                Segments.e | Segments.f,
-                Segments.f);
-            // step 4
-            animation(addresses, 100, true, Segments.a, Segments.f | Segments.b, Segments.g | Segments.e | Segments.c, Segments.d);
-        }        
-    }
-
-    private static void movieAnimationSim(int... addresses) {
+    private static void movieAnimation(boolean simultaneous, int... addresses) {
         // step 1
-        animationSim(addresses, 100, true, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);
-        animationSim(addresses, 100, true, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);      
+        animation(simultaneous, addresses, 100, true, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);
+        animation(simultaneous, addresses, 100, true, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);      
         // step 2
-        animationSim(addresses, 100, false, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);        
+        animation(simultaneous, addresses, 100, false, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);        
         // step 3
-        animationSim(addresses, 100, true,
+        animation(simultaneous, addresses, 100, true,
             Segments.b | Segments.c | Segments.d | Segments.e | Segments.f,
             Segments.c | Segments.d | Segments.e | Segments.f,
             Segments.d | Segments.e | Segments.f,
             Segments.e | Segments.f,
             Segments.f);
         // step 4
-        animationSim(addresses, 100, true, Segments.a, Segments.f | Segments.b, Segments.g | Segments.e | Segments.c, Segments.d);        
+        animation(simultaneous, addresses, 100, true, Segments.a, Segments.f | Segments.b, Segments.g | Segments.e | Segments.c, Segments.d);  
     }
-    
-    public static void animation(int[] addresses, int delay, boolean clear, int... animation) { 
-        for (int i = 0; i < addresses.length; i++) {
-            int last = 0x0;
+
+    public static void animation(boolean simultaneous, int[] addresses, int delay, boolean clear, int... animation) { 
+        if (simultaneous) {
             for (int j = 0; j < animation.length; j++) {
-                if (clear) {
-                    IO.writeShort(addresses[i], 0x100 | animation[j]);
-                }
-                else {
-                    last = 0x100 | IO.readShort(addresses[i]) | animation[j];
-                    IO.writeShort(addresses[i], last);
+                for (int i = 0; i < addresses.length; i++) {
+                    if (clear) {
+                        IO.writeShort(addresses[i], 0x100 | animation[j]);
+                    }
+                    else {
+                        int last = 0x100 | IO.readShort(addresses[i]) | animation[j];
+                        IO.writeShort(addresses[i], last);
+                    }
                 }
                 IO.delay(delay);
             }
-            if (clear) clear(addresses[i]);
+            if (clear) clear(addresses);        
+        }
+        else {
+            for (int i = 0; i < addresses.length; i++) {
+                int last = 0x0;
+                for (int j = 0; j < animation.length; j++) {
+                    if (clear) {
+                        IO.writeShort(addresses[i], 0x100 | animation[j]);
+                    }
+                    else {
+                        last = 0x100 | IO.readShort(addresses[i]) | animation[j];
+                        IO.writeShort(addresses[i], last);
+                    }
+                    IO.delay(delay);
+                }
+                if (clear) clear(addresses[i]);
+            }
         }
     }
 
-    public static void animationSim(int[] addresses, int delay, boolean clear, int... animation) {         
-        for (int j = 0; j < animation.length; j++) {
-            for (int i = 0; i < addresses.length; i++) {
-                if (clear) {
-                    IO.writeShort(addresses[i], 0x100 | animation[j]);
-                }
-                else {
-                    int last = 0x100 | IO.readShort(addresses[i]) | animation[j];
-                    IO.writeShort(addresses[i], last);
-                }
-            }
-            IO.delay(delay);
-        }
-        if (clear) clear(addresses);
-    }
-    
     public static void clear(int... addresses) {
         for (int i = 0; i < addresses.length; i++)
             IO.writeShort(addresses[i], 0x100);
