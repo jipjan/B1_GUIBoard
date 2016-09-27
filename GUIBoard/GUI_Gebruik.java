@@ -35,6 +35,12 @@ public class GUI_Gebruik
             GUI_Helper.intToGui(i, true);
     }
     
+    public void runAnimation() {
+        GUI_Helper.animationMultipleseg(0x10);
+        GUI_Helper.loopAnimation(0x10, 0x12, 0x14, 0x16, 0x18);
+        GUI_Helper.snakeAnimation(0x10, 0x12, 0x14, 0x16, 0x18);
+    }
+    
     public static void testWerking() {
         IO.init();
         IO.writeShort(0x22, 7); // Display het  (decimale)  getal  7  op element 0x22

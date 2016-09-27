@@ -1,6 +1,14 @@
 #BlueJ class context
 comment0.params=number\ zero
 comment0.target=void\ intToGui(int,\ boolean)
-comment1.params=
-comment1.target=void\ animation()
-numComments=2
+comment1.params=addresses
+comment1.target=void\ snakeAnimation(int[])
+comment2.params=addresses
+comment2.target=void\ loopAnimation(int[])
+comment3.params=addresses\ animation
+comment3.target=void\ animation(int[],\ GUI_Helper.Segments[])
+comment4.params=addresses\ animation
+comment4.target=void\ animation(int[],\ int[])
+comment5.params=address
+comment5.target=void\ animationMultipleseg(int[])
+numComments=6
