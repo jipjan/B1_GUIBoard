@@ -1,6 +1,7 @@
 public class GUI_Helper
 {
-    public class Segments {
+    public class Segments
+    {
         public static final int a = 0x1;
         public static final int b = 0x2;
         public static final int c = 0x4;
@@ -12,26 +13,31 @@ public class GUI_Helper
         public static final int one = 0x100;
     } 
 
-    public static void snakeAnimation(int... addresses) {
+    public static void snakeAnimation(int... addresses)
+    {
         animation(false, addresses, 100, true, Segments.dp, Segments.d, Segments.e, Segments.g, Segments.b, Segments.a, Segments.f, Segments.g, Segments.c, Segments.d);
     }
 
-    public static void loopAnimation(int... addresses) {
+    public static void loopAnimation(int... addresses)
+    {
         animation(false, addresses, 100, true, Segments.dp, Segments.d, Segments.e, Segments.f, Segments.a, Segments.b, Segments.c, Segments.d); 
     }
 
-    public static void animationMultipleseg(int... addresses) {
+    public static void animationMultipleseg(int... addresses)
+    {
         animation(false, addresses, 200, true, Segments.a, Segments.f | Segments.b, Segments.g, Segments.e | Segments.c, Segments.d);
     }
 
-    public static void movieAnimation() {
+    public static void movieAnimation()
+    {
         movieAnimation(false, 0x30);
         movieAnimation(false, 0x32);
         movieAnimation(false, 0x34);
         movieAnimation(true, 0x30, 0x32, 0x34);     
     }
 
-    private static void movieAnimation(boolean simultaneous, int... addresses) {
+    private static void movieAnimation(boolean simultaneous, int... addresses)
+    {
         // step 1
         animation(simultaneous, addresses, 100, true, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);
         animation(simultaneous, addresses, 100, true, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);      
@@ -48,7 +54,8 @@ public class GUI_Helper
         animation(simultaneous, addresses, 100, true, Segments.a, Segments.f | Segments.b, Segments.g | Segments.e | Segments.c, Segments.d);  
     }
 
-    public static void animation(boolean simultaneous, int[] addresses, int delay, boolean clear, int... animation) { 
+    public static void animation(boolean simultaneous, int[] addresses, int delay, boolean clear, int... animation)
+    { 
         if (simultaneous) {
             for (int j = 0; j < animation.length; j++) {
                 for (int i = 0; i < addresses.length; i++) {
@@ -82,7 +89,8 @@ public class GUI_Helper
         }
     }
 
-    public static void clear(int... addresses) {
+    public static void clear(int... addresses)
+    {
         for (int i = 0; i < addresses.length; i++)
             IO.writeShort(addresses[i], 0x100);
     }
