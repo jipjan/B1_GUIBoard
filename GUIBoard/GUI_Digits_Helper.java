@@ -97,5 +97,10 @@ public class GUI_Digits_Helper
         for (int i = 0; i < addresses.length; i++)
             IO.writeShort(addresses[i], 0x100);
     }
+    
+    public static void clearAll()
+    {
+        clear(0x10, 0x12, 0x14, 0x16, 0x18, 0x20, 0x22, 0x24, 0x30, 0x32, 0x34);
+    }
 }
 

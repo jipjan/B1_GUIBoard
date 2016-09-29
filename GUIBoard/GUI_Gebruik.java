@@ -28,7 +28,119 @@ public class GUI_Gebruik
                 IO.writeShort(0x18, j);
                 IO.delay(100);
             }
-    }    
+    }
+
+    public void countWithZeros()
+    {
+        for(int i = 0; i < 100000; i++)
+        {
+            int vakje = 0x10;
+            int getal = i;
+            for(int j = 0; j < 6; j++)
+            {
+                IO.writeShort(vakje,(getal%10));
+                vakje = vakje + 0x02;
+                getal = getal / 10;
+            }
+            IO.delay(10);
+        }
+    }
+
+    public void counterWithoutZeros()
+    {      
+        for(int i = 0; i < 100000; i++)
+        {
+            int vakje = 0x10;
+            int getal = i;
+            int lengte = String.valueOf(i).length();
+            for(int j = 0; j < lengte; j++)
+            {
+                IO.writeShort(vakje,(getal%10));    
+                vakje = vakje + 0x02;
+                getal = getal / 10;
+            }
+            IO.delay(100);
+        }
+    }
+
+    public void counterWithButtons()
+    {
+        int i = 0;
+        while(true)
+        {
+            if(IO.readShort(0x100) != 0)// Linker blauwe Knop NIET ingedrukt
+            {
+                if(IO.readShort(0x80) != 0 )// Roode knop NIET ingedrukt
+                {
+                    int vakje = 0x10;
+                    int getal = i;
+                    int lengte = String.valueOf(i).length();
+                    for(int j = 0; j < 5; j++)
+                    { 
+                        IO.writeShort(vakje,0x100);
+                        vakje = vakje + 0x02;
+                        getal = getal / 10;
+                    }
+                    IO.delay(100);
+                }
+                else
+                {
+                    int vakje = 0x10;
+                    int getal = i;
+                    int lengte = String.valueOf(i).length();
+                    for(int j = 0; j < lengte; j++)
+                    {
+                        if(i==0){IO.writeShort(0x10, 0);}
+                        if(i==9){IO.writeShort(0x12, 0x100);}
+                        if(i==99){IO.writeShort(0x14, 0x100);}
+                        if(i==999){IO.writeShort(0x16, 0x100);}
+                        if(i==9999){IO.writeShort(0x18, 0x100);}
+                        else{IO.writeShort(vakje,(getal%10));}
+                        vakje = vakje + 0x02;
+                        getal = getal / 10;
+                    }
+                    IO.delay(100);
+                }
+                if ( i != 0)
+                {
+                    i=i-1;   
+                }
+            }
+            else
+            {
+                if(IO.readShort(0x80) != 0 )
+                {
+                    int vakje = 0x10;
+                    int getal = i;
+                    int lengte = String.valueOf(i).length();
+                    for(int j = 0; j < lengte; j++)
+                    { 
+                        IO.writeShort(vakje,0x100);
+                        vakje = vakje + 0x02;
+                        getal = getal / 10;
+                    }
+                    IO.delay(100);
+                }
+                else
+                {
+                    int vakje = 0x10;
+                    int getal = i;
+                    int lengte = String.valueOf(i).length();
+                    for(int j = 0; j < lengte; j++)
+                    {
+                        IO.writeShort(vakje,(getal%10)); 
+                        vakje = vakje + 0x02;
+                        getal = getal / 10;
+                    }
+                    IO.delay(100);
+                }
+                if(i!=99999)
+                {
+                    i=i+1 ;
+                }
+            }
+        }
+    }
 
     public void runOwnAnimation() {        
         new Thread(() -> GUI_Digits_Helper.animationMultipleseg(0x30, 0x32, 0x34, 0x20, 0x22, 0x24)).start();
@@ -53,7 +165,7 @@ public class GUI_Gebruik
             GUI_Matrix_Helper.turnPixel(true, x + 64, (int)y);
         }        
     }
-    
+
     public void drawTempParabola()
     {
         GUI_Matrix_Helper.clrDisplay();
