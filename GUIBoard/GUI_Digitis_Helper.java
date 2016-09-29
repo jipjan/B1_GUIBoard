@@ -1,4 +1,4 @@
-public class GUI_Helper
+public class GUI_Digitis_Helper
 {
     public class Segments
     {
@@ -56,37 +56,40 @@ public class GUI_Helper
 
     public static void animation(boolean simultaneous, int[] addresses, int delay, boolean clear, int... animation)
     { 
-        if (simultaneous) {
-            for (int j = 0; j < animation.length; j++) {
-                for (int i = 0; i < addresses.length; i++) {
-                    if (clear) {
-                        IO.writeShort(addresses[i], 0x100 | animation[j]);
-                    }
-                    else {
-                        int last = 0x100 | IO.readShort(addresses[i]) | animation[j];
-                        IO.writeShort(addresses[i], last);
-                    }
-                }
+        if (simultaneous)
+        {
+            for (int j = 0; j < animation.length; j++)
+            {
+                for (int i = 0; i < addresses.length; i++)                
+                    writeAnimation(clear, addresses[i], animation[j], 0x0);                
                 IO.delay(delay);
             }
             if (clear) clear(addresses);        
         }
-        else {
-            for (int i = 0; i < addresses.length; i++) {
+        else
+        {
+            for (int i = 0; i < addresses.length; i++)
+            {
                 int last = 0x0;
-                for (int j = 0; j < animation.length; j++) {
-                    if (clear) {
-                        IO.writeShort(addresses[i], 0x100 | animation[j]);
-                    }
-                    else {
-                        last = 0x100 | IO.readShort(addresses[i]) | animation[j];
-                        IO.writeShort(addresses[i], last);
-                    }
+                for (int j = 0; j < animation.length; j++)
+                {
+                    writeAnimation(clear, addresses[i], animation[j], last);
                     IO.delay(delay);
                 }
-                if (clear) clear(addresses[i]);
+                if (clear) clear(addresses[i]);                
             }
         }
+    }
+
+    private static void writeAnimation(boolean clear, int address, int animation, int last)
+    {
+        if (clear)
+            IO.writeShort(address, 0x100 | animation);                    
+        else
+        {
+            last = 0x100 | IO.readShort(address) | animation;
+            IO.writeShort(address, last);
+        }        
     }
 
     public static void clear(int... addresses)
