@@ -1,31 +1,42 @@
 public class GUI_Digits_Helper
 {
-    public class Segments
-    {
-        public static final int a = 0x1;
-        public static final int b = 0x2;
-        public static final int c = 0x4;
-        public static final int d = 0x8;
-        public static final int e = 0x10;
-        public static final int f = 0x20;
-        public static final int g = 0x40;
-        public static final int dp = 0x80;
-        public static final int one = 0x100;
-    } 
+    public static final int a = 0x1;
+    public static final int b = 0x2;
+    public static final int c = 0x4;
+    public static final int d = 0x8;
+    public static final int e = 0x10;
+    public static final int f = 0x20;
+    public static final int g = 0x40;
+    public static final int dp = 0x80;
+    public static final int one = 0x100;
+
+    public static int[] digits =
+        {
+            a | b | c | d | e | f,
+            b | c,
+            a | b | e | d,
+            a | b | g | c | d,
+            f | g | b | c,
+            a | f | g | c | d,
+            a | f | g | c | d | e,
+            a | b | c,
+            a | b | c | d | e | f | g,
+            a | b | c | d | f | g
+        };  
 
     public static void snakeAnimation(int... addresses)
     {
-        animation(false, addresses, 100, true, Segments.dp, Segments.d, Segments.e, Segments.g, Segments.b, Segments.a, Segments.f, Segments.g, Segments.c, Segments.d);
+        animation(false, addresses, 100, true, dp, d, e, g, b, a, f, g, c, d);
     }
 
     public static void loopAnimation(int... addresses)
     {
-        animation(false, addresses, 100, true, Segments.dp, Segments.d, Segments.e, Segments.f, Segments.a, Segments.b, Segments.c, Segments.d); 
+        animation(false, addresses, 100, true, dp, d, e, f, a, b, c, d); 
     }
 
     public static void animationMultipleseg(int... addresses)
     {
-        animation(false, addresses, 200, true, Segments.a, Segments.f | Segments.b, Segments.g, Segments.e | Segments.c, Segments.d);
+        animation(false, addresses, 200, true, a, f | b, g, e | c, d);
     }
 
     public static void movieAnimation()
@@ -39,19 +50,19 @@ public class GUI_Digits_Helper
     private static void movieAnimation(boolean simultaneous, int... addresses)
     {
         // step 1
-        animation(simultaneous, addresses, 100, true, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);
-        animation(simultaneous, addresses, 100, true, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);      
+        animation(simultaneous, addresses, 100, true, a, b, c, d, e, f);
+        animation(simultaneous, addresses, 100, true, a, b, c, d, e, f);      
         // step 2
-        animation(simultaneous, addresses, 100, false, Segments.a, Segments.b, Segments.c, Segments.d, Segments.e, Segments.f);        
+        animation(simultaneous, addresses, 100, false, a, b, c, d, e, f);        
         // step 3
         animation(simultaneous, addresses, 100, true,
-            Segments.b | Segments.c | Segments.d | Segments.e | Segments.f,
-            Segments.c | Segments.d | Segments.e | Segments.f,
-            Segments.d | Segments.e | Segments.f,
-            Segments.e | Segments.f,
-            Segments.f);
+            b | c | d | e | f,
+            c | d | e | f,
+            d | e | f,
+            e | f,
+            f);
         // step 4
-        animation(simultaneous, addresses, 100, true, Segments.a, Segments.f | Segments.b, Segments.g | Segments.e | Segments.c, Segments.d);  
+        animation(simultaneous, addresses, 100, true, a, f | b, g | e | c, d);  
     }
 
     public static void animation(boolean simultaneous, int[] addresses, int delay, boolean clear, int... animation)
@@ -92,12 +103,17 @@ public class GUI_Digits_Helper
         }        
     }
 
+    public static int digitToSegments(int number, boolean dot)
+    {
+        return dot ? digits[number] | dp : digits[number];
+    }
+
     public static void clear(int... addresses)
     {
         for (int i = 0; i < addresses.length; i++)
             IO.writeShort(addresses[i], 0x100);
     }
-    
+
     public static void clearAll()
     {
         clear(0x10, 0x12, 0x14, 0x16, 0x18, 0x20, 0x22, 0x24, 0x30, 0x32, 0x34);
