@@ -53,6 +53,14 @@ public class GUI_Gebruik
             GUI_Matrix_Helper.turnPixel(true, x + 64, (int)y);
         }        
     }
+    
+    public void drawTempParabola()
+    {
+        GUI_Matrix_Helper.clrDisplay();
+        GUI_Matrix_Helper.vulWaarden();
+        for (int x = 0; x < GUI_Matrix_Helper.waarden.size(); x++)
+            GUI_Matrix_Helper.turnPixel(true, x, GUI_Matrix_Helper.waarden.get(x));
+    }
 
     public static void testWerking() {
         IO.init();

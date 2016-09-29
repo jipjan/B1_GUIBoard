@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 /**
  * Write a description of class GUI_Matrix_Helper here.
  * 
@@ -27,7 +27,7 @@ public class GUI_Matrix_Helper
         else
             IO.writeShort(0x42, 1 << 12 | x << 5 | y);
     }
-    
+
     public static void drawCoordinateSystem()
     {
         for (int x = 0; x < 128; x++)        
@@ -35,4 +35,52 @@ public class GUI_Matrix_Helper
         for (int y = 0; y < 32; y++)
             turnPixel(true, 63, y);
     }
+
+    static ArrayList<Integer> waarden ;  // de ArrayList met de temperatuurWaarden
+    public static void vulWaarden()
+    { 
+        waarden = new ArrayList<Integer>();
+        waarden.add(new Integer(22)); waarden.add(new Integer(22)); waarden.add(new Integer(22));
+        waarden.add(new Integer(22)); waarden.add(new Integer(21)); waarden.add(new Integer(21));
+        waarden.add(new Integer(21)); waarden.add(new Integer(21)); waarden.add(new Integer(21));
+        waarden.add(new Integer(20)); waarden.add(new Integer(20)); waarden.add(new Integer(20));
+        waarden.add(new Integer(20)); waarden.add(new Integer(20)); waarden.add(new Integer(19));
+
+        waarden.add(new Integer(19)); waarden.add(new Integer(19)); waarden.add(new Integer(19));
+        waarden.add(new Integer(19)); waarden.add(new Integer(19)); waarden.add(new Integer(19));
+        waarden.add(new Integer(18)); waarden.add(new Integer(18)); waarden.add(new Integer(18));
+        waarden.add(new Integer(18)); waarden.add(new Integer(18)); waarden.add(new Integer(18));
+        waarden.add(new Integer(17)); waarden.add(new Integer(18)); waarden.add(new Integer(18));
+
+        waarden.add(new Integer(18)); waarden.add(new Integer(18)); waarden.add(new Integer(18));
+        waarden.add(new Integer(19)); waarden.add(new Integer(19)); waarden.add(new Integer(20));
+        waarden.add(new Integer(20)); waarden.add(new Integer(21)); waarden.add(new Integer(21));
+        waarden.add(new Integer(22)); waarden.add(new Integer(22)); waarden.add(new Integer(23));
+        waarden.add(new Integer(23)); waarden.add(new Integer(24)); waarden.add(new Integer(24));
+
+        waarden.add(new Integer(24)); waarden.add(new Integer(25)); waarden.add(new Integer(25));
+        waarden.add(new Integer(25)); waarden.add(new Integer(25)); waarden.add(new Integer(25));
+        waarden.add(new Integer(26)); waarden.add(new Integer(26)); waarden.add(new Integer(27));
+        waarden.add(new Integer(26)); waarden.add(new Integer(26)); waarden.add(new Integer(26));
+        waarden.add(new Integer(27)); waarden.add(new Integer(27)); waarden.add(new Integer(27));
+
+        waarden.add(new Integer(27)); waarden.add(new Integer(27)); waarden.add(new Integer(27));
+        waarden.add(new Integer(26)); waarden.add(new Integer(27)); waarden.add(new Integer(27));
+        waarden.add(new Integer(27)); waarden.add(new Integer(27)); waarden.add(new Integer(27));
+        waarden.add(new Integer(27)); waarden.add(new Integer(25)); waarden.add(new Integer(23));
+        waarden.add(new Integer(24)); waarden.add(new Integer(24)); waarden.add(new Integer(24));
+
+        waarden.add(new Integer(24)); waarden.add(new Integer(24)); waarden.add(new Integer(23));
+        waarden.add(new Integer(23)); waarden.add(new Integer(23)); waarden.add(new Integer(23));
+        waarden.add(new Integer(22)); waarden.add(new Integer(22)); waarden.add(new Integer(22));
+        waarden.add(new Integer(21)); waarden.add(new Integer(21)); waarden.add(new Integer(21));
+        waarden.add(new Integer(21)); waarden.add(new Integer(20)); waarden.add(new Integer(20));
+
+        waarden.add(new Integer(20)); waarden.add(new Integer(20)); waarden.add(new Integer(20));
+        waarden.add(new Integer(20)); waarden.add(new Integer(19)); waarden.add(new Integer(19));
+
+        waarden.add(new Integer(17)); waarden.add(new Integer(15)); waarden.add(new Integer(13));
+        waarden.add(new Integer(11)); waarden.add(new Integer( 9)); waarden.add(new Integer( 7));
+        waarden.add(new Integer( 5)); waarden.add(new Integer( 3)); waarden.add(new Integer( 1));
+    } 
 }
