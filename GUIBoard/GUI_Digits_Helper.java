@@ -105,7 +105,7 @@ public class GUI_Digits_Helper
 
     public static int digitToSegments(int number, boolean dot)
     {
-        return dot ? digits[number] | dp : digits[number];
+        return dot ? 0x100 | digits[number] | dp : 0x100 | digits[number];
     }
 
     public static void clear(int... addresses)
