@@ -13,4 +13,10 @@ public class GUI_Matrix_Helper
         for(int i = 0; i < str.length(); i++)
             IO.writeShort(0x40, arr[i]);
     }
+
+    public static void clrDiplay() 
+    {
+        IO.writeShort(0x40,0xFE);
+        IO.writeShort(0x40,0x01);
+    }
 }
