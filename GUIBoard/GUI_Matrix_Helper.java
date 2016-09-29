@@ -19,4 +19,12 @@ public class GUI_Matrix_Helper
         IO.writeShort(0x40,0xFE);
         IO.writeShort(0x40,0x01);
     }
+
+    public static void turnPixel(boolean on, int x, int y)
+    {
+        if (on)
+            IO.writeShort(0x42, 1 << 12 | x << 5 | y);
+        else
+            IO.writeShort(0x42, 1 << 12 | x << 5 | y);
+    }
 }

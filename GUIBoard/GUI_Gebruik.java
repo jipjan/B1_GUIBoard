@@ -31,13 +31,13 @@ public class GUI_Gebruik
     }    
     
     public void runOwnAnimation() {        
-        new Thread(() -> GUI_Helper.animationMultipleseg(0x30, 0x32, 0x34, 0x20, 0x22, 0x24)).start();
-        GUI_Helper.loopAnimation(0x10, 0x12, 0x14, 0x16, 0x18);
-        GUI_Helper.snakeAnimation(0x10, 0x12, 0x14, 0x16, 0x18);
+        new Thread(() -> GUI_Digits_Helper.animationMultipleseg(0x30, 0x32, 0x34, 0x20, 0x22, 0x24)).start();
+        GUI_Digits_Helper.loopAnimation(0x10, 0x12, 0x14, 0x16, 0x18);
+        GUI_Digits_Helper.snakeAnimation(0x10, 0x12, 0x14, 0x16, 0x18);
     }
     
     public void runVideoAnimation() {
-        GUI_Helper.movieAnimation();
+        GUI_Digits_Helper.movieAnimation();
     }
     
     public static void testWerking() {

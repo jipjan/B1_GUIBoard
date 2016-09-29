@@ -1,4 +1,4 @@
-public class GUI_Digitis_Helper
+public class GUI_Digits_Helper
 {
     public class Segments
     {
