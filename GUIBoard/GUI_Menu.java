@@ -11,12 +11,14 @@ public class GUI_Menu
     private String[] menuItems;
     private int focusItem;
     private int[] itemMaxTextLength = {20,20,20};
+    private int frame;
     
     public GUI_Menu(String[] givenMenuItems)
     {
         menuItems = givenMenuItems;
         focusItem = 0;
         setstandardMaxTextLenght();
+        frame = 0;
     }
     
     public GUI_Menu(String[] givenMenuItems, int itemThatIsInFocus)
@@ -24,9 +26,8 @@ public class GUI_Menu
         menuItems = givenMenuItems;
         focusItem = itemThatIsInFocus;
         setstandardMaxTextLenght();
+        frame =0;
     }
-    
-    
     
     public GUI_Menu(String[] givenMenuItems, int itemThatIsInFocus, int maxTextLength1, int maxTextLength2, int maxTextLength3)
     {
@@ -36,6 +37,7 @@ public class GUI_Menu
         itemMaxTextLength[0] = maxTextLength1;
         itemMaxTextLength[1] = maxTextLength2;
         itemMaxTextLength[2] = maxTextLength3;
+        frame = 0;
     }
     
     //test creator
@@ -45,6 +47,7 @@ public class GUI_Menu
         menuItems = tempArrayString;
         focusItem = 0;
         setstandardMaxTextLenght();
+        frame = 0;
     }
     
     private void setstandardMaxTextLenght()
@@ -63,6 +66,11 @@ public class GUI_Menu
     public void setFocsItem(int givenFocusItem)
     {
         focusItem = givenFocusItem% menuItems.length;
+    }
+    
+    public void setFrame(int givenFrame)
+    {
+        frame = givenFrame;
     }
     
     public void showMenu()
@@ -88,10 +96,10 @@ public class GUI_Menu
         int frame = 0;
         GUI_Matrix_Helper.clrDisplay();
         drawFocusLine(textToDisplay2.length());
-        GUI_Matrix_Helper.stringToMatrix(textToDisplay(frame, textToDisplay1, textToDisplay2, textToDisplay3));
+        GUI_Matrix_Helper.stringToMatrix(textToDisplay(textToDisplay1, textToDisplay2, textToDisplay3));
     }
     
-    private String textToDisplay(int frame,String text1, String text2, String text3)
+    private String textToDisplay(String text1, String text2, String text3)
     {
         char[][] textToDisplay = {text1.toCharArray(), text2.toCharArray(), text3.toCharArray()};
         
