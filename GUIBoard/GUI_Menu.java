@@ -7,32 +7,58 @@
  */
 public class GUI_Menu
 {
-    String[] menuItems;
-
-    public GUI_Menu(String[] GivenMenuItems)
+    private String[] menuItems;
+    private int focusItem;
+    
+    public GUI_Menu(String[] givenMenuItems)
     {
-        menuItems = GivenMenuItems;
+        menuItems = givenMenuItems;
+        focusItem = 0;
+    }
+    
+    public GUI_Menu(String[] givenMenuItems, int itemThatIsInFocus)
+    {
+        menuItems = givenMenuItems;
+        focusItem = itemThatIsInFocus;
+    }
+    
+    //test creator
+    public GUI_Menu()
+    {
+        String[] tempArrayString = {"test 1", "langere test 2", "zelfs nog langere test 3", "test 4", "test 5", "test 6", "test 7"};
+        menuItems = tempArrayString;
+        focusItem = 0;
+    }
+    
+    public void setMenuItems(String[] givenMenuItems)
+    {
+        menuItems = givenMenuItems;
+    }    
+    
+    public void setFocsItem(int givenFocusItem)
+    {
+        focusItem = givenFocusItem% menuItems.length;
     }
     
     public void showMenu()
     {
-        int itemsToDisplay = menuItems.length;
-        int i = 0;
+        int focusItemMenuHight = (focusItem/3) * 3; // iets met focus item focusItem;
+        int itemsToDisplay = menuItems.length - focusItemMenuHight;
         if (itemsToDisplay <= 1)
         {
-            menuToDisplay(menuItems[i]);
+            menuToDisplay(menuItems[focusItemMenuHight]);
         } else if (itemsToDisplay == 2)
         {
-            menuToDisplay(menuItems[i], menuItems[(i+1)]);
+            menuToDisplay(menuItems[focusItemMenuHight], menuItems[(focusItemMenuHight+1)]);
         } else
         {
-            menuToDisplay(menuItems[i], menuItems[(i+1)], menuItems[(i+2)]);
+            menuToDisplay(menuItems[focusItemMenuHight], menuItems[(focusItemMenuHight+1)], menuItems[(focusItemMenuHight+2)]);
         }
     }
     
     private void menuToDisplay(String textToDisplay)
     {
-        menuToDisplay("_", textToDisplay);
+        menuToDisplay(textToDisplay, "_");
     }
     
     private void menuToDisplay(String textToDisplay1, String textToDisplay2)
@@ -44,31 +70,24 @@ public class GUI_Menu
     {
         GUI_Matrix_Helper.clrDisplay();
         String totalTextToDisplay = textToDisplay1 + "\n" + textToDisplay2 + "\n" + textToDisplay3;
-        drawArrow(textToDisplay2.length());
+        drawFocusLine(textToDisplay2.length());
         GUI_Matrix_Helper.stringToMatrix(totalTextToDisplay);
     }
     
-    private void drawArrow(int numberOfFrontChar)
+    private void drawFocusLine(int numberOfFrontChar)
     {
-        /**
-         *   []
-         * [][][][][]
-         * [][][][][]
-         *   []
-         **/
-         
-        int PixelOfset = (numberOfFrontChar * 6) +1;
-        GUI_Matrix_Helper.turnPixel(true, PixelOfset + 2, 14);
-        GUI_Matrix_Helper.turnPixel(true, PixelOfset + 1, 15);
-        GUI_Matrix_Helper.turnPixel(true, PixelOfset + 2, 15);
-        GUI_Matrix_Helper.turnPixel(true, PixelOfset + 3, 15);
-        GUI_Matrix_Helper.turnPixel(true, PixelOfset + 4, 15);
-        GUI_Matrix_Helper.turnPixel(true, PixelOfset + 5, 15);
-        GUI_Matrix_Helper.turnPixel(true, PixelOfset + 1, 16);
-        GUI_Matrix_Helper.turnPixel(true, PixelOfset + 2, 16);
-        GUI_Matrix_Helper.turnPixel(true, PixelOfset + 3, 16);
-        GUI_Matrix_Helper.turnPixel(true, PixelOfset + 4, 16);
-        GUI_Matrix_Helper.turnPixel(true, PixelOfset + 5, 16);
-        GUI_Matrix_Helper.turnPixel(true, PixelOfset + 2, 17);
+        int beginLineOfset = 2;
+        for (int x = beginLineOfset ; x < calculateItemLength()+ beginLineOfset; x++)
+            GUI_Matrix_Helper.turnPixel(true, x, calculateYItemOfset());
+    }
+    
+    private int calculateYItemOfset()
+    {
+        return focusItem%3 * 10 + 10;
+    }
+    
+    private int calculateItemLength()
+    {
+        return menuItems[focusItem].length() * 6;
     }
 }
