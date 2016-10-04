@@ -4,8 +4,9 @@ import java.util.ArrayList;
  */
 public class Statistics
 {
-    public enum Unit { InsideTemp, OutsideTemp, Windspeed, OutsideHum, RainRate, UVLevel, Solarrad, Barometer };
-
+    //public enum Unit { InsideTemp, OutsideTemp, Windspeed, OutsideHum, RainRate, UVLevel, Solarrad, Barometer };
+    
+    /**
     public double getAverage(ArrayList<RawMeasurement> list, Unit kindOf)
     {
         double average = 0;
@@ -46,7 +47,73 @@ public class Statistics
         }
         
         return average /list.size();
-    } 
+    }
+    */
+   
+    public int selectType(String choice)
+    {
+        int type = -1;
+        
+        if(choice == "InsideTemp")
+        {
+            type = 3;
+        }
+        else if(choice == "OutsideTemp")
+        {
+            type = 5;
+        }
+        else if(choice == "Windspeed")
+        {
+            type = 6;
+        }
+        else if(choice == "OutsideHum")
+        {
+            type = 9;
+        }
+        else if(choice == "RainRate")
+        {
+            type = 10;
+        }
+        else if(choice == "UVLevel")
+        {
+            type = 11;
+        }
+        else if(choice == "Solarrad")
+        {
+            type = 12;
+        }
+        else if(choice == "Barometer")
+        {
+            type = 2;
+        }
+        
+        return type;
+    }
     
-    
+    public double lowest(String choice)
+    {
+        WeatherStation weatherStation = new WeatherStation();
+        ArrayList inputArray = weatherStation.getAllMeasurementsLast24h();
+        
+        int location = selectType(choice);
+        
+        double lowest = 0;
+        
+        if(inputArray.size() > 0)
+        {
+            ArrayList selected = inputArray.get(0);
+            lowest = selected.get(location);
+            
+        
+            for (int i = 1; i < inputArray.length; i++)
+            {
+                if(inputArray[i][location] < lowest)
+                {
+                    lowest = inputArray[i][location];
+                }
+            }
+        }
+        
+        return lowest;
+    }
 }
