@@ -89,7 +89,7 @@ public class GUI_Menu
     public void setMenuItems(String... givenMenuItems)
     {
         menuItems = givenMenuItems;
-        setFocusItem(FocusItem);
+        setFocusItem(focusItem);
     }    
     
     /**
