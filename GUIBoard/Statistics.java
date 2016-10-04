@@ -9,56 +9,44 @@ public class Statistics
     public double getAverage(ArrayList<RawMeasurement> list, Unit kindOf)
     {
         double average = 0;
+        for(int i = 0; i < list.size();i++)
         switch (kindOf)
         {
             case InsideTemp:
-            for (int i = 0; i < list.size(); i++)
-                average += list.get(i).getInsideTemp();
-            average /= list.size();
+            average += list.get(i).getInsideTemp();
             break;
 
             case OutsideTemp:
-            for (int i = 0; i < list.size(); i++)
-                average += list.get(i).getOutsideTemp();
-            average /= list.size();
+            average += list.get(i).getOutsideTemp();
             break;
 
             case Windspeed:
-            for (int i = 0; i < list.size(); i++)
-                average += list.get(i).getWindSpeed();
-            average /= list.size();
+            average += list.get(i).getWindSpeed();
             break;
             
             case OutsideHum:
-            for (int i = 0; i < list.size(); i++)
-                average += list.get(i).getOutsideHum();
-            average /= list.size();
+            average += list.get(i).getOutsideHum();
             break;
             
             case RainRate:
-            for (int i = 0; i < list.size(); i++)
-                average += list.get(i).getRainRate();
-            average /= list.size();
+            average += list.get(i).getRainRate();
             break;
             
             case UVLevel:
-            for (int i = 0; i < list.size(); i++)
                 average += list.get(i).getUVLevel();
-            average /= list.size();
             break;
             
             case Solarrad:
-            for (int i = 0; i < list.size(); i++)
                 average += list.get(i).getSolarRad();
-            average /= list.size();
             break;
             
             case Barometer:
-            for (int i = 0; i < list.size(); i++)
                 average += list.get(i).getBarometer();
-            average /= list.size();
             break;
         }
-        return average;
-    }    
+        
+        return average /list.size();
+    } 
+    
+    
 }
