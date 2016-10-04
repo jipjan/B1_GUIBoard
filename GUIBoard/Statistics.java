@@ -4,9 +4,9 @@ import java.util.ArrayList;
  */
 public class Statistics
 {
-    public enum Unit { InsideTemp, OutsideTemp, Windspeed, OutsideHum, RainRate, UVLevel, Solarrad, Barometer };
+    public static enum Unit { InsideTemp, OutsideTemp, Windspeed, OutsideHum, RainRate, UVLevel, Solarrad, Barometer };
 
-    public double getAverage(ArrayList<RawMeasurement> list, Unit kindOf)
+    public static double getAverage(ArrayList<RawMeasurement> list, Unit kindOf)
     {
         double average = 0;
         for(int i = 0; i < list.size();i++)
@@ -48,7 +48,7 @@ public class Statistics
         return average /list.size();
     } 
     
-    public double getDeviant(ArrayList<RawMeasurement> list, Unit unit)
+    public static double getDeviant(ArrayList<RawMeasurement> list, Unit unit)
     {
         double deviant = 0;
         double average = getAverage(list, unit);
