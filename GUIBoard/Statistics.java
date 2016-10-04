@@ -1,10 +1,13 @@
 import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  * Caculates statistics for the input array of data
  */
 public class Statistics
 {
     private ArrayList<RawMeasurement> list;
+    
     public Statistics(ArrayList<RawMeasurement> measurements)
     {
         list = measurements;
@@ -50,7 +53,6 @@ public class Statistics
                 average += list.get(i).getBarometer();
             break;
         }
-        
         return average /list.size();
     } 
     
@@ -102,4 +104,59 @@ public class Statistics
         }
         return Math.pow(deviant / (list.size() - 1), 0.5);
     }
+    
+        public double getMedian(Unit unit)
+    {
+        double median = 0;
+        ArrayList medianList = new ArrayList();
+        for(int i = 0; i < list.size();i++)
+        switch (unit)
+        {
+            case InsideTemp:
+            medianList += list.get(i).getInsideTemp();
+            break;
+            /**
+
+            case OutsideTemp:
+            medianList += list.get(i).getOutsideTemp();
+            break;
+
+            case Windspeed:
+            medianList += list.get(i).getWindSpeed();
+            break;
+            
+            case OutsideHum:
+            medianList += list.get(i).getOutsideHum();
+            break;
+            
+            case RainRate:
+            medianList += list.get(i).getRainRate();
+            break;
+            
+            case UVLevel:
+            medianList += list.get(i).getUVLevel();
+            break;
+            
+            case Solarrad:
+            medianList += list.get(i).getSolarRad();
+            break;
+            
+            case Barometer:
+            medianList += list.get(i).getBarometer();
+            break;
+            */
+        }
+        Collections.sort(medianList);
+        
+        int middle = ((medianList.size) / 2);
+        if(medianList.size % 2 == 0){
+           int numberA = medianList[middle];
+           int numberB = medianList[middle-1];
+           median = (numberA + numberB) / 2;
+        }
+        else{
+           median = medianList[middle + 1];
+        }
+        return median /list.size();
+    } 
 }
