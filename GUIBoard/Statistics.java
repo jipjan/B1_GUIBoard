@@ -48,5 +48,52 @@ public class Statistics
         return average /list.size();
     } 
     
-    
+    public double getDeviant(ArrayList<RawMeasurement> list, Unit unit)
+    {
+        double deviant = 0;
+        double average = getAverage(list, unit);
+        switch (unit)
+        {
+            case InsideTemp:
+            for (int i = 0; i < list.size(); i++)
+                deviant += Math.pow(list.get(i).getInsideTemp() - average, 2);
+            break;
+
+            case OutsideTemp:
+            for (int i = 0; i < list.size(); i++)
+                deviant += Math.pow(list.get(i).getOutsideTemp() - average, 2);
+            break;
+
+            case Windspeed:
+            for (int i = 0; i < list.size(); i++)
+                deviant += Math.pow(list.get(i).getWindSpeed() - average, 2);
+            break;
+            
+            case OutsideHum:
+            for (int i = 0; i < list.size(); i++)
+                deviant += Math.pow(list.get(i).getOutsideHum() - average, 2);
+            break;
+            
+            case RainRate:
+            for (int i = 0; i < list.size(); i++)
+                deviant += Math.pow(list.get(i).getRainRate() - average, 2);
+            break;
+            
+            case UVLevel:
+            for (int i = 0; i < list.size(); i++)
+                deviant += Math.pow(list.get(i).getUVLevel() - average, 2);
+            break;
+            
+            case Solarrad:
+            for (int i = 0; i < list.size(); i++)
+                deviant += Math.pow(list.get(i).getSolarRad() - average, 2);
+            break;
+            
+            case Barometer:
+            for (int i = 0; i < list.size(); i++)
+                deviant += Math.pow(list.get(i).getBarometer() - average, 2);
+            break;
+        }
+        return Math.pow(deviant / (list.size() - 1), 0.5);
+    }
 }
