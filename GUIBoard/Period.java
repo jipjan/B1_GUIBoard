@@ -1,5 +1,6 @@
 import java.time.*;
 import java.time.temporal.*;
+import java.util.ArrayList;
 
 /**
  * A class to contain a period of time
@@ -45,12 +46,10 @@ public class Period
         return ChronoUnit.DAYS.between(beginPeriod, endPeriod);
     }
     
-    
-    /*
     public ArrayList<RawMeasurement> getRawMeasurements(WeatherStation weatherStation)
     {
         return weatherStation.getAllMeasurementsBetween(beginPeriod, endPeriod);
-    }*/
+    }
     
     /**
      * Todo
@@ -67,12 +66,4 @@ public class Period
     {
         return new Period();
     }
-    
-    /**
-     * Todo more methods
-     */
-    
-    
-    
-    
 }

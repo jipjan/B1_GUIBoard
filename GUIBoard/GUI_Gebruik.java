@@ -25,7 +25,10 @@ public class GUI_Gebruik
         list.add(item2);
         list.add(item3);
         
-        System.out.println(Statistics.getAverage(list, Statistics.Unit.OutsideTemp));
-        System.out.println(Statistics.getDeviant(list, Statistics.Unit.OutsideTemp));
+        
+        Statistics stat = new Statistics(list);
+        
+        System.out.println(stat.getAverage(Statistics.Unit.OutsideTemp));
+        System.out.println(stat.getDeviant(Statistics.Unit.OutsideTemp));
     }
 }
