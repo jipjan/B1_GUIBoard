@@ -79,6 +79,5 @@ public class GUI_Gebruik
         Statistics stat = new Statistics(list);
         
         System.out.println(stat.getModus(Statistics.Unit.OutsideTemp));
-        System.out.println(stat.nieuwModus(Statistics.Unit.OutsideTemp));
     }
 }
