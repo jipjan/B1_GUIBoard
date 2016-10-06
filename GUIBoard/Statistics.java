@@ -115,8 +115,7 @@ public class Statistics
             case InsideTemp:
             medianList += list.get(i).getInsideTemp();
             break;
-            /**
-
+            
             case OutsideTemp:
             medianList += list.get(i).getOutsideTemp();
             break;
@@ -143,8 +142,7 @@ public class Statistics
             
             case Barometer:
             medianList += list.get(i).getBarometer();
-            break;
-            */
+            break;            
         }
         Collections.sort(medianList);
         
