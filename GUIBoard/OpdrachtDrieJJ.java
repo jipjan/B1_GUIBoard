@@ -13,15 +13,13 @@ public class OpdrachtDrieJJ
             if (temp >= 25)
             {
                 if (temp >= 30)
-                {
                     amount30++;
-                    continue;
-                }
-                amount25++;
+                else
+                    amount25++;
+                if (amount25 + amount30 >= 5 && amount30 >= 3) return true;
             }
             else
             {
-                if (amount25 + amount30 >= 5 && amount30 >= 3) return true;
                 amount25 = 0;
                 amount30 = 0;
             }

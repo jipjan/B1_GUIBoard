@@ -84,7 +84,8 @@ public class GUI_Gebruik
     public void testHeatWave()
     {
         Period p = new Period();
-        p.setStart(2014, 1, 1);
+        p.setStart(2013, 1, 1);
+        p.setEnd(2015, 12, 31);
         System.out.println(OpdrachtDrieJJ.hasHeatWave(p));
     }
 }
