@@ -26,4 +26,25 @@ public class OpdrachtDrieJJ
         }
         return false;
     }
-}
+
+    public static int maxAmountOfRainSeqDays(Period periode)
+    {
+        ArrayList<RawMeasurement> list = periode.getRawMeasurements(new WeatherStation());
+        int maxAmount = 0;
+        int amount = 0;
+        for (int i = 0; i < list.size(); i++)
+        {
+            int rain = list.get(i).getRainRate();
+            if (rain > 0)
+                amount += rain;
+            else
+            {
+                if (amount > maxAmount)
+                    maxAmount = amount;
+                amount = 0;
+            }
+
+        }
+        return maxAmount;
+    }
+}	
