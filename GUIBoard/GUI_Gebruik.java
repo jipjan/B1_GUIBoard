@@ -80,4 +80,11 @@ public class GUI_Gebruik
         
         System.out.println(stat.getModus(Statistics.Unit.OutsideTemp));
     }
+    
+    public void testHeatWave()
+    {
+        Period p = new Period();
+        p.setStart(2014, 1, 1);
+        System.out.println(OpdrachtDrieJJ.hasHeatWave(p));
+    }
 }
