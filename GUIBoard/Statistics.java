@@ -151,4 +151,46 @@ public class Statistics
         else
             return medianList.get(middle);
     }
+
+    private ArrayList<Short> sortList(Unit unit)
+    {
+        ArrayList<Short> sList = new ArrayList<Short>();
+        for(int i = 0; i < list.size();i++)
+            switch (unit)
+            {
+                case InsideTemp:
+                sList.add(list.get(i).getInsideTemp());
+                break;
+
+                case OutsideTemp:
+                sList.add(list.get(i).getOutsideTemp());
+                break;
+
+                case Windspeed:
+                sList.add(list.get(i).getWindSpeed());
+                break;
+
+                case OutsideHum:
+                sList.add(list.get(i).getOutsideHum());
+                break;
+
+                case RainRate:
+                sList.add(list.get(i).getRainRate());
+                break;
+
+                case UVLevel:
+                sList.add(list.get(i).getUVLevel());
+                break;
+
+                case Solarrad:
+                sList.add(list.get(i).getSolarRad());
+                break;
+
+                case Barometer:
+                sList.add(list.get(i).getBarometer());
+                break;
+            }
+        Collections.sort(sList);
+        return sList;
+    }
 }
