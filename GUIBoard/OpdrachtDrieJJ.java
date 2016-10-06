@@ -4,15 +4,17 @@ public class OpdrachtDrieJJ
 {
     public static boolean hasHeatWave(Period periode)
     {        
+        // temp 25 == 770
+        // temp 30 == 860
         ArrayList<RawMeasurement> list = periode.getRawMeasurements(new WeatherStation());
         int amount25 = 0;
         int amount30 = 0;        
         for (int i = 0; i < list.size(); i++)
         {
             int temp = list.get(i).getOutsideTemp();
-            if (temp >= 25)
+            if (temp >= 770)
             {
-                if (temp >= 30)
+                if (temp >= 860)
                     amount30++;
                 else
                     amount25++;
