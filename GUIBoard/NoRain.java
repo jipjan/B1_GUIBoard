@@ -4,39 +4,20 @@ import java.util.ArrayList;
  */
 public class NoRain
 {
-    private ArrayList<RawMeasurement> list;
-    
-    private short[] Data = {1,2,0,0,0,0,4,8,5,2,0,0,0,0,0,8,3,6,0,0,0};//21
-    public void regenChecker()
-    {
-        int Ldroogte = 0;
-        int stop = 1;
-        int count = 0;
-        for(int i = 0; i < Data.length;i++)
-        {
-            if(Data[i] == 0)
-            {
-                count += 1;
-            }
-            else
-            {
-                if(count>Ldroogte)
-                {
-
-                }
-            }
-        }
-    }
-    
-    
-    public void Test(Period periode)//voer de periode in
+    public void maxDroogePeriode(Period periode, int mNeerslag)//voer de periode in
     {
         ArrayList<RawMeasurement> list = periode.getRawMeasurements(new WeatherStation());// voer de periode array in in list
         int count = 0;
         int maxCount = 0;
+        int maximaleNeerslag = mNeerslag;
+        //Dit i voor de weergave van de datums
+        java.sql.Timestamp Begindate = list.get(0).getDateStamp();
+        java.sql.Timestamp Einddate = list.get(0).getDateStamp();
+        java.sql.Timestamp TijdelijkeDate = list.get(0).getDateStamp();
+        //
         for(int i = 0; i < list.size();i++)
         {
-            if(list.get(i).getRainRate()== 0)
+            if(list.get(i).getRainRate()== maximaleNeerslag)
             {
                 count += 1;
             }
@@ -45,12 +26,15 @@ public class NoRain
                 if(count>maxCount)
                 {
                     maxCount = count;
-                    Begindate =
-                    Einddate = 
+                    //
+                    Begindate = TijdelijkeDate;
+                    Einddate = list.get(i).getDateStamp();
+                    TijdelijkeDate = list.get(i).getDateStamp();
+                    //
+                    count = 0;
                 }
             }
         }
-        
-        
+        System.out.println("Periode: "+Begindate+" tot "+Einddate);
     }
 }
