@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 /**
  * Caculates statistics for the input array of data
  */
@@ -59,6 +59,7 @@ public class Statistics
         }
         return lowest;
     }
+
     public double getLowest(ArrayList<RawMeasurement> list, Unit kindOf)
     {
         double lowest = Integer.MAX_VALUE;
@@ -100,20 +101,20 @@ public class Statistics
 
         return lowest;
     } 
-    
-    
+
     /**
      * Calculates the mode.
      */
     public double modusHelper(int count, int maxCount,double maxValue, double i)
     {
         if(count > maxCount)
-                {
-                    maxCount = count;
-                    maxValue = i;
-                }
-                return maxValue;
+        {
+            maxCount = count;
+            maxValue = i;
+        }
+        return maxValue;
     }
+
     public double getModus(ArrayList<RawMeasurement> list, Unit kindOf)
     {
         double modus;
@@ -212,7 +213,65 @@ public class Statistics
             }
         return maxValue;
     }  
+
+    public short nieuwModus(ArrayList<RawMeasurement> list, Unit unit)
+    {
+        HashMap<Short, Integer> map = new HashMap<Short, Integer>();
+        for (int i = 0; i < list.size(); i++)
+            switch (unit)
+            {
+                case InsideTemp:
+                addItemToMap(map, list.get(i).getInsideTemp());
+                break;
+
+                case OutsideTemp:
+                addItemToMap(map, list.get(i).getOutsideTemp());
+                break;
+
+                case Windspeed:
+                addItemToMap(map, list.get(i).getWindSpeed());
+                break;
+
+                case OutsideHum:
+                addItemToMap(map, list.get(i).getOutsideHum());
+                break;
+
+                case RainRate:
+                addItemToMap(map, list.get(i).getRainRate());
+                break;
+
+                case UVLevel:
+                addItemToMap(map, list.get(i).getUVLevel());
+                break;
+
+                case Solarrad:
+                addItemToMap(map, list.get(i).getSolarRad());
+                break;
+
+                case Barometer:
+                addItemToMap(map, list.get(i).getBarometer());
+                break;
+            }
+        short median = 0;
+        int amount = 0;
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext())
+        {
+            Map.Entry pair = (Map.Entry) it.next();
+            if ((int) pair.getValue() > amount)
+                median = (short) pair.getKey();
+        }
+        return median;
+    }
     
+    private void addItemToMap(HashMap<Short, Integer> map, short item)
+    {
+        if (map.containsKey(item))
+            map.put(item, map.get(item)+1);
+        else
+            map.put(item, 1);
+    }
+
     /**
      * Assists getHighest.
      */
@@ -224,7 +283,7 @@ public class Statistics
         }
         return highest;
     }
-    
+
     public double getHighest(ArrayList<RawMeasurement> list, Unit kindOf)
     {
         double highest = Integer.MIN_VALUE;
