@@ -210,7 +210,60 @@ public class Statistics
                 maxValue = modusHelper(count, maxCount, maxValue, list.get(i).getBarometer());
                 break;
             }
-
         return maxValue;
-    }     
+    }  
+    
+    /**
+     * Assists getHighest.
+     */
+    public double highestHelper(double H, double highest)
+    {
+        if(highest < H)
+        {
+            highest = H;
+        }
+        return highest;
+    }
+    
+    public double getHighest(ArrayList<RawMeasurement> list, Unit kindOf)
+    {
+        double highest = Integer.MIN_VALUE;
+        for(int i = 0; i < list.size();i++)
+            switch (kindOf)
+            {
+                case InsideTemp:
+                highest = highestHelper(list.get(i).getInsideTemp(), highest);
+                break;
+
+                case OutsideTemp:
+                highest = highestHelper(list.get(i).getInsideTemp(), highest);
+                break;
+
+                case Windspeed:
+                highest = highestHelper(list.get(i).getInsideTemp(), highest);
+                break;
+
+                case OutsideHum:
+                highest = highestHelper(list.get(i).getInsideTemp(), highest);
+                break;
+
+                case RainRate:
+                highest = highestHelper(list.get(i).getInsideTemp(), highest);;
+                break;
+
+                case UVLevel:
+                highest = highestHelper(list.get(i).getInsideTemp(), highest);
+                break;
+
+                case Solarrad:
+                highest = highestHelper(list.get(i).getInsideTemp(), highest);
+                break;
+
+                case Barometer:
+                highest = highestHelper(list.get(i).getInsideTemp(), highest);
+                break;
+            }
+
+        return highest;
+    }
 }
