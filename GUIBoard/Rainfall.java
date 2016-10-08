@@ -10,11 +10,11 @@ import java.sql.Timestamp;
  * @author (ArthurvanStrien) 
  * @version (2016-10-06)
  */
-public class LongestConstantRainfall
+public class Rainfall
 {
     
     
-    public LongestConstantRainfall()
+    public Rainfall()
     {
         
     }
@@ -25,7 +25,6 @@ public class LongestConstantRainfall
         int longestPeriod = 0;
         Timestamp startDateTime;
         Timestamp endDateTime;
-        RawMeasurement selectedMeasurement = new RawMeasurement();
         ArrayList<Timestamp> rainPeriod = new ArrayList<Timestamp>();
         ArrayList<RawMeasurement> PeriodRawMeasurements = period.getRawMeasurements(new WeatherStation());
         
@@ -45,7 +44,6 @@ public class LongestConstantRainfall
                     rainPeriod.clear();
                     rainPeriod.add(startDateTime);
                     rainPeriod.add(endDateTime);
-                    System.out.println(startDateTime + " - " + endDateTime);
                 }
                 
                 counter = 0;
@@ -53,5 +51,33 @@ public class LongestConstantRainfall
         }
         
         return rainPeriod;
+    }
+    
+    public int getMostRainfall(Period period)
+    {
+        int counter = 0;
+        int biggestAmount = 0;
+        RawMeasurement selectedMeasurement = new RawMeasurement();
+        ArrayList<RawMeasurement> PeriodRawMeasurements = period.getRawMeasurements(new WeatherStation());
+        
+        for(int i = 0; i < PeriodRawMeasurements.size(); i++)
+        {   
+            
+            if(PeriodRawMeasurements.get(i).getRainRate() > 0)
+            {
+                counter = counter + PeriodRawMeasurements.get(i).getRainRate();
+            }
+            else
+            {   
+                if(counter > biggestAmount)
+                {
+                    biggestAmount = counter;
+                }
+                
+                counter = 0;
+            }
+        }
+        
+        return biggestAmount;
     }
 }
