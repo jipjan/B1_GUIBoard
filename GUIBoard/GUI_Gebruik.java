@@ -83,13 +83,11 @@ public class GUI_Gebruik
         Period p = new Period();
         p.setStart(2013, 1, 1);
         p.setEnd(2015, 12, 31);
-        System.out.println(OpdrachtDrieJJ.hasHeatWave(p));
     }
     
     public void testMaxRain()
     {
         Period p = new Period();
         p.setStart(2015, 1, 1);
-        System.out.println(OpdrachtDrieJJ.maxAmountOfRainSeqDays(p));
     }
 }
