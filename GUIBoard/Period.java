@@ -22,6 +22,12 @@ public class Period
         endPeriod = LocalDate.now();
     }
     
+    public Period(LocalDate start,LocalDate end)
+    {
+        beginPeriod = start;
+        endPeriod = end;
+    }
+    
     /**
      * Simple setter for start of period
      */
@@ -31,13 +37,45 @@ public class Period
     }
 
     /**
+     * Simple setter for start of period
+     */
+    public void setStart(LocalDate date)
+    {
+        beginPeriod = date;
+    }
+    
+    /**
+     * simple getter for start of period
+     */
+    public LocalDate getStart()
+    {
+        return beginPeriod;
+    }
+    
+    /**
      * simple setter for end of period
      */
     public void setEnd(int year, int month, int day)
     {
         endPeriod = LocalDate.of(year, month, day);
     }
+    
+    /**
+     * simple setter for end of period
+     */
+    public void setEnd(LocalDate date)
+    {
+        endPeriod = date;
+    }
 
+    /**
+     * simple getter for end of period
+     */
+    public LocalDate getEnd()
+    {
+        return endPeriod;
+    }
+    
     /**
      * calculates the number of days in the period
      */
