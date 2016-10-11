@@ -16,7 +16,7 @@ public class GUI_Menu
     /**
      * generates class menu with given string menu options.
      * 
-     * givenMenuItems: an array with strings to be selected.
+     * @param givenMenuItems    an array with strings to be selected.
      */
     public GUI_Menu(String[] givenMenuItems)
     {
@@ -29,15 +29,15 @@ public class GUI_Menu
     /**
      * generates class menu with given string menu options.
      * 
-     * givenMenuItems:      an array with strings to be selected.
-     * itemTahatIsInFocus : the numer for the string in the array that is first in focus.
+     * @param givenMenuItems        an array with strings to be selected.
+     * @param itemTahatIsInFocus    the numer for the string in the array that is first in focus.
      */
     public GUI_Menu(String[] givenMenuItems, int itemThatIsInFocus)
     {
         menuItems = givenMenuItems;
         focusItem = itemThatIsInFocus;
         setstandardMaxTextLenght();
-        frame =0;
+        frame = 0;
     }
     
     /**
@@ -69,7 +69,7 @@ public class GUI_Menu
     }
     
     /**
-     * sets the MaxTextLength to its deafalt values.
+     * sets the MaxTextLength to its default values.
      */
     private void setstandardMaxTextLenght()
     {
@@ -110,8 +110,8 @@ public class GUI_Menu
      */
     public void setFrame(int givenFrame)
     {
-        frame = givenFrame % 2147483646; //max value -1 of int in java can give an animation glitch if the int goes higher
-        
+        frame = givenFrame <= Integer.MAX_VALUE ? givenFrame : 0;
+        //frame = givenFrame % 2147483646; //max value -1 of int in java can give an animation glitch if the int goes higher        
     }
     
     /**
@@ -122,13 +122,12 @@ public class GUI_Menu
         int focusItemMenuHight = (focusItem/3) * 3; // iets met focus item focusItem;
         int itemsToDisplay = menuItems.length - focusItemMenuHight;
         
-        if (itemsToDisplay <= 1) {
+        if (itemsToDisplay <= 1)
             menuToDisplay(menuItems[focusItemMenuHight], "-", "-");
-        } else if (itemsToDisplay == 2) {
+        else if (itemsToDisplay == 2)
             menuToDisplay(menuItems[focusItemMenuHight], menuItems[(focusItemMenuHight+1)], "-");
-        } else {
-            menuToDisplay(menuItems[focusItemMenuHight], menuItems[(focusItemMenuHight+1)], menuItems[(focusItemMenuHight+2)]);
-        }
+        else
+            menuToDisplay(menuItems[focusItemMenuHight], menuItems[(focusItemMenuHight+1)], menuItems[(focusItemMenuHight+2)]);        
     }
 
     /**
