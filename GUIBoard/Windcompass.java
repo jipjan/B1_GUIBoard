@@ -37,34 +37,36 @@ public class Windcompass
         }
 
         // Z
-        for (int zX = x + 13; zX < x+18; zX++)
+        int counter = 0;
+        for (int zX = 13 + x; zX < 18 + x; zX++)
         {
             GUI_Matrix_Helper.turnPixel(true, zX, 25);
             GUI_Matrix_Helper.turnPixel(true, zX, 29);
-            GUI_Matrix_Helper.turnPixel(true, x+17 - (zX-13), (zX-13) + 25);
+            GUI_Matrix_Helper.turnPixel(true, zX, 29 - counter);
+            counter++;
         }
 
         // O
-        for (int oX = 26; oX < 30; oX++)
+        for (int oX = 26 + x; oX < 30 + x; oX++)
         {
             GUI_Matrix_Helper.turnPixel(true, oX, 13);
             GUI_Matrix_Helper.turnPixel(true, oX, 17);
         }
         for (int oY = 13; oY < 18; oY++)
         {
-            GUI_Matrix_Helper.turnPixel(true, 26, oY);
-            GUI_Matrix_Helper.turnPixel(true, 30, oY);
+            GUI_Matrix_Helper.turnPixel(true, x+26, oY);
+            GUI_Matrix_Helper.turnPixel(true, x+30, oY);
         }
 
         // W
         for (int wY = 13; wY < 18; wY++)
         {
-            GUI_Matrix_Helper.turnPixel(true, 2, wY);
-            GUI_Matrix_Helper.turnPixel(true, 7, wY);
+            GUI_Matrix_Helper.turnPixel(true, x + 2, wY);
+            GUI_Matrix_Helper.turnPixel(true, x + 7, wY);
         }
-        GUI_Matrix_Helper.turnPixel(true, 3, 17);
-        GUI_Matrix_Helper.turnPixel(true, 4, 16);
-        GUI_Matrix_Helper.turnPixel(true, 5, 16);
-        GUI_Matrix_Helper.turnPixel(true, 6, 17);
+        GUI_Matrix_Helper.turnPixel(true, x+3, 17);
+        GUI_Matrix_Helper.turnPixel(true, x+4, 16);
+        GUI_Matrix_Helper.turnPixel(true, x+5, 16);
+        GUI_Matrix_Helper.turnPixel(true, x+6, 17);
     }
 }

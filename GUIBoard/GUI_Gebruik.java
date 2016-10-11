@@ -6,6 +6,6 @@ public class GUI_Gebruik
     {
         IO.init();
         GUI_Matrix_Helper.clrDisplay();
-        Windcompass.DrawWindcompass(90, 0);
+        Windcompass.DrawWindcompass(45, 55);
     }
 }
