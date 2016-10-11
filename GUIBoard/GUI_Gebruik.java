@@ -6,6 +6,6 @@ public class GUI_Gebruik
     {
         IO.init();
         GUI_Matrix_Helper.clrDisplay();
-        Windroos.DrawWindroos(225, 0);
+        Windflower.DrawWindflower(90, 0);
     }
 }
