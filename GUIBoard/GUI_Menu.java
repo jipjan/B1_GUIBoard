@@ -152,7 +152,7 @@ public class GUI_Menu
     {
         char[][] textToDisplay = {text1.toCharArray(), text2.toCharArray(), text3.toCharArray()};
         
-        int animationStep = frame% (itemMaxTextLength[focusItem]+1);
+        int animationStep = frame% (itemMaxTextLength[focusItem%3]+1);
         String ReturnString = "";
         int textLength;
         
@@ -189,6 +189,6 @@ public class GUI_Menu
     
     private int calculateItemLength()
     {
-        return Math.min(menuItems[focusItem].length() * 6, itemMaxTextLength[focusItem] * 6);
+        return Math.min(menuItems[focusItem].length() * 6, itemMaxTextLength[focusItem%3] * 6);
     }
 }
