@@ -73,6 +73,7 @@ public class Statistics
             }
             else
             {
+                if (count == 0) return toReturn;
                 date = list.get(0).getDateStamp().toLocalDateTime().toLocalDate();
                 toReturn.add(new Short((short)(total/count)));
                 count = 0;
