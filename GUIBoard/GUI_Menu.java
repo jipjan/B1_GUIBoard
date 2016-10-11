@@ -156,19 +156,13 @@ public class GUI_Menu
         String ReturnString = "";
         int textLength;
         
-        for (int i = 0; i < 3; i++)
-        {
-            if ((i == focusItem) && (itemMaxTextLength[i] < textToDisplay[i].length))
-            {
+        for (int i = 0; i < 3; i++) {
+            if ((i == focusItem) && (itemMaxTextLength[i] < textToDisplay[i].length)) {
                 for (int j = 0; j < itemMaxTextLength[i]; j++)
-                {
                     ReturnString = ReturnString + textToDisplay[i][j+animationStep];
-                }
             } else {
                 for (int j = 0; j < Math.min(textToDisplay[i].length, itemMaxTextLength[i]); j++)
-                {
                     ReturnString = ReturnString + textToDisplay[i][j];
-                }
             }
             ReturnString = ReturnString + '\n';
         }
