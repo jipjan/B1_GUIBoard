@@ -5,7 +5,7 @@ public class Windroos
      * @param degrees   amount of degrees to turn the arrow
      * @param x         The offset for the location of the wind-flower, shouldn't be higher than 95.
      */
-    public void DrawWindroos(int degrees, int x)
+    public static void DrawWindroos(int degrees, int x)
     {
         // check if x is not out of bounds
         x = x > 95 ? 0 : x;
@@ -23,15 +23,14 @@ public class Windroos
         }
         // draw line
         int center = x + 15;
-        int radius = 10;
-        drawLine(center, center, degrees);
+        drawLine(x+15, 15, degrees);
     }
     
-    public void drawLine(int xS, int yS, int degrees)
+    private static void drawLine(int xS, int yS, int degrees)
     {        
-        double xE = Math.sin(degrees);
-        double yE = Math.cos(degrees);
-        for (int r = 1; r < 16; r++)
+        double xE = Math.sin(Math.toRadians(degrees));
+        double yE = Math.cos(Math.toRadians(degrees - 180));
+        for (int r = 1; r < 15; r++)
             GUI_Matrix_Helper.turnPixel(true, xS + (int) (xE * r), yS + (int) (yE * r));
     }
 }
