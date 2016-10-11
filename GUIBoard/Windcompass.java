@@ -1,11 +1,11 @@
-public class Windflower
+public class Windcompass
 {
     /**
      * Draw a wind-flower with an arrow indicating the wind direction
      * @param degrees   amount of degrees to turn the arrow
      * @param x         The offset for the location of the wind-flower, shouldn't be higher than 95.
      */
-    public static void DrawWindflower(int degrees, int x)
+    public static void DrawWindcompass(int degrees, int x)
     {
         // check if x is not out of bounds
         x = x > 95 ? 0 : x;
