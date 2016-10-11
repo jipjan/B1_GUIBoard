@@ -11,11 +11,13 @@ public class Analysis
 {  
     Period _period;
     ArrayList<RawMeasurement> _list;
+    Statistics _statistics;
     
     public Analysis(Period measurements)
     {
         _period = measurements;
         _list = measurements.getRawMeasurements(new WeatherStation());
+        _statistics = new Statistics(_list);
     }
     
     
@@ -28,10 +30,12 @@ public class Analysis
         // temp 25 == 770 - fahrenheit * 10
         // temp 30 == 860 - fahrenheit * 10
         int amount25 = 0;
-        int amount30 = 0;        
-        for (int i = 0; i < _list.size(); i++)
+        int amount30 = 0; 
+        
+        ArrayList<Short> days = _statistics.getAveragesOnDays(Statistics.Unit.OutsideTemp);
+        for (int i = 0; i < days.size(); i++)
         {
-            int temp = _list.get(i).getOutsideTemp();
+            Short temp = days.get(i);
             if (temp >= 770)
             {
                 if (temp >= 860)
