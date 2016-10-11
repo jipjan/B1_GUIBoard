@@ -159,6 +159,7 @@ public class Analysis
         int periodLength = 0;
         for (int i = 1; i < _period.numberOfDays(); i++)
         {
+            
             LocalDate dateOfI = beginDate.plusDays(i);
             tempOfI = getAvgTempOfDay(dateOfI);
             periodLength++;

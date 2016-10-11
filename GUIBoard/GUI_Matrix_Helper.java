@@ -7,6 +7,10 @@ import java.util.ArrayList;
  */
 public class GUI_Matrix_Helper
 {
+    /**
+     * Display a string on the matrix display.
+     * @param str   String to display
+     */
     public static void stringToMatrix(String str)
     {
         char[] arr = str.toCharArray();
@@ -14,12 +18,21 @@ public class GUI_Matrix_Helper
             IO.writeShort(0x40, arr[i]);
     }
 
+    /**
+     * Clear display.
+     */
     public static void clrDisplay() 
     {
         IO.writeShort(0x40,0xFE);
         IO.writeShort(0x40,0x01);
     }
 
+    /**
+     * Turn a pixel on or off on a location (x, y)
+     * @param on    True turns on, false turns off
+     * @param x     X location
+     * @param y     Y location
+     */
     public static void turnPixel(boolean on, int x, int y)
     {        
         if (on)
@@ -28,6 +41,9 @@ public class GUI_Matrix_Helper
             IO.writeShort(0x42, 1 << 12 | x << 5 | y);
     }
 
+    /**
+     * Draw lines for coordinate system
+     */
     public static void drawCoordinateSystem()
     {
         for (int x = 0; x < 128; x++)        
