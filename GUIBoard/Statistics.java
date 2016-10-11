@@ -1,4 +1,5 @@
 import java.util.*;
+import java.time.*;
 /**
  * Caculates statistics for the input array of data
  */
@@ -54,7 +55,32 @@ public class Statistics
         for(int i = 0; i < list.size(); i++)
             average += getValue(i, unit);
         return average / list.size();
-    } 
+    }
+    
+    public ArrayList<Short> getAveragesOnDays(Unit unit)
+    {
+        ArrayList<Short> toReturn = new ArrayList<Short>();    
+        if (list.size() < 1) return toReturn;
+        int count = 0;
+        int total = 0;
+        LocalDate date = list.get(0).getDateStamp().toLocalDateTime().toLocalDate();
+        for(int i = 0; i < list.size(); i++)
+        {
+            if (list.get(i).getDateStamp().toLocalDateTime().toLocalDate().equals(date))
+            {
+                count++;
+                total += getValue(i, unit);
+            }
+            else
+            {
+                date = list.get(0).getDateStamp().toLocalDateTime().toLocalDate();
+                toReturn.add(new Short((short)(total/count)));
+                count = 0;
+                total = 0;
+            }
+        }
+        return toReturn;
+    }
 
     /**
      * Get lowest value of the unit in the list.
