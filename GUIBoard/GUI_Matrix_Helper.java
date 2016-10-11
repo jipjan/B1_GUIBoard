@@ -38,7 +38,7 @@ public class GUI_Matrix_Helper
         if (on)
             IO.writeShort(0x42, 1 << 12 | x << 5 | y);
         else
-            IO.writeShort(0x42, 1 << 12 | x << 5 | y);
+            IO.writeShort(0x42, 0 << 12 | x << 5 | y);
     }
 
     /**
