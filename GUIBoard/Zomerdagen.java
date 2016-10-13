@@ -1,3 +1,5 @@
+import java.util.*;
+import java.time.*;
 import java.util.ArrayList;
 /**
  * This code will search for the longest periode of "summer days". Meaning the longest periode that the temprature 
@@ -7,81 +9,66 @@ import java.util.ArrayList;
  * 
  * @author Trevor Boeije 
  * @school Avans Hogenschool(breda)
- * @version 1.0
+ * @version 1.4
  */
 public class Zomerdagen
 {
+    private ArrayList<RawMeasurement> list;
+    private WeatherStation ws;
 
-    //bedoeling van public getLongestSunnyDays is het filteren van alle waardes onder de 25*c
-    public Period getLongestSunnyDays(Period periode)
+    public Zomerdagen()
     {
-        
-        Period p;
-        
-        p = new Period();
-        
-        //verbind met weather station als ArrayList uit de periode komt.
-        ArrayList<RawMeasurement> list = periode.getRawMeasurements(new WeatherStation());
-        ArrayList<RawMeasurement> zomerDagMetingen = new ArrayList<RawMeasurement>();
-        //Intitalisatie van verschillende eenheden
-        int count = 0;
-        int maxcount = 0;
-        boolean zomerdag = false;
-        java.sql.Timestamp beginDate        = list.get(0) .getDateStamp();
-        java.sql.Timestamp eindDate         = list.get(0) .getDateStamp();
-        java.sql.Timestamp tijdelijkeDate   = list.get(0) .getDateStamp();
-        
-        
-        for (RawMeasurement rm:list)
-        {
-           if rm.getOutsideTemp > 770);
-            zomerDagMetingen.Add (rm);
-        }
-        
+        ws = new WeatherStation();
+    }
 
-        for (int i = 0; i < (list.size()-1440); i= i + 1440)
+    public int getZomerdagen(int jaar, int maand, int dag)
+    {
+        IO.init();
+        
+        Period period = new Period();
+        period.setStart(jaar,maand,dag);
+        
+        list = period.getRawMeasurements(ws);
+        int summerdays = 0;
+        int maxSummerdays = 0;
+        boolean zomerdag = false;
+        if (list.size() < 1) 
+            return summerdays;
+
+        LocalDate date = list.get(0).getDateStamp().toLocalDateTime().toLocalDate();
+        for(int i = 0; i < list.size(); i++)
         {
-            for(int j = i; j<1440; j++)
+            
+            if (list.get(i).getDateStamp().toLocalDateTime().toLocalDate().equals(date))
             {
-                if(list.get(i).getOutsideTemp()>770)
+                if(list.get(i).getOutsideTemp() > 770)//heel de dag vergelijken met 770(25*C). zo ja tel 1 dag verder.
                 {
                     zomerdag = true;
                 }
+
             }
-            if (zomerdag) 
-            //vergelijken of de dag een hogere waarden heeft dan 25*C wat met onze eenheden farenheit x10 is
+            else//als je op de volgnde dag zit.
             {
-                count = count+1;
-            }
-            else
-            {
-                if (count > maxcount)
+                if(zomerdag)//het is een zomerdag
                 {
-                    maxcount=count;
-
-                    beginDate= tijdelijkeDate;
-                    eindDate = list.get(i +1440).getDateStamp();
-                    //de hoogste periode die op dat moment is berekend wordt opgeslagen.
+                    summerdays = summerdays + 1;
                 }
-
-                tijdelijkeDate = list.get(i + 1440).getDateStamp();
-                //anders vraagt hij de laaste niet op.
-
-                count = 0;
-            }   
-        } 
-        System.out.println("begindatum is" + beginDate + "einddatum is" + eindDate);
-        
-        return p;
+                else//het is geen zomerdag
+                {
+                    if (summerdays>maxSummerdays)
+                        maxSummerdays = summerdays;
+                    summerdays = 0;
+                }
+                
+                zomerdag = false;
+                date = list.get(i).getDateStamp().toLocalDateTime().toLocalDate();
+            }
+        }
+        return maxSummerdays;
 
     }
-    //public void test()
-    //{
-     //   ArrayList<RawMeasurement> list = periode.getRawMeasurements(new WeatherStation());
-        
-     //   for(int i = 0; i < list.size();i++)
-       // {
-         //   if(list.get(i).getTimestamp())
-   // {
-  //  }
+    //System.out.println("begindatum is" + ??? + "einddatum is" + ???;
 }
+
+   
+
