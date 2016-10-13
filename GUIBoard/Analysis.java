@@ -202,10 +202,10 @@ public class Analysis
         return longestTempRisePeriod;
     }
     
-    private void clearDisplay()
+    public void clearAll()
     {
-        IO.writeShort(0x40,0xFE);
-        IO.writeShort(0x40,0x01);
+        GUI_Digits_Helper.clearAll();
+        GUI_Matrix_Helper.clrDisplay();
     }
     
     private double getAvgTempOfDay(LocalDate day)
