@@ -193,9 +193,9 @@ public class Analysis
     
     /*
      * Check what the longest period of temperature rise is
-     * @return          Period with longest temperature rise.
+     * @return Period with longest temperature rise.
      */
-    public Period getLongestTemperatureRise()
+    public void getLongestTemperatureRise()
     {
         LocalDate beginDate = _period.getStart();
         
@@ -231,7 +231,10 @@ public class Analysis
         {
             longestTempRisePeriod.setEnd(_period.getEnd());
         }
-        return longestTempRisePeriod;
+        
+        GUI_Matrix_Helper.stringToMatrix("De langste tempstijging:" + "\n" + "van: " + longestTempRisePeriod.getStart() + "\n" + "tot: " + longestTempRisePeriod.getEnd());
+        
+        //return longestTempRisePeriod;
     }
     
     public void clearAll()
