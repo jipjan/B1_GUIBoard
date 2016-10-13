@@ -49,9 +49,9 @@ public class Statistics
      * @param unit  Unit to retrieve from the list
      * @return      The average
      */
-    public int getAverage(Unit unit)
+    public double getAverage(Unit unit)
     {
-        int average = 0;
+        double average = 0;
         for(int i = 0; i < list.size(); i++)
             average += getValue(i, unit);
         return average / list.size();
