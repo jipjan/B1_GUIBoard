@@ -57,10 +57,15 @@ public class Analysis
      * Check the most amount of rain that has fallen in sequence.
      * @return  The amount of rain that has fallen.
      */
-    public int maxAmountOfRainSeqDays()
-    {
+    public void maxAmountOfSequentRainDays()
+    {   
         int maxAmount = 0;
         int amount = 0;
+        int position = 0x10;
+        int numberOfDigits;
+        
+        clearDisplay();
+        
         for (int i = 0; i < _list.size(); i++)
         {
             int rain = _list.get(i).getRainRate();
@@ -73,7 +78,15 @@ public class Analysis
                 amount = 0;
             }
         }
-        return maxAmount;
+       
+        numberOfDigits = (int)(Math.log10(amount)+1);
+        
+        for(int i = 0; i < numberOfDigits; i++)
+        {
+            IO.writeShort(position, GUI_Digits_Helper.digitToSegments(amount%10, false));
+            amount = amount / 10;
+            position = position + 0x02;
+        }
     }
 
     /*
@@ -81,7 +94,7 @@ public class Analysis
      * @return  A period object with start and stopdate with longest period of rain
      */
     public Period getLongestRainfall()
-    {
+    {   
         int counter = 0;
         int longestPeriod = 0;
         Period newPeriod = new Period();
@@ -100,7 +113,8 @@ public class Analysis
                 }                
                 counter = 0;
             }
-        }       
+        }
+        
         return newPeriod;
     }
 
@@ -186,6 +200,12 @@ public class Analysis
             longestTempRisePeriod.setEnd(_period.getEnd());
         }
         return longestTempRisePeriod;
+    }
+    
+    private void clearDisplay()
+    {
+        IO.writeShort(0x40,0xFE);
+        IO.writeShort(0x40,0x01);
     }
     
     private double getAvgTempOfDay(LocalDate day)
