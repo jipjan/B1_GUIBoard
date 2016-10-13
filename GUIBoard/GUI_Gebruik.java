@@ -200,4 +200,17 @@ public class GUI_Gebruik
 
         );
     }
+    
+    public void printCurrentWindSpeed()
+    {
+        clearAll();
+        
+        int vakje = 0x10;
+        double getal = MetingenHandler.windSnelheid(ws.getMostRecentWindSpeed());
+
+        guiWriter(vakje,getal);
+        GUI_Matrix_Helper.stringToMatrix("Windsnelheid"+"\n"+"in km/u");
+        
+        
+    }
 }
