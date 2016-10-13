@@ -7,7 +7,7 @@ public class Statistics
 {
     // private list to use in the statistics calculations.
     private ArrayList<RawMeasurement> list;
-    
+
     /**
      * Enum with all the possible units to use in the statistics calculations.
      */
@@ -56,7 +56,7 @@ public class Statistics
             average += getValue(i, unit);
         return average / list.size();
     }
-    
+
     public ArrayList<Short> getAveragesOnDays(Unit unit)
     {
         ArrayList<Short> toReturn = new ArrayList<Short>();    
@@ -73,9 +73,14 @@ public class Statistics
             }
             else
             {
-                if (count == 0) return toReturn;
-                date = list.get(0).getDateStamp().toLocalDateTime().toLocalDate();
-                toReturn.add(new Short((short)(total/count)));
+                if (count == 0){}
+                else
+                {
+
+                    toReturn.add(new Short((short)(total/count)));
+
+                }
+                date = list.get(i).getDateStamp().toLocalDateTime().toLocalDate();
                 count = 0;
                 total = 0;
             }
