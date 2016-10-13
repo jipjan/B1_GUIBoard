@@ -25,12 +25,14 @@ public class Analysis
      * Check if a certain period has a heatwave
      * @return  Returns if the period contains a heatwave.
      */
-    public boolean hasHeatWave()
+    public void hasHeatWave()
     {        
         // temp 25 == 770 - fahrenheit * 10
         // temp 30 == 860 - fahrenheit * 10
         int amount25 = 0;
-        int amount30 = 0; 
+        int amount30 = 0;
+        
+        clearAll();
         
         ArrayList<Short> days = _statistics.getAveragesOnDays(Statistics.Unit.OutsideTemp);
         for (int i = 0; i < days.size(); i++)
@@ -42,7 +44,8 @@ public class Analysis
                     amount30++;
                 else
                     amount25++;
-                if (amount25 + amount30 >= 5 && amount30 >= 3) return true;
+                if (amount25 + amount30 >= 5 && amount30 >= 3) 
+                    GUI_Matrix_Helper.stringToMatrix("Er was een hittgolf" + "\n" + "tussen: " + _period.getStart() + "\n" + "en " + _period.getEnd());
             }
             else
             {
@@ -50,7 +53,8 @@ public class Analysis
                 amount30 = 0;
             }
         }
-        return false;
+        
+        GUI_Matrix_Helper.stringToMatrix("Er was geen hittegolf" + "\n" + "tussen: " + _period.getStart() + "\n" + "en " + _period.getEnd());
     }
 
     /*
