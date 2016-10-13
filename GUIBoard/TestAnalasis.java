@@ -12,7 +12,8 @@ public class TestAnalasis
     
     public TestAnalasis()
     {
-        period.setStart(2016, 1, 1);
+        period.setStart(2013, 6, 1);
+        period.setEnd(2013, 12, 31);
         analysis = new Analysis(period);
         IO.init();
     }
@@ -20,5 +21,10 @@ public class TestAnalasis
     public void testMaxAmountOfSequentRainDays()
     {
         analysis.maxAmountOfSequentRainDays();
+    }
+    
+    public void testHasHeatWave()
+    {
+        analysis.hasHeatWave();
     }
 }
