@@ -150,7 +150,7 @@ public class Analysis
      * @param mNeerslag Upper bound of what the limit is for drought
      * @return  Period of longest drought
      */
-    public Period longestDrought(int mNeerslag)//voer de periode in
+    public void longestDrought(int mNeerslag)//voer de periode in
     {
         ArrayList<Timestamp> time = new ArrayList<Timestamp>();
         //initaliseerst belangrijke telwaarden
@@ -159,10 +159,12 @@ public class Analysis
         //geeft een waarde vor de maximale neerslag die mag vallen o nog mee te tellen.
         int maximaleNeerslag = mNeerslag;
         //Dit i voor de weergave van de datums
-        Timestamp Begindate = _list.get(0).getDateStamp();
-        Timestamp Einddate = _list.get(0).getDateStamp();
+        Timestamp beginDate = _list.get(0).getDateStamp();
+        Timestamp eindDate = _list.get(0).getDateStamp();
         Timestamp TijdelijkeDate = _list.get(0).getDateStamp();
         //
+        clearAll();
+        
         for(int i = 0; i < _list.size();i++)
         {
             if(_list.get(i).getRainRate()== maximaleNeerslag)
@@ -175,15 +177,18 @@ public class Analysis
                 {
                     maxCount = count;
                     //
-                    Begindate = TijdelijkeDate;
-                    Einddate = _list.get(i).getDateStamp();
+                    beginDate = TijdelijkeDate;
+                    eindDate = _list.get(i).getDateStamp();
                     //
                     count = 0;
                 }
                 TijdelijkeDate = _list.get(i).getDateStamp();
             }
         }
-        return new Period(Begindate.toLocalDateTime().toLocalDate(), Einddate.toLocalDateTime().toLocalDate());
+        
+        GUI_Matrix_Helper.stringToMatrix("De langste droogte:" + "\n" + "van: " + beginDate + "\n" + "tot: " + eindDate);
+        
+        //return new Period(Begindate.toLocalDateTime().toLocalDate(), Einddate.toLocalDateTime().toLocalDate());
     }
     
     /*
