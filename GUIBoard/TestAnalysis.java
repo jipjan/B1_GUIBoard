@@ -56,4 +56,9 @@ public class TestAnalysis
     {
         analysis.getLongestRainfall();
     }
+    
+    public void testLongestDrought()
+    {
+        analysis.longestDrought(0);
+    }
 }
