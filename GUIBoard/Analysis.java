@@ -109,27 +109,40 @@ public class Analysis
     {   
         int counter = 0;
         int longestPeriod = 0;
-        Period newPeriod = new Period();
+        //Period newPeriod = new Period();
+        Timestamp startDate;
+        Timestamp endDate;
         
-        clearAll();
-        
-        for(int i = 0; i < _list.size(); i++)
-        {   
-            if(_list.get(i).getRainRate() > 0)
-                counter++;
-            else
+        if(_list.size() > 0)
+        {
+            startDate = _list.get(0).getDateStamp();
+            endDate = _list.get(0).getDateStamp();
+            
+            clearAll();
+            
+            for(int i = 0; i < _list.size(); i++)
             {   
-                if(counter > longestPeriod)
-                {
-                    longestPeriod = counter;
-                    newPeriod.setStart(_list.get(i - counter).getDateStamp().toLocalDateTime().toLocalDate());
-                    newPeriod.setEnd(_list.get(i).getDateStamp().toLocalDateTime().toLocalDate());
-                }                
-                counter = 0;
+                if(_list.get(i).getRainRate() > 0)
+                    counter++;
+                else
+                {   
+                    if(counter > longestPeriod)
+                    {
+                        longestPeriod = counter;
+                        //newPeriod.setStart(_list.get(i - counter).getDateStamp().toLocalDateTime().toLocalDate());
+                        //newPeriod.setEnd(_list.get(i).getDateStamp().toLocalDateTime().toLocalDate());
+                        startDate = _list.get(i - counter).getDateStamp();
+                        endDate = _list.get(i).getDateStamp();
+                    }                
+                    counter = 0;
+                }
+            }
+            
+            if(longestPeriod > 0)
+            {
+                GUI_Matrix_Helper.stringToMatrix("De langste regenval" + "\n" + "v " + startDate + "\n" + "t " + endDate);
             }
         }
-        
-        GUI_Matrix_Helper.stringToMatrix("De langste regenval" + "\n" + "was van: " + newPeriod.getStart() + "\n" + "tot " + newPeriod.getEnd());
     }
 
     /*
