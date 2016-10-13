@@ -64,29 +64,37 @@ public class Analysis
         int position = 0x10;
         int numberOfDigits;
         
-        clearDisplay();
+        clearAll();
+       
+        int size = _list.size();
         
         for (int i = 0; i < _list.size(); i++)
         {
             int rain = _list.get(i).getRainRate();
             if (rain > 0)
+            {
                 amount += rain;
-            else
+            }
+           else
             {
                 if (amount > maxAmount)
+                {
                     maxAmount = amount;
+                }
                 amount = 0;
             }
         }
        
-        numberOfDigits = (int)(Math.log10(amount)+1);
+        numberOfDigits = (int) Math.log10(maxAmount) + 1;
         
         for(int i = 0; i < numberOfDigits; i++)
         {
-            IO.writeShort(position, GUI_Digits_Helper.digitToSegments(amount%10, false));
-            amount = amount / 10;
+            IO.writeShort(position, GUI_Digits_Helper.digitToSegments(maxAmount%10, false));
+            maxAmount = maxAmount / 10;
             position = position + 0x02;
         }
+        
+        GUI_Matrix_Helper.stringToMatrix("Maximale Regenval" + "\n" + "tussen: " + _period.getStart() + "\n" + "en " + _period.getEnd() + " in mm.");
     }
 
     /*
