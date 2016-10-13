@@ -5,12 +5,12 @@
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class TestAnalasis
+public class TestAnalysis
 {
     Period period = new Period();
     Analysis analysis; 
     
-    public TestAnalasis()
+    public TestAnalysis()
     {
         period.setStart(2016, 1, 1);
         period.setEnd(2016, 12, 31);
