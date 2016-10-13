@@ -49,7 +49,7 @@ public class TestAnalysis
     
     public void testMaxAmountOfSequentRainDays()
     {
-        analysis.maxAmountOfSequentRainDays();
+        analysis.maxAmountOfSequentRain();
     }
     
     public void testGetLongestRainfall()

@@ -61,7 +61,7 @@ public class Analysis
      * Check the most amount of rain that has fallen in sequence.
      * @return  The amount of rain that has fallen.
      */
-    public void maxAmountOfSequentRainDays()
+    public void maxAmountOfSequentRain()
     {   
         int maxAmount = 0;
         int amount = 0;
