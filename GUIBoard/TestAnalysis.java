@@ -61,4 +61,9 @@ public class TestAnalysis
     {
         analysis.longestDrought(0);
     }
+    
+    public void testLongestTemperatureRise()
+    {
+        analysis.getLongestTemperatureRise();
+    }
 }
