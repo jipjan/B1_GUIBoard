@@ -105,11 +105,13 @@ public class Analysis
      * Check the longest period of rainfall.
      * @return  A period object with start and stopdate with longest period of rain
      */
-    public Period getLongestRainfall()
+    public void getLongestRainfall()
     {   
         int counter = 0;
         int longestPeriod = 0;
         Period newPeriod = new Period();
+        
+        clearAll();
         
         for(int i = 0; i < _list.size(); i++)
         {   
@@ -127,7 +129,7 @@ public class Analysis
             }
         }
         
-        return newPeriod;
+        GUI_Matrix_Helper.stringToMatrix("De langste regenval" + "\n" + "was van: " + newPeriod.getStart() + "\n" + "tot " + newPeriod.getEnd());
     }
 
     /*
