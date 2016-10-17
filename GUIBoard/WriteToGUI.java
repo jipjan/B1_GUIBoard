@@ -9,6 +9,7 @@ public class WriteToGUI
     private Statistics stat;
     private Analysis analysis;
     Period period;
+    LoadingDataAnimation animation = new LoadingDataAnimation();
 
     public WriteToGUI() 
     {
@@ -26,6 +27,7 @@ public class WriteToGUI
         period.setEnd(year, 12, 31);
         
         clearGUI();
+        animation.stopAnimation();
         Windcompass.DrawWindcompass(45, 55);
     }
     
@@ -44,6 +46,7 @@ public class WriteToGUI
         
         rm = period.getRawMeasurements(ws);
         
+        animation.stopAnimation();
         clearGUI();
         Windcompass.DrawWindcompass(45, 55);
     }
@@ -79,7 +82,7 @@ public class WriteToGUI
     private void retrievingDataMessage()
     {
         clearGUI();
-        GUI_Matrix_Helper.stringToMatrix("Data ophalen...");
+        animation.startAnimation();
     }
 
     private void clearGUI()
@@ -188,6 +191,7 @@ public class WriteToGUI
         rm = period.getRawMeasurements(ws);
         Statistics stat = new Statistics(rm);
         
+        animation.stopAnimation();
         clearGUI();
         
         //Top digits, Standaardafwijking
@@ -222,6 +226,7 @@ public class WriteToGUI
         rm = period.getRawMeasurements(ws);
         Statistics stat = new Statistics(rm);
         
+        animation.stopAnimation();
         clearGUI();
         
         //Top digits, Average
@@ -256,6 +261,7 @@ public class WriteToGUI
         rm = period.getRawMeasurements(ws);
         Statistics stat = new Statistics(rm);
         
+        animation.stopAnimation();
         clearGUI();
         
         //Top digits, Standaardafwijking
