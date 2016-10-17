@@ -130,7 +130,7 @@ public class WriteToGUI
         
         clearGUI();
         
-        //Top digits, Standaartafwijking
+        //Top digits, Standaardafwijking
         int vakje = 0x10;
         double getal = MetingenHandler.temperatuurDouble(stat.getDeviant(Statistics.Unit.OutsideTemp));
         guiWriter(vakje,getal);
@@ -147,7 +147,7 @@ public class WriteToGUI
         
         //Tekst on dot matrix
         GUI_Matrix_Helper.stringToMatrix(
-        "Temperatuur last week"+"\n"+"Standaartafwijking"+"\n"+"Modus         Mediaan"
+        "Temperatuur last week"+"\n"+"Standaardafwijking"+"\n"+"Modus         Mediaan"
 
         );
     }
@@ -198,7 +198,7 @@ public class WriteToGUI
         
         clearGUI();
         
-        //Top digits, Standaartafwijking
+        //Top digits, Standaardafwijking
         int vakje = 0x10;
         double getal = MetingenHandler.temperatuurDouble(stat.getDeviant(Statistics.Unit.OutsideTemp));
         guiWriter(vakje,getal);
@@ -215,7 +215,7 @@ public class WriteToGUI
         
         //Tekst on dot matrix
         GUI_Matrix_Helper.stringToMatrix(
-        "Temperatuur last week"+"\n"+"Standaartafwijking"+"\n"+"Modus         Mediaan"
+        "Temperatuur last week"+"\n"+"Standaardafwijking"+"\n"+"Modus         Mediaan"
 
         );
     }
