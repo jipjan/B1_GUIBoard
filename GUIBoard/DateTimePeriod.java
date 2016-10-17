@@ -16,6 +16,12 @@ public class DateTimePeriod
     {
         
     }
+    
+    public DateTimePeriod(LocalDateTime newStartDateTime, LocalDateTime newEndDateTime)
+    {
+        startDateTime = newStartDateTime;
+        endDateTime = newEndDateTime;
+    }
 
     public LocalDateTime getStartDateTime()
     {
