@@ -11,8 +11,15 @@ public class WriteToGUI
     {
         IO.init();
         GUI_Matrix_Helper.clrDisplay();
+        clearGUI();
         Windcompass.DrawWindcompass(45, 55);
         ws = new WeatherStation();
+    }
+    
+    private void retrievingDataMessage()
+    {
+        clearGUI();
+        GUI_Matrix_Helper.stringToMatrix("Data ophalen...");
     }
 
     public void clearGUI()
@@ -79,13 +86,15 @@ public class WriteToGUI
     
     public void printLastWeekGLH()
     {
-        clearGUI();
+        retrievingDataMessage();
         
         Period period = new Period();
         period.setStart((LocalDate.now().minusDays(7)));
         
         rm = period.getRawMeasurements(ws);
         Statistics stat = new Statistics(rm);
+        
+        clearGUI();
         
         //Top digits, Average
         int vakje = 0x10;
@@ -111,13 +120,15 @@ public class WriteToGUI
     
     public void printLastWeekMMS()
     {
-        clearGUI();
+        retrievingDataMessage();
         
         Period period = new Period();
         period.setStart((LocalDate.now().minusDays(7)));
         
         rm = period.getRawMeasurements(ws);
         Statistics stat = new Statistics(rm);
+        
+        clearGUI();
         
         //Top digits, Standaartafwijking
         int vakje = 0x10;
@@ -143,13 +154,15 @@ public class WriteToGUI
     
     public void printLastMonthGLH()
     {
-        clearGUI();
+        retrievingDataMessage();
         
         Period period = new Period();
         period.setStart((LocalDate.now().minusMonths(1)));
         
         rm = period.getRawMeasurements(ws);
         Statistics stat = new Statistics(rm);
+        
+        clearGUI();
         
         //Top digits, Average
         int vakje = 0x10;
@@ -175,13 +188,15 @@ public class WriteToGUI
     
     public void printLastMonthMMS()
     {
-        clearGUI();
+        retrievingDataMessage();
         
         Period period = new Period();
         period.setStart((LocalDate.now().minusMonths(1)));
         
         rm = period.getRawMeasurements(ws);
         Statistics stat = new Statistics(rm);
+        
+        clearGUI();
         
         //Top digits, Standaartafwijking
         int vakje = 0x10;
