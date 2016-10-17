@@ -1,3 +1,4 @@
+import java.util.Calendar;
 
 /**
  * Write a description of class TestWriteToGUI here.
@@ -12,6 +13,13 @@ public class TestWriteToGUI
     /**
      * Constructor for objects of class TestWriteToGUI
      */
+    public TestWriteToGUI()
+    {
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        writeToGUI = new WriteToGUI(year);
+    }
+    
+    
     public TestWriteToGUI(int year)
     {
         writeToGUI = new WriteToGUI(year);
@@ -60,5 +68,15 @@ public class TestWriteToGUI
     public void testPrintLongestRainfall()
     {
         writeToGUI.printLongestRainfall();
+    }
+    
+    public void testPrintLongestDrought()
+    {
+        writeToGUI.printLongestDrought(0);
+    }
+    
+    public void testPrintTemperatureRise()
+    {
+        writeToGUI.printLongestTemperatureRise();
     }
 }

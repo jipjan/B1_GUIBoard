@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.time.*;
 
 public class WriteToGUI
@@ -11,11 +12,21 @@ public class WriteToGUI
 
     public WriteToGUI() 
     {
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        
         IO.init();
         GUI_Matrix_Helper.clrDisplay();
+        
+        retrievingDataMessage();
+        
+        analysis = new Analysis();
+        ws = new WeatherStation();
+        period = new Period();
+        period.setStart(year, 1, 1);
+        period.setEnd(year, 12, 31);
+        
         clearGUI();
         Windcompass.DrawWindcompass(45, 55);
-        ws = new WeatherStation();
     }
     
     public WriteToGUI(int year) 
@@ -42,7 +53,7 @@ public class WriteToGUI
         String seconds = doubleDigits(timeStamp.getSecond());
         String minutes = doubleDigits(timeStamp.getMinute());
         String hours = doubleDigits(timeStamp.getHour());
-        String days = doubleDigits(timeStamp.getDayOfYear());
+        String days = doubleDigits(timeStamp.getDayOfMonth());
         String months = doubleDigits(timeStamp.getMonthValue());
         String years = doubleDigits(timeStamp.getYear());
         
@@ -282,6 +293,8 @@ public class WriteToGUI
     
     public void printHasHeatWave()
     {
+        clearGUI();
+        
         if(analysis.hasHeatWave(rm))
         {
             GUI_Matrix_Helper.stringToMatrix("Er was een hittgolf" + "\n" + "tussen: " + period.getStart() + "\n" + "en " + period.getEnd());
@@ -305,13 +318,35 @@ public class WriteToGUI
     {
         String startDateTime;
         String endDateTime;
+        DateTimePeriod longestPeriod;
         
         clearGUI();
-        DateTimePeriod longestPeriod = analysis.longestRainfall(rm);
+        longestPeriod = analysis.longestRainfall(rm);
         startDateTime = timeStampToString(longestPeriod.getStartDateTime());
         endDateTime = timeStampToString(longestPeriod.getEndDateTime());
         
         GUI_Matrix_Helper.stringToMatrix("De langste regenval" + "\n" + "v " + startDateTime + "\n" + "t " + endDateTime);
+    }
+    
+    public void printLongestDrought(int maxMillimeterRainfall)
+    {
+        String startDateTime;
+        String endDateTime;
+        DateTimePeriod longestPeriod;
+        
+        clearGUI();
+        
+        longestPeriod = analysis.longestDrought(rm, maxMillimeterRainfall);
+        startDateTime = timeStampToString(longestPeriod.getStartDateTime());
+        endDateTime = timeStampToString(longestPeriod.getEndDateTime());
+        
+        GUI_Matrix_Helper.stringToMatrix("De langste droogte:" + "\n" + "van: " + startDateTime + "\n" + "tot: " + endDateTime);
+    }
+    
+    public void printLongestTemperatureRise()
+    {
+        Period longestTempRisePeriod = analysis.longestTemperatureRise(rm, period);
+        GUI_Matrix_Helper.stringToMatrix("De langste tempstijging:" + "\n" + "van: " + longestTempRisePeriod.getStart() + "\n" + "tot: " + longestTempRisePeriod.getEnd());
     }
 }
 

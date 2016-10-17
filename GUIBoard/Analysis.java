@@ -9,16 +9,10 @@ import java.time.LocalDateTime;
  * @author Group B1
  */
 public class Analysis
-{  
-    Period _period;
-    //ArrayList<RawMeasurement> _list;
-    Statistics statistics;
-    
+{   
     public Analysis()
     {
-        //_period = measurements;
-        //_list = measurements.getRawMeasurements(new WeatherStation());
-        //_statistics = new Statistics(_list);
+
     }
     
     private double getAvgTempOfDay(LocalDate day)
@@ -39,8 +33,7 @@ public class Analysis
         // temp 30 == 860 - fahrenheit * 10
         int amount25 = 0;
         int amount30 = 0;
-        
-        statistics = new Statistics(data);
+        Statistics statistics = new Statistics(data);
         
         ArrayList<Short> days = statistics.getAveragesOnDays(Statistics.Unit.OutsideTemp);
         for (int i = 0; i < days.size(); i++)
@@ -131,25 +124,24 @@ public class Analysis
      * Check the longest period of drought.
      * @param mNeerslag Upper bound of what the limit is for drought
      * @return  Period of longest drought
-     *
-    public void longestDrought(int mNeerslag)//voer de periode in
+     */
+    public DateTimePeriod longestDrought(ArrayList<RawMeasurement> data, int mNeerslag)//voer de periode in
     {
         ArrayList<Timestamp> time = new ArrayList<Timestamp>();
         //initaliseerst belangrijke telwaarden
         int count = 0;
         int maxCount = 0;
-        //geeft een waarde vor de maximale neerslag die mag vallen o nog mee te tellen.
+        //geeft een waarde voor de maximale neerslag die mag vallen om nog mee te tellen.
         int maximaleNeerslag = mNeerslag;
         //Dit i voor de weergave van de datums
-        Timestamp beginDate = _list.get(0).getDateStamp();
-        Timestamp eindDate = _list.get(0).getDateStamp();
-        Timestamp TijdelijkeDate = _list.get(0).getDateStamp();
+        Timestamp beginDate = data.get(0).getDateStamp();
+        Timestamp eindDate = data.get(0).getDateStamp();
+        Timestamp TijdelijkeDate = data.get(0).getDateStamp();
         //
-        clearAll();
         
-        for(int i = 0; i < _list.size();i++)
+        for(int i = 0; i < data.size();i++)
         {
-            if(_list.get(i).getRainRate()== maximaleNeerslag)
+            if(data.get(i).getRainRate()== maximaleNeerslag)
             {
                 count += 1;
             }
@@ -160,27 +152,24 @@ public class Analysis
                     maxCount = count;
                     //
                     beginDate = TijdelijkeDate;
-                    eindDate = _list.get(i).getDateStamp();
+                    eindDate = data.get(i).getDateStamp();
                     //
                     count = 0;
                 }
-                TijdelijkeDate = _list.get(i).getDateStamp();
+                TijdelijkeDate = data.get(i).getDateStamp();
             }
         }
         
-        GUI_Matrix_Helper.stringToMatrix("De langste droogte:" + "\n" + "van: " + beginDate + "\n" + "tot: " + eindDate);
-        
-        //return new Period(Begindate.toLocalDateTime().toLocalDate(), Einddate.toLocalDateTime().toLocalDate());
+        return new DateTimePeriod(beginDate.toLocalDateTime(), eindDate.toLocalDateTime());
     }
-    */
    
     /*
      * Check what the longest period of temperature rise is
      * @return Period with longest temperature rise.
-     *
-    public void getLongestTemperatureRise()
+     */
+    public Period longestTemperatureRise(ArrayList<RawMeasurement> data,  Period period)
     {
-        LocalDate beginDate = _period.getStart();
+        LocalDate beginDate = period.getStart();
         
         Period longestTempRisePeriod = new Period();
         longestTempRisePeriod.setStart(beginDate);
@@ -190,7 +179,7 @@ public class Analysis
         double tempOfI= 0;
         
         int periodLength = 0;
-        for (int i = 1; i < _period.numberOfDays(); i++)
+        for (int i = 1; i < period.numberOfDays(); i++)
         {
             
             LocalDate dateOfI = beginDate.plusDays(i);
@@ -212,13 +201,9 @@ public class Analysis
         
         if (longestTempRisePeriod.getStart().compareTo(longestTempRisePeriod.getEnd()) <= 0)
         {
-            longestTempRisePeriod.setEnd(_period.getEnd());
+            longestTempRisePeriod.setEnd(period.getEnd());
         }
         
-        GUI_Matrix_Helper.stringToMatrix("De langste tempstijging:" + "\n" + "van: " + longestTempRisePeriod.getStart() + "\n" + "tot: " + longestTempRisePeriod.getEnd());
-        
-        //return longestTempRisePeriod;
+        return longestTempRisePeriod;
     }
-    
-    */
 }
