@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 import java.time.*;
 
-public class GUI_Gebruik
+public class WriteToGUI
 {
     private WeatherStation ws;
     private ArrayList<RawMeasurement> rm;
     private Statistics stat;
 
-    public GUI_Gebruik() 
+    public WriteToGUI() 
     {
         IO.init();
         GUI_Matrix_Helper.clrDisplay();
@@ -172,6 +172,7 @@ public class GUI_Gebruik
 
         );
     }
+    
     public void printLastMonthMMS()
     {
         clearAll();
