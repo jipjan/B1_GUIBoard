@@ -7,6 +7,15 @@
  */
 public class TestAnalysis
 {
+    Analysis analysis;
+    
+    public TestAnalysis()
+    {
+        
+        analysis = new Analysis();
+    }
+    
+    /*
     Period period = new Period();
     Analysis analysis; 
     
@@ -66,4 +75,5 @@ public class TestAnalysis
     {
         analysis.getLongestTemperatureRise();
     }
+    */
 }
