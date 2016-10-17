@@ -15,7 +15,7 @@ public class WriteToGUI
         ws = new WeatherStation();
     }
 
-    public void clearAll()
+    public void clearGUI()
     {
         GUI_Digits_Helper.clearAll(); 
         GUI_Matrix_Helper.clrDisplay();
@@ -68,7 +68,7 @@ public class WriteToGUI
 
     public void printMostRecentOutsideTemp()
     {
-        clearAll();
+        clearGUI();
 
         int vakje = 0x10;
         double getal = MetingenHandler.temperatuur(ws.getMostRecentOutsideTemp());
@@ -79,7 +79,7 @@ public class WriteToGUI
     
     public void printLastWeekGLH()
     {
-        clearAll();
+        clearGUI();
         
         Period period = new Period();
         period.setStart((LocalDate.now().minusDays(7)));
@@ -111,7 +111,7 @@ public class WriteToGUI
     
     public void printLastWeekMMS()
     {
-        clearAll();
+        clearGUI();
         
         Period period = new Period();
         period.setStart((LocalDate.now().minusDays(7)));
@@ -143,7 +143,7 @@ public class WriteToGUI
     
     public void printLastMonthGLH()
     {
-        clearAll();
+        clearGUI();
         
         Period period = new Period();
         period.setStart((LocalDate.now().minusMonths(1)));
@@ -175,7 +175,7 @@ public class WriteToGUI
     
     public void printLastMonthMMS()
     {
-        clearAll();
+        clearGUI();
         
         Period period = new Period();
         period.setStart((LocalDate.now().minusMonths(1)));
@@ -207,7 +207,7 @@ public class WriteToGUI
     
     public void printCurrentWindSpeed()
     {
-        clearAll();
+        clearGUI();
         
         int vakje = 0x10;
         double getal = MetingenHandler.windSnelheid(ws.getMostRecentWindSpeed());
