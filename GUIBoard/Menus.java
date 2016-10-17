@@ -1,33 +1,48 @@
-
+import java.util.ArrayList;
 /**
- * Write a description of class Menus here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
+ * a enumerator for every menu and its contents.
+ *
+ * @author Jacco Steegman
+ * @version 1.0
  */
-public class Menus
+public enum menus
 {
-    // instance variables - replace the example below with your own
-    private int x;
+    //all the menus that exist and the contents of them
+    mainMenu( menuChoices.statistics, menuChoices.metingen ),
+    statistics( menuChoices.back, menuChoices.test ),
+    metingen( menuChoices.back );
 
-    /**
-     * Constructor for objects of class Menus
-     */
-    public Menus()
+    //in what the contents of the menus is written
+    public final ArrayList<menuChoices> functions = new ArrayList<>();
+
+    //creator for each menu
+    menus(menuChoices... options)
     {
-        // initialise instance variables
-        x = 0;
+        for (int i = 0; i < options.length; i++) {
+            this.functions.add( options[i] );
+        }
     }
 
     /**
-     * An example of a method - replace this comment with your own
-     * 
-     * @param  y   a sample parameter for a method
-     * @return     the sum of x and y 
+     * get the menuchoice with a given index
+     * @param index     the index of the menuChoice to get (accounted for higher than list indexes)
+     * @return the menuChoce corresponding with the index
      */
-    public int sampleMethod(int y)
+    public menuChoices getMenuChoice(int index)
     {
-        // put your code here
-        return x + y;
+        return functions.get( index % functions.size() );
+    }
+
+    /**
+     * gets all the menu options in string form
+     *
+     * @return the menu options as a string in a array
+     */
+    public String[] getMenuOptionsInString() {
+        String[] arrayStringList = new String[functions.size()];
+
+        for (int i = 0; i < functions.size(); i++)
+            arrayStringList[i] = functions.get( i ).toString();
+        return arrayStringList;
     }
 }

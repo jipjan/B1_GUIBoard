@@ -30,7 +30,7 @@ public class GUI_Menu
      * generates class menu with given string menu options.
      * 
      * @param givenMenuItems        an array with strings to be selected.
-     * @param itemTahatIsInFocus    the numer for the string in the array that is first in focus.
+     * @param itemThatIsInFocus    the numer for the string in the array that is first in focus.
      */
     public GUI_Menu(String[] givenMenuItems, int itemThatIsInFocus)
     {
@@ -67,7 +67,8 @@ public class GUI_Menu
         setstandardMaxTextLenght();
         frame = 0;
     }
-    
+
+
     /**
      * sets the MaxTextLength to its default values.
      */
@@ -105,8 +106,8 @@ public class GUI_Menu
     /**
      * sets the animation frame.
      *      This needs to go up evey time you want to make the next step in the animation.
-     *      
-     * given frame an int that can go op as long as 
+     *
+     * given frame an int that can go op as long as you want
      */
     public void setFrame(int givenFrame)
     {
