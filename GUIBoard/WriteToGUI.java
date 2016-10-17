@@ -6,6 +6,8 @@ public class WriteToGUI
     private WeatherStation ws;
     private ArrayList<RawMeasurement> rm;
     private Statistics stat;
+    private Analysis analysis;
+    Period period;
 
     public WriteToGUI() 
     {
@@ -16,19 +18,66 @@ public class WriteToGUI
         ws = new WeatherStation();
     }
     
+    public WriteToGUI(int year) 
+    {
+        IO.init();
+        GUI_Matrix_Helper.clrDisplay();
+        
+        retrievingDataMessage();
+        
+        analysis = new Analysis();
+        ws = new WeatherStation();
+        period = new Period();
+        period.setStart(year, 1, 1);
+        period.setEnd(year, 12, 31);
+        
+        rm = period.getRawMeasurements(ws);
+        
+        clearGUI();
+        Windcompass.DrawWindcompass(45, 55);
+    }
+    
+    private String timeStampToString(LocalDateTime timeStamp)
+    {
+        String seconds = doubleDigits(timeStamp.getSecond());
+        String minutes = doubleDigits(timeStamp.getMinute());
+        String hours = doubleDigits(timeStamp.getHour());
+        String days = doubleDigits(timeStamp.getDayOfYear());
+        String months = doubleDigits(timeStamp.getMonthValue());
+        String years = doubleDigits(timeStamp.getYear());
+        
+        return years + "-" + months + "-" + days + " " + hours + ":" + minutes + ":" + seconds;
+    }
+    
+    private String doubleDigits(int digit)
+    {
+        String doubleDigit;
+        
+        if(digit < 10)
+        {
+            doubleDigit = "0" + digit;
+        }
+        else
+        {
+            doubleDigit = Integer.toString(digit);
+        }
+        
+        return doubleDigit;
+    }
+    
     private void retrievingDataMessage()
     {
         clearGUI();
         GUI_Matrix_Helper.stringToMatrix("Data ophalen...");
     }
 
-    public void clearGUI()
+    private void clearGUI()
     {
         GUI_Digits_Helper.clearAll(); 
         GUI_Matrix_Helper.clrDisplay();
     }
 
-    public void guiWriter(int vakje, double getal)
+    private void guiWriter(int vakje, double getal)
     {
         if(getal < 0)
         {
@@ -230,4 +279,40 @@ public class WriteToGUI
         guiWriter(vakje,getal);
         GUI_Matrix_Helper.stringToMatrix("Windsnelheid"+"\n"+"in km/u");
     }
+    
+    public void printHasHeatWave()
+    {
+        if(analysis.hasHeatWave(rm))
+        {
+            GUI_Matrix_Helper.stringToMatrix("Er was een hittgolf" + "\n" + "tussen: " + period.getStart() + "\n" + "en " + period.getEnd());
+        }
+        else
+        {
+            GUI_Matrix_Helper.stringToMatrix("Er was geen hittegolf" + "\n" + "tussen: " + period.getStart() + "\n" + "en " + period.getEnd());
+        }
+    }
+    
+    public void printMaxAmountOfSequentRain()
+    {
+        clearGUI();
+        
+        int maxAmountOfRain = analysis.maxAmountOfSequentRain(rm);
+        guiWriter(0x10, (double)maxAmountOfRain);
+        GUI_Matrix_Helper.stringToMatrix("Maximale Regenval" + "\n" + "tussen: " + period.getStart() + "\n" + "en " + period.getEnd() + " in mm.");
+    }
+    
+    public void printLongestRainfall()
+    {
+        String startDateTime;
+        String endDateTime;
+        
+        clearGUI();
+        DateTimePeriod longestPeriod = analysis.longestRainfall(rm);
+        startDateTime = timeStampToString(longestPeriod.getStartDateTime());
+        endDateTime = timeStampToString(longestPeriod.getEndDateTime());
+        
+        GUI_Matrix_Helper.stringToMatrix("De langste regenval" + "\n" + "v " + startDateTime + "\n" + "t " + endDateTime);
+    }
 }
+
+

@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * This class contains all analysis methods for data from the weatherstation.
@@ -10,31 +11,38 @@ import java.sql.Timestamp;
 public class Analysis
 {  
     Period _period;
-    ArrayList<RawMeasurement> _list;
-    Statistics _statistics;
+    //ArrayList<RawMeasurement> _list;
+    Statistics statistics;
     
-    public Analysis(Period measurements)
+    public Analysis()
     {
-        _period = measurements;
-        _list = measurements.getRawMeasurements(new WeatherStation());
-        _statistics = new Statistics(_list);
+        //_period = measurements;
+        //_list = measurements.getRawMeasurements(new WeatherStation());
+        //_statistics = new Statistics(_list);
     }
     
+    private double getAvgTempOfDay(LocalDate day)
+    {
+        Period dayPeriod = new Period(day, day);        
+        ArrayList<RawMeasurement> dayRawMeasurement = dayPeriod.getRawMeasurements(new WeatherStation());        
+        Statistics statisticOfDay = new Statistics(dayRawMeasurement);
+        return statisticOfDay.getAverage(Statistics.Unit.OutsideTemp);
+    }
     
     /*
      * Check if a certain period has a heatwave
      * @return  Returns if the period contains a heatwave.
      */
-    public void hasHeatWave()
+    public boolean hasHeatWave(ArrayList<RawMeasurement> data)
     {        
         // temp 25 == 770 - fahrenheit * 10
         // temp 30 == 860 - fahrenheit * 10
         int amount25 = 0;
         int amount30 = 0;
         
-        clearAll();
+        statistics = new Statistics(data);
         
-        ArrayList<Short> days = _statistics.getAveragesOnDays(Statistics.Unit.OutsideTemp);
+        ArrayList<Short> days = statistics.getAveragesOnDays(Statistics.Unit.OutsideTemp);
         for (int i = 0; i < days.size(); i++)
         {
             Short temp = days.get(i);
@@ -45,7 +53,7 @@ public class Analysis
                 else
                     amount25++;
                 if (amount25 + amount30 >= 5 && amount30 >= 3) 
-                    GUI_Matrix_Helper.stringToMatrix("Er was een hittgolf" + "\n" + "tussen: " + _period.getStart() + "\n" + "en " + _period.getEnd());
+                    return true;
             }
             else
             {
@@ -54,27 +62,22 @@ public class Analysis
             }
         }
         
-        GUI_Matrix_Helper.stringToMatrix("Er was geen hittegolf" + "\n" + "tussen: " + _period.getStart() + "\n" + "en " + _period.getEnd());
+        return false;
     }
-
+    
     /*
      * Check the most amount of rain that has fallen in sequence.
      * @return  The amount of rain that has fallen.
      */
-    public void maxAmountOfSequentRain()
+    public int maxAmountOfSequentRain(ArrayList<RawMeasurement> data)
     {   
         int maxAmount = 0;
         int amount = 0;
-        int position = 0x10;
-        int numberOfDigits;
+        int size = data.size();
         
-        clearAll();
-       
-        int size = _list.size();
-        
-        for (int i = 0; i < _list.size(); i++)
+        for (int i = 0; i < data.size(); i++)
         {
-            int rain = _list.get(i).getRainRate();
+            int rain = data.get(i).getRainRate();
             if (rain > 0)
             {
                 amount += rain;
@@ -89,67 +92,46 @@ public class Analysis
             }
         }
        
-        numberOfDigits = (int) Math.log10(maxAmount) + 1;
-        
-        for(int i = 0; i < numberOfDigits; i++)
-        {
-            IO.writeShort(position, GUI_Digits_Helper.digitToSegments(maxAmount%10, false));
-            maxAmount = maxAmount / 10;
-            position = position + 0x02;
-        }
-        
-        GUI_Matrix_Helper.stringToMatrix("Maximale Regenval" + "\n" + "tussen: " + _period.getStart() + "\n" + "en " + _period.getEnd() + " in mm.");
+        return maxAmount;
     }
 
     /*
      * Check the longest period of rainfall.
      * @return  A period object with start and stopdate with longest period of rain
      */
-    public void getLongestRainfall()
+    public DateTimePeriod longestRainfall(ArrayList<RawMeasurement> data)
     {   
         int counter = 0;
-        int longestPeriod = 0;
-        //Period newPeriod = new Period();
-        Timestamp startDate;
-        Timestamp endDate;
+        int mostMeasurements = 0;
+        DateTimePeriod longestPeriod = new DateTimePeriod();
         
-        if(_list.size() > 0)
-        {
-            startDate = _list.get(0).getDateStamp();
-            endDate = _list.get(0).getDateStamp();
-            
-            clearAll();
-            
-            for(int i = 0; i < _list.size(); i++)
+        if(data.size() > 0)
+        {   
+            for(int i = 0; i < data.size(); i++)
             {   
-                if(_list.get(i).getRainRate() > 0)
+                if(data.get(i).getRainRate() > 0)
                     counter++;
                 else
                 {   
-                    if(counter > longestPeriod)
+                    if(counter > mostMeasurements)
                     {
-                        longestPeriod = counter;
-                        //newPeriod.setStart(_list.get(i - counter).getDateStamp().toLocalDateTime().toLocalDate());
-                        //newPeriod.setEnd(_list.get(i).getDateStamp().toLocalDateTime().toLocalDate());
-                        startDate = _list.get(i - counter).getDateStamp();
-                        endDate = _list.get(i).getDateStamp();
+                        mostMeasurements = counter;
+                        longestPeriod.setStartDateTime(data.get(i - counter).getDateStamp().toLocalDateTime());
+                        longestPeriod.setEndDateTime(data.get(i).getDateStamp().toLocalDateTime());
                     }                
                     counter = 0;
                 }
-            }
-            
-            if(longestPeriod > 0)
-            {
-                GUI_Matrix_Helper.stringToMatrix("De langste regenval" + "\n" + "v " + startDate + "\n" + "t " + endDate);
-            }
+            } 
         }
+        
+        return longestPeriod;
     }
 
     /*
      * Check the longest period of drought.
      * @param mNeerslag Upper bound of what the limit is for drought
      * @return  Period of longest drought
-     */
+     *
     public void longestDrought(int mNeerslag)//voer de periode in
     {
         ArrayList<Timestamp> time = new ArrayList<Timestamp>();
@@ -190,11 +172,12 @@ public class Analysis
         
         //return new Period(Begindate.toLocalDateTime().toLocalDate(), Einddate.toLocalDateTime().toLocalDate());
     }
-    
+    */
+   
     /*
      * Check what the longest period of temperature rise is
      * @return Period with longest temperature rise.
-     */
+     *
     public void getLongestTemperatureRise()
     {
         LocalDate beginDate = _period.getStart();
@@ -237,17 +220,5 @@ public class Analysis
         //return longestTempRisePeriod;
     }
     
-    public void clearAll()
-    {
-        GUI_Digits_Helper.clearAll();
-        GUI_Matrix_Helper.clrDisplay();
-    }
-    
-    private double getAvgTempOfDay(LocalDate day)
-    {
-        Period dayPeriod = new Period(day, day);        
-        ArrayList<RawMeasurement> dayRawMeasurement = dayPeriod.getRawMeasurements(new WeatherStation());        
-        Statistics statisticOfDay = new Statistics(dayRawMeasurement);
-        return statisticOfDay.getAverage(Statistics.Unit.OutsideTemp);
-    }
+    */
 }
