@@ -165,7 +165,7 @@ public class GUI_Gebruik
         
         //Tekst on dot matrix
         GUI_Matrix_Helper.stringToMatrix(
-        "Temperatuur last week"+"\n"+"     Gemiddelde"+"\n"+"Laagste      Hoogste"
+        "Temperatuur last month"+"\n"+"     Gemiddelde"+"\n"+"Laagste      Hoogste"
 
         );
     }
@@ -196,7 +196,7 @@ public class GUI_Gebruik
         
         //Tekst on dot matrix
         GUI_Matrix_Helper.stringToMatrix(
-        "Temperatuur last week"+"\n"+"Standaartafwijking"+"\n"+"Modus         Mediaan"
+        "Temperatuur last month"+"\n"+"Standaartafwijking"+"\n"+"Modus         Mediaan"
 
         );
     }
