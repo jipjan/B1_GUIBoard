@@ -1,5 +1,6 @@
 import java.util.*;
 import java.time.*;
+import java.sql.*;
 /**
  * Caculates statistics for the input array of data
  */
@@ -65,24 +66,58 @@ public class Statistics
         if (list.size() < 1) return toReturn;
         int count = 0;
         int total = 0;
-        LocalDate date = list.get(0).getDateStamp().toLocalDateTime().toLocalDate();
+        Timestamp date = list.get(0).getDateStamp();
         for(int i = 0; i < list.size(); i++)
         {
-            if (list.get(i).getDateStamp().toLocalDateTime().toLocalDate().equals(date))
+            if (dateSame(list.get(i).getDateStamp(), date))
             {
                 count++;
                 total += getValue(i, unit);
             }
             else
             {
-                if (count == 0) return toReturn;
-                date = list.get(0).getDateStamp().toLocalDateTime().toLocalDate();
+                if (count == 0)
+                    return toReturn;
+                date = list.get(i).getDateStamp();
                 toReturn.add(new Short((short)(total/count)));
                 count = 0;
                 total = 0;
             }
         }
         return toReturn;
+    }
+
+    public ArrayList<Short> getHighestOnDays(Unit unit)
+    {
+        ArrayList<Short> toReturn = new ArrayList<Short>();    
+        if (list.size() < 1) return toReturn;
+        short highest = 0;
+        Timestamp date = list.get(0).getDateStamp();
+        for(int i = 0; i < list.size(); i++)
+        {
+            if (dateSame(list.get(i).getDateStamp(), date))
+            {
+                short temp = getValue(i, unit);
+                if (temp > highest)
+                    highest = temp;
+            }
+            else
+            {
+                date = list.get(i).getDateStamp();
+                toReturn.add(new Short(highest));
+                highest = 0;
+            }
+        }
+        return toReturn;
+    }
+
+    private boolean dateSame(Timestamp t1, Timestamp t2)
+    {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(t1);
+        cal2.setTime(t2);
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);	
     }
 
     /**
