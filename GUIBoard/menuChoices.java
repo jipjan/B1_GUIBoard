@@ -11,7 +11,7 @@
 public enum menuChoices {
     //all the functions a menu can get
     mainMenu( "Start menu " ),
-    statistics("Statestieke " ),
+    statistics("Statestiek " ),
     metingen(),
     back("terug " ),
     quit("stop " ),
@@ -25,7 +25,7 @@ public enum menuChoices {
     printCurrentWindSpeed(),
     //statistics
     printGLH( "laagste, hoogste, gemiddlede " ),  //todo
-    printmms( "median, modus, standraard afwijking " ),  //todo
+    printmms( "mediaan, modus, standaard afwijking " ),  //todo
     printLastWeekGLH("GLH van laatste week"),
     printLastWeekMMS("MMS van laatste week"),
     printLastMonthGLH("GLH van laatste maand"),
