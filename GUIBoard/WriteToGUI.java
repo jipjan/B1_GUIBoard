@@ -111,7 +111,12 @@ public class WriteToGUI
         
         animation.stopAnimation();
         clearGUI();
-        Windcompass.DrawWindcompass(90, 55);
+        //displayed windcompass en dee tekst
+        Windcompass.DrawWindcompass(ws.getMostRecentWindDir(), 95);
+        GUI_Matrix_Helper.stringToMatrix("Temperatuur,"+"\n"+"Windsnelheid"+"\n"+"in km/u");
+        guiWriter(0x20,MetingenHandler.temperatuur(ws.getMostRecentOutsideTemp()));//temperatuur
+        guiWriter(0x30,MetingenHandler.windSnelheid(ws.getMostRecentWindSpeed()));//windsnelheid
+        
     }
     
     /**
