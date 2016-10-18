@@ -58,6 +58,11 @@ public class WriteToGUI
         analysis = new Analysis();
         ws = new WeatherStation();
         period = new Period();
+        rm = new ArrayList<>();
+        
+        //Initialise the array.
+        //RawMeasurement rawMeasurement = new RawMeasurement();
+        //rm.add(rawMeasurement);
     }
     
     /**
@@ -77,6 +82,9 @@ public class WriteToGUI
         LocalDate end;
         
         retrievingDataMessage();
+        
+        //Clear the previous data to prevent full memory.
+        rm.clear();
         
         //this code makes sure the end date cannot be in the future.
         if(year > currentYear)
