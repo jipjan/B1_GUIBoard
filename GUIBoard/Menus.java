@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  * a enumerator for every menu and its contents.
  *
@@ -20,9 +22,7 @@ public enum Menus
     //creator for each menu
     Menus(menuChoices... options)
     {
-        for (int i = 0; i < options.length; i++) {
-            this.functions.add( options[i] );
-        }
+        Collections.addAll( this.functions, options );
     }
 
     /**
