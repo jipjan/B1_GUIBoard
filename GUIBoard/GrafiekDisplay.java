@@ -14,14 +14,20 @@ public class GrafiekDisplay
         IO.init();
         ws = new WeatherStation();
         period = new Period();
-        period.setStart((LocalDate.now().minusMonths(1)));
+        period.setStart((LocalDate.now().minusDays(30)));
         rm = period.getRawMeasurements(ws);
         statistics = new Statistics(rm);
         list = new ArrayList<Short>();
     }
     
-    public void displayGrafiek()
+    public void displayGrafiekLast30Days()
     {
+        
+        period.setStart((LocalDate.now().minusDays(30)));
+        rm = period.getRawMeasurements(ws);
+        statistics = new Statistics(rm);
+        list = new ArrayList<Short>();
+        
         list = statistics.getAveragesOnDays(Statistics.Unit.OutsideTemp);
         int locatie = 3;
         int temp;

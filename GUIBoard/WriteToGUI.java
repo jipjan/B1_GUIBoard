@@ -486,6 +486,34 @@ public class WriteToGUI
         GUI_Matrix_Helper.stringToMatrix("De langste tempstijging:" + "\n" + "van: " + longestTempRisePeriod.getStart() + "\n" + "tot: " + longestTempRisePeriod.getEnd());
     }
     
+    public void displayGrafiekLast30Days()
+    {
+        clearGUI();
+        animation.startAnimation();
+        
+        period.setStart((LocalDate.now().minusDays(30)));
+        rm = period.getRawMeasurements(ws);
+        Statistics statistics = new Statistics(rm);
+        ArrayList<Short> list = new ArrayList<Short>();
+        
+        list = statistics.getAveragesOnDays(Statistics.Unit.OutsideTemp);
+        animation.stopAnimation();
+        int locatie = 3;
+        int temp;
+        GUI_Matrix_Helper.clrDisplay();
+
+        for(int i = 0;i < list.size();i++)
+        {
+            temp = (int)MetingenHandler.temperatuur(list.get(i));
+            temp = temp - 5;
+            temp = 32 - temp;
+            GUI_Matrix_Helper.turnPixel(true,locatie,temp);
+            locatie = locatie + 4;
+
+        }
+        GUI_Matrix_Helper.stringToMatrix("Gem temp per dag");
+    }
+    
     /**
      * This method returns the start year of the loaded data where the main
      * methods run there code on.
