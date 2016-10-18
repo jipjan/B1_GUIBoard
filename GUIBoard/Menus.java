@@ -10,10 +10,12 @@ import java.util.Collections;
 public enum Menus
 {
     //all the menus that exist and the contents of them
-    mainMenu( menuChoices.statistics, menuChoices.metingen, menuChoices.test, menuChoices.test ),
-    statistics( menuChoices.back, menuChoices.test ),
-    metingen( menuChoices.back, menuChoices.test );
-
+    mainMenu(       menuChoices.statistics, menuChoices.metingen, menuChoices.setData),
+    statistics(     menuChoices.back, menuChoices.test ),
+    metingen(       menuChoices.back, menuChoices.test ),
+    setData(        menuChoices.getDataYearBack, menuChoices.getDataOfYear),//todo
+    getDataOfYear(  menuChoices.year09, menuChoices.year10, menuChoices.year11, menuChoices.year12,
+                    menuChoices.year13, menuChoices.year14, menuChoices.year15, menuChoices.year16);//todo
 
 
     //in what the contents of the menus is written

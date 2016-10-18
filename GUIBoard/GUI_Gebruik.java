@@ -18,16 +18,19 @@ public class GUI_Gebruik {
     //the GUI part of the menu
     private GUI_Menu menuViewer;
 
+    //the function with all the data that can be displayed
+    WriteToGUI GUI_writer;
 
     /**
      * function that starts the menu
      *
      * @param menuIdentity which menu it has to be
      */
-    public GUI_Gebruik(Menus menuIdentity)
+    public GUI_Gebruik(Menus menuIdentity, WriteToGUI GUI_writer)
     {
         IO.init();
         lastButtonPressed();
+        this.GUI_writer = GUI_writer;
         menuViewer = new GUI_Menu( menuIdentity.getMenuOptionsInString() );
         menuViewer.showMenu();
         runMenus( menuIdentity);
@@ -49,7 +52,7 @@ public class GUI_Gebruik {
             Button pressedButton = lastButtonPressed(); //determine which buton is pressed and what to do with that information
             switch (pressedButton) {
                 case red: //if red button is pressed go back or call new function/menu
-                    runMenu = menuChoices.callFunction( menuIdentity.getMenuChoice( menuItemIndex ), menuViewer, this); //returns falls if any of the functions want this menu to stop
+                    runMenu = menuChoices.callFunction( menuIdentity.getMenuChoice( menuItemIndex ), menuViewer, this, GUI_writer); //returns falls if any of the functions want this menu to stop
                     lastButtonPressed();
                     break;
                 case middle:
