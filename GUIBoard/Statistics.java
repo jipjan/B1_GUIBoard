@@ -1,5 +1,6 @@
 import java.util.*;
 import java.time.*;
+import java.sql.*;
 /**
  * Caculates statistics for the input array of data
  */
@@ -7,7 +8,7 @@ public class Statistics
 {
     // private list to use in the statistics calculations.
     private ArrayList<RawMeasurement> list;
-    
+
     /**
      * Enum with all the possible units to use in the statistics calculations.
      */
@@ -30,17 +31,18 @@ public class Statistics
      */
     private short getValue(int i, Unit unit)
     {
-        switch (unit)
-        {
-            case InsideTemp: return list.get(i).getInsideTemp();
-            case OutsideTemp: return list.get(i).getOutsideTemp();
-            case Windspeed: return list.get(i).getWindSpeed();
-            case OutsideHum: return list.get(i).getOutsideHum();
-            case RainRate: return list.get(i).getRainRate();
-            case UVLevel: return list.get(i).getUVLevel();
-            case Solarrad: return list.get(i).getSolarRad();
-            case Barometer: return list.get(i).getBarometer();
-        }
+        if (i < list.size())
+            switch (unit)
+            {
+                case InsideTemp: return list.get(i).getInsideTemp();
+                case OutsideTemp: return list.get(i).getOutsideTemp();
+                case Windspeed: return list.get(i).getWindSpeed();
+                case OutsideHum: return list.get(i).getOutsideHum();
+                case RainRate: return list.get(i).getRainRate();
+                case UVLevel: return list.get(i).getUVLevel();
+                case Solarrad: return list.get(i).getSolarRad();
+                case Barometer: return list.get(i).getBarometer();
+            }
         return 0;
     }
 
@@ -51,36 +53,71 @@ public class Statistics
      */
     public double getAverage(Unit unit)
     {
+        if (list.size() == 0) return 0;
         double average = 0;
         for(int i = 0; i < list.size(); i++)
             average += getValue(i, unit);
         return average / list.size();
     }
-    
+
     public ArrayList<Short> getAveragesOnDays(Unit unit)
     {
         ArrayList<Short> toReturn = new ArrayList<Short>();    
         if (list.size() < 1) return toReturn;
         int count = 0;
         int total = 0;
-        LocalDate date = list.get(0).getDateStamp().toLocalDateTime().toLocalDate();
+        Timestamp date = list.get(0).getDateStamp();
         for(int i = 0; i < list.size(); i++)
         {
-            if (list.get(i).getDateStamp().toLocalDateTime().toLocalDate().equals(date))
+            if (dateSame(list.get(i).getDateStamp(), date))
             {
                 count++;
                 total += getValue(i, unit);
             }
             else
             {
-                if (count == 0) return toReturn;
-                date = list.get(0).getDateStamp().toLocalDateTime().toLocalDate();
+                if (count == 0)
+                    return toReturn;
+                date = list.get(i).getDateStamp();
                 toReturn.add(new Short((short)(total/count)));
                 count = 0;
                 total = 0;
             }
         }
         return toReturn;
+    }
+
+    public ArrayList<Short> getHighestOnDays(Unit unit)
+    {
+        ArrayList<Short> toReturn = new ArrayList<Short>();    
+        if (list.size() < 1) return toReturn;
+        short highest = 0;
+        Timestamp date = list.get(0).getDateStamp();
+        for(int i = 0; i < list.size(); i++)
+        {
+            if (dateSame(list.get(i).getDateStamp(), date))
+            {
+                short temp = getValue(i, unit);
+                if (temp > highest)
+                    highest = temp;
+            }
+            else
+            {
+                date = list.get(i).getDateStamp();
+                toReturn.add(new Short(highest));
+                highest = 0;
+            }
+        }
+        return toReturn;
+    }
+
+    private boolean dateSame(Timestamp t1, Timestamp t2)
+    {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(t1);
+        cal2.setTime(t2);
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);	
     }
 
     /**
@@ -90,6 +127,7 @@ public class Statistics
      */
     public short getLowest(Unit unit)
     {
+        if (list.size() == 0) return 0;
         short lowest = Short.MAX_VALUE;
         for(int i = 0; i < list.size(); i++)
         {
@@ -116,16 +154,15 @@ public class Statistics
             else
                 map.put(item, 1);
         }
-        short median = 0;
-        int amount = 0;
+        short modus = 0;
         Iterator it = map.entrySet().iterator();
         while (it.hasNext())
         {
             Map.Entry pair = (Map.Entry) it.next();
-            if ((int) pair.getValue() > amount)
-                median = (short) pair.getKey();
+            if ((int) pair.getValue() > modus)
+                modus = (short) pair.getKey();            
         }
-        return median;
+        return modus;
     }
 
     /**
@@ -135,6 +172,7 @@ public class Statistics
      */
     public short getHighest(Unit unit)
     {
+        if (list.size() == 0) return 0;
         short highest = Short.MIN_VALUE;
         for(int i = 0; i < list.size(); i++)
         {
@@ -166,6 +204,7 @@ public class Statistics
      */
     public double getMedian(Unit unit)
     {
+        if (list.size() == 0) return 0;
         ArrayList<Short> medianList = sortList(unit);
         int middle = medianList.size() / 2;
         return medianList.size() % 2 == 0 ?

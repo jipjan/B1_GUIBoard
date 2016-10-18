@@ -9,12 +9,7 @@ import java.time.LocalDateTime;
  * @author Group B1
  */
 public class Analysis
-{   
-    public Analysis()
-    {
-
-    }
-    
+{       
     private double getAvgTempOfDay(LocalDate day)
     {
         Period dayPeriod = new Period(day, day);        
@@ -27,7 +22,7 @@ public class Analysis
      * Check if a certain period has a heatwave
      * @return  Returns if the period contains a heatwave.
      */
-    public boolean hasHeatWave(ArrayList<RawMeasurement> data)
+    public static boolean hasHeatWave(ArrayList<RawMeasurement> data)
     {        
         // temp 25 == 770 - fahrenheit * 10
         // temp 30 == 860 - fahrenheit * 10
@@ -35,7 +30,7 @@ public class Analysis
         int amount30 = 0;
         Statistics statistics = new Statistics(data);
         
-        ArrayList<Short> days = statistics.getAveragesOnDays(Statistics.Unit.OutsideTemp);
+        ArrayList<Short> days = statistics.getHighestOnDays(Statistics.Unit.OutsideTemp);
         for (int i = 0; i < days.size(); i++)
         {
             Short temp = days.get(i);
