@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.time.*;
 
 public class WriteToGUI
@@ -13,28 +12,23 @@ public class WriteToGUI
 
     public WriteToGUI() 
     {
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        
-        IO.init();
-        GUI_Matrix_Helper.clrDisplay();
-        
-        retrievingDataMessage();
-        
-        analysis = new Analysis();
-        ws = new WeatherStation();
-        period = new Period();
-        period.setStart(year, 1, 1);
-        period.setEnd(year, 12, 31);
-        
-        rm = period.getRawMeasurements(ws);
-        
-        animation.stopAnimation();
-        clearGUI();
-        Windcompass.DrawWindcompass(90, 55);
+        LocalDateTime current = LocalDateTime.now();
+        int year = current.getYear();
+        initialise(year);
     }
     
     public WriteToGUI(int year) 
     {
+        initialise(year);
+    }
+    
+    private void initialise(int year)
+    {
+        LocalDateTime current = LocalDateTime.now();
+        int currentYear = current.getYear();
+        int currentMonth = current.getMonthValue();
+        int currentDay = current.getDayOfMonth();
+        
         IO.init();
         GUI_Matrix_Helper.clrDisplay();
         
@@ -44,7 +38,15 @@ public class WriteToGUI
         ws = new WeatherStation();
         period = new Period();
         period.setStart(year, 1, 1);
-        period.setEnd(year, 12, 31);
+        
+        if(year == currentYear || year > currentYear)
+        {
+            period.setEnd(currentYear, currentMonth, currentDay);
+        }
+        else
+        {
+            period.setEnd(year, 12, 31);
+        }
         
         rm = period.getRawMeasurements(ws);
         
