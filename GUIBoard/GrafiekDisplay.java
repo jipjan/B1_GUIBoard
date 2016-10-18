@@ -1,39 +1,38 @@
 import java.util.ArrayList;
-/**
- * Displays the averaget temperature per day of the last 30 days.
- */
+import java.time.*;
+
 public class GrafiekDisplay
 {
     private WeatherStation ws;
     private Period period;
     private Statistics statistics;
     private ArrayList<RawMeasurement> rm;
+    private ArrayList<Short> list;
     
     public GrafiekDisplay()
     {
         IO.init();
         ws = new WeatherStation();
         period = new Period();
+        period.setStart((LocalDate.now().minusMonths(1)));
         rm = period.getRawMeasurements(ws);
         statistics = new Statistics(rm);
+        list = new ArrayList<Short>();
     }
-
+    
     public void displayGrafiek()
     {
-        ArrayList<Short> list = statistics.getAveragesOnDays(Statistics.Unit.OutsideTemp);
+        list = statistics.getAveragesOnDays(Statistics.Unit.OutsideTemp);
         int locatie = 3;
         int temp;
         GUI_Matrix_Helper.clrDisplay();
-        //omcirkel hier de hele matrix
+
         for(int i = 0;i < list.size();i++)
         {
-            //32 hoog, 128 lang dus 4 pixels per dag. temperatuur is 1 per pixel.beginnend bij -5
-            //bij temp van 3 tot 29 =28 items in totaal
-            temp = (int)MetingenHandler.temperatuur(list.get(i));
-            
+            temp = 32 -(int)MetingenHandler.temperatuur(list.get(i));
             GUI_Matrix_Helper.turnPixel(true,locatie,temp);
             locatie = locatie + 4;
-            
+
         }
         
     }
