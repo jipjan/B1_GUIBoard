@@ -14,7 +14,7 @@ public class GUI_Digits_Helper
         {
             a | b | c | d | e | f,
             b | c,
-            a | b | e | d,
+            a | b | e | d | g,
             a | b | g | c | d,
             f | g | b | c,
             a | f | g | c | d,
