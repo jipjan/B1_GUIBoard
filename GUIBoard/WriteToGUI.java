@@ -11,23 +11,39 @@ public class WriteToGUI
     LoadingDataAnimation animation = new LoadingDataAnimation();
 
     /**
-     * This constructor starts the class with the current year.
+     * This constructor starts the class with the last 365 days.
+     * We send the end date of the 365 day period to the class.
      */
     public WriteToGUI() 
     {
         LocalDateTime current = LocalDateTime.now();
         int year = current.getYear();
+        int month = current.getMonthValue();
+        int day = current.getDayOfMonth();
         initialise();
-        loadData(year);
+        loadData(year, month, day);
     }
     
     /**
      * This constructor starts the class with a given year.
+     * We send the end of the 365 day period to the class.
+     * Note: 366 days every four years.
      */
     public WriteToGUI(int year) 
     {
         initialise();
-        loadData(year);
+        loadData(year, 12, 31);
+    }
+    
+    /**
+     * This constructor starts the class with a period of 365 days.
+     * ending on the given year, month and day.
+     * The parameter day is the day of the month not the day of the year.
+     */
+    public WriteToGUI(int year, int month, int day)
+    {
+        initialise();
+        loadData(year, month, day);
     }
     
     /**
@@ -47,26 +63,41 @@ public class WriteToGUI
     /**
      * This method loads the data from the database into the variabele rm.
      * While loading this method calls the start animation method so a loading animation is showed in the GUI.
-     * The parameter year is the year you want the data to load from.
+     * The parameter year is the ending year you want the data to load from.
+     * The parameter month is the month of the year you want the data to load from.
+     * The parameter day is the day of the month you want the data to load from.
      */
-    private void loadData(int year)
+    private void loadData(int year, int month, int day)
     {
         LocalDateTime current = LocalDateTime.now();
         int currentYear = current.getYear();
         int currentMonth = current.getMonthValue();
         int currentDay = current.getDayOfMonth();
+        int daysInMonth = 0;
+        LocalDate end;
         
         retrievingDataMessage();
-        period.setStart(year, 1, 1);
         
-        if(year == currentYear || year > currentYear)
+        //this code makes sure the end date cannot be in the future.
+        if(year > currentYear)
         {
-            period.setEnd(currentYear, currentMonth, currentDay);
+            year = currentYear;
+            
+            if(month > currentMonth)
+            {
+                month = currentMonth;
+                
+                if(day > currentDay)
+                {
+                    day = currentDay;
+                }
+            }
         }
-        else
-        {
-            period.setEnd(year, 12, 31);
-        }
+        
+        period.setEnd(year, month, day);
+        end = period.getEnd();
+        LocalDate start = end.minusDays(365);
+        period.setStart(end.minusDays(365));
         
         rm = period.getRawMeasurements(ws);
         
@@ -469,10 +500,16 @@ public class WriteToGUI
     /**
      * This method call a method that loads the weatherstation data of the given year.
      */
-    public void setYear(int year)
+    public void setNewYear(int year)
     {
-        loadData(year);
+        loadData(year, 12, 31);
+    }
+    
+    /**
+     * This method calls a method that loads 365 days of data from the database ending on the given year, month and day.
+     */
+    public void setNewEndPeriod(int year, int month, int day)
+    {
+        loadData(year, month, day);
     }
 }
-
-
