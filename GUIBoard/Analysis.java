@@ -195,4 +195,50 @@ public class Analysis
         Statistics statisticOfDay = new Statistics(dayRawMeasurement);
         return statisticOfDay.getAverage(Statistics.Unit.OutsideTemp);
     }
+    
+    public int getZomerdagen(int jaar, int maand, int dag)
+    {
+        IO.init();
+        
+        _period.setStart(jaar,maand,dag);
+        
+        _list = _period.getRawMeasurements(new WeatherStation());
+        int summerdays = 0;
+        int maxSummerdays = 0;
+        boolean zomerdag = false;
+        if (_list.size() < 1) 
+            return summerdays;
+
+        LocalDate date = _list.get(0).getDateStamp().toLocalDateTime().toLocalDate();
+        for(int i = 0; i < _list.size(); i++)
+        {
+            
+            if (_list.get(i).getDateStamp().toLocalDateTime().toLocalDate().equals(date))
+            {
+                if(_list.get(i).getOutsideTemp() > 770)//heel de dag vergelijken met 770(25*C). zo ja tel 1 dag verder.
+                {
+                    zomerdag = true;
+                }
+
+            }
+            else//als je op de volgnde dag zit.
+            {
+                if(zomerdag)//het is een zomerdag
+                {
+                    summerdays = summerdays + 1;
+                }
+                else//het is geen zomerdag
+                {
+                    if (summerdays>maxSummerdays)
+                        maxSummerdays = summerdays;
+                    summerdays = 0;
+                }
+                
+                zomerdag = false;
+                date = _list.get(i).getDateStamp().toLocalDateTime().toLocalDate();
+            }
+        }
+        return maxSummerdays;
+
+    }
 }
