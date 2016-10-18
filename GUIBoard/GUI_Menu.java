@@ -1,5 +1,3 @@
-import java.util.*;
-
 /**
  * A Class to display, create and keep track of a menu page.
  * 
@@ -30,7 +28,7 @@ public class GUI_Menu
      * generates class menu with given string menu options.
      * 
      * @param givenMenuItems        an array with strings to be selected.
-     * @param itemTahatIsInFocus    the numer for the string in the array that is first in focus.
+     * @param itemThatIsInFocus    the numer for the string in the array that is first in focus.
      */
     public GUI_Menu(String[] givenMenuItems, int itemThatIsInFocus)
     {
@@ -51,23 +49,11 @@ public class GUI_Menu
     {
         menuItems = givenMenuItems;
         focusItem = itemThatIsInFocus;
-        for (int i= 0; i < Math.min(itemMaxTextLength.length, maxTextLength.length ); i++)                                          // moet mischien i =< math.... kan bug veroorzaken
-            itemMaxTextLength[i] = maxTextLength[i];
+        System.arraycopy( maxTextLength, 0, itemMaxTextLength, 0, Math.min( itemMaxTextLength.length, maxTextLength.length ) );
         frame = 0;
     }
-    
-    /**
-     * generates test class.
-     */
-    public GUI_Menu()
-    {
-        String[] tempArrayString = {"test 1", "langere test 2", "zelfs nog langere test 3", "test 4", "test 5", "test 6", "test 7"};
-        menuItems = tempArrayString;
-        focusItem = 0;
-        setstandardMaxTextLenght();
-        frame = 0;
-    }
-    
+
+
     /**
      * sets the MaxTextLength to its default values.
      */
@@ -75,11 +61,9 @@ public class GUI_Menu
     {
         itemMaxTextLength[0] = 20;
         itemMaxTextLength[1] = 20;
-        itemMaxTextLength[2] = 11;
+        itemMaxTextLength[2] = 20;
     }
-    
-    
-    
+
     /**
      * setter for array menuItems.
      *      makes setFocusItem smaller if it is to big for the new menu.
@@ -105,12 +89,17 @@ public class GUI_Menu
     /**
      * sets the animation frame.
      *      This needs to go up evey time you want to make the next step in the animation.
-     *      
-     * given frame an int that can go op as long as 
+     *
+     * given frame an int that can go op as long as you want
      */
-    public void setFrame(int givenFrame)
+    public void newFrame()
     {
-        frame = givenFrame <= Integer.MAX_VALUE ? givenFrame : 0;
+        if(menuItems[focusItem].length() >= itemMaxTextLength[focusItem%3]) {
+            int givenFrame = frame + 1;
+            frame = givenFrame <= Integer.MAX_VALUE ? givenFrame : 0;
+            System.out.println("new frame set");
+            showMenu();
+        }
         //frame = givenFrame % 2147483646; //max value -1 of int in java can give an animation glitch if the int goes higher        
     }
     
@@ -119,19 +108,28 @@ public class GUI_Menu
      */
     public void showMenu()
     {
-        int focusItemMenuHight = (focusItem/3) * 3; // iets met focus item focusItem;
-        int itemsToDisplay = menuItems.length - focusItemMenuHight;
-        
-        if (itemsToDisplay <= 1)
-            menuToDisplay(menuItems[focusItemMenuHight], "-", "-");
-        else if (itemsToDisplay == 2)
-            menuToDisplay(menuItems[focusItemMenuHight], menuItems[(focusItemMenuHight+1)], "-");
-        else
-            menuToDisplay(menuItems[focusItemMenuHight], menuItems[(focusItemMenuHight+1)], menuItems[(focusItemMenuHight+2)]);        
+        int focusItemMenuFirstInPageHight = (focusItem/3) * 3; // which page to display
+        int itemsToDisplay = menuItems.length - focusItemMenuFirstInPageHight; //look how many items there need to be displayd
+
+        //fill empty points in the menu
+        switch(itemsToDisplay) {
+            case 0:
+                menuToDisplay( "-", "-", "-" ); // this should never happen
+                break;
+            case 1:
+                menuToDisplay( menuItems[focusItemMenuFirstInPageHight], "-", "-" );
+                break;
+            case 2:
+                menuToDisplay( menuItems[focusItemMenuFirstInPageHight], menuItems[(focusItemMenuFirstInPageHight + 1)], "-" );
+                break;
+            default:
+                menuToDisplay( menuItems[focusItemMenuFirstInPageHight], menuItems[(focusItemMenuFirstInPageHight + 1)], menuItems[(focusItemMenuFirstInPageHight + 2)] );
+                break;
+        }
     }
 
     /**
-     * prepares the matrix display pushes and (posably adds the sprites in the future) adds the sprites the text to it.
+     * prepares the matrix display draws focusLine and sends text to display
      * 
      * textToDisplay1 : the first string to display at the top.
      * textToDisplay2 : the second string to display in the middle.
@@ -139,9 +137,8 @@ public class GUI_Menu
      */
     private void menuToDisplay(String textToDisplay1, String textToDisplay2, String textToDisplay3)
     {
-        int frame = 0;
         GUI_Matrix_Helper.clrDisplay();
-        drawFocusLine(textToDisplay2.length());
+        drawFocusLine();
         GUI_Matrix_Helper.stringToMatrix(textToDisplay(textToDisplay1, textToDisplay2, textToDisplay3));
     }
     
@@ -150,32 +147,25 @@ public class GUI_Menu
      */
     private String textToDisplay(String text1, String text2, String text3)
     {
-        char[][] textToDisplay = {text1.toCharArray(), text2.toCharArray(), text3.toCharArray()};
-        
-        int animationStep = frame% (itemMaxTextLength[focusItem%3]+1);
+        char[][] textToDisplay = {text1.toCharArray(), text2.toCharArray(), text3.toCharArray()}; //makes character array of the individual strings and puts them in a array[menu hight][each Char]
+        int focusItemMenuHight = focusItem %3; //hight of the focus Item in the menu
+        int animationStep = (frame% (textToDisplay[focusItemMenuHight].length - itemMaxTextLength[focusItemMenuHight]+1));
         String ReturnString = "";
-        int textLength;
         
-        for (int i = 0; i < 3; i++)
-        {
-            if ((i == focusItem) && (itemMaxTextLength[i] < textToDisplay[i].length))
-            {
-                for (int j = 0; j < itemMaxTextLength[i]; j++)
-                {
-                    ReturnString = ReturnString + textToDisplay[i][j+animationStep];
-                }
-            } else {
+        for (int i = 0; i < 3; i++) { //voor elke rij in het menu
+            if ((i == focusItem) && (itemMaxTextLength[i] < textToDisplay[i].length)) { //if the focus Item is longer than the max length it may display animate it
+                for (int j = 0; j < itemMaxTextLength[i]; j++)  //for every leter in the array (to display)
+                    ReturnString = ReturnString + textToDisplay[i][j+animationStep]; //add it to the return string from the point animation step point
+            } else {                                                                    //else dont animate the text
                 for (int j = 0; j < Math.min(textToDisplay[i].length, itemMaxTextLength[i]); j++)
-                {
                     ReturnString = ReturnString + textToDisplay[i][j];
-                }
             }
             ReturnString = ReturnString + '\n';
         }
         return ReturnString;
     }
     
-    private void drawFocusLine(int numberOfFrontChar)
+    private void drawFocusLine()
     {
         int beginLineOfset = 2;
         for (int x = beginLineOfset ; x < calculateItemLength()+ beginLineOfset; x++)
