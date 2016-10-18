@@ -17,15 +17,15 @@ public enum menuChoices {
     quit("stop " ),
     //datesetting
     setData( "wijzig data " ),
-    getDataYearBack( "krijg data 1 jaar " ),
-    getDataOfYear( "krijg data van jaar " ),
+    getDataYearBack( "Haal data van 1 jaar op " ),
+    getDataOfYear( "Haal data van x jaar op " ),
     year09( "2009" ), year10( "2010" ), year11( "2011" ), year12( "2012" ), year13( "2013" ), year14( "2014" ), year15( "2015" ), year16( "2016" ),
     //metingen
-    printMostRecentOutsideTemp( "recente buiten temp " ),
+    printMostRecentOutsideTemp( "recente buiten temperatuur " ),
     printCurrentWindSpeed(),
     //statistics
     printGLH( "laagste, hoogste, gemiddlede " ),  //todo
-    printmms( "median,modus,afwijk " ),  //todo
+    printmms( "median,modus,standraard afwijking " ),  //todo
     printLastWeekGLH(),
     printLastWeekMMS(),
     printLastMonthGLH(),
