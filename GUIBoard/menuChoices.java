@@ -10,33 +10,39 @@
 
 public enum menuChoices {
     //all the functions a menu can get
-    mainMenu("Start menu "),
+    mainMenu( "Start menu " ),
     statistics(),
     metingen(),
     back(),
     quit(),
-    test("dit is een erg lange test functie om te kijken hoe goed de scroll functie werkt "),
-    setData("Set the data to get"),
-    getDataYearBack("get data from one year back till now"),
-    getDataOfYear("get data from a specific year"),
-    year09(),
-    year10(),
-    year11(),
-    year12(),
-    year13(),
-    year14(),
-    year15(),
-    year16();
+    //datesetting
+    setData( "Set the data to get" ),
+    getDataYearBack( "get data from one year back till now" ),
+    getDataOfYear( "get data from a specific year" ),
+    year09( "2009" ), year10( "2010" ), year11( "2011" ), year12( "2012" ), year13( "2013" ), year14( "2014" ), year15( "2015" ), year16( "2016" ),
+    //metingen
+    printMostRecentOutsideTemp( "most recent outside temperature" ),
+    printCurrentWindSpeed(),
+    //statistics
+    printGLH( "laagste, hoogste, gemiddlede " ),  //todo
+    printmms( "show mediaan modus & standaard afwijking" ),  //todo
+    printLastWeekGLH(),
+    printLastWeekMMS(),
+    printLastMonthGLH(),
+    printLastMonthMMS(),
+    printHasHeatWave(),
+    printMaxAmountOfSequentRain(),
+    printLongestRainfall(),
+    printLongestTemperatureRise();
+
 
     public final String name;
 
-    menuChoices()
-    {
+    menuChoices() {
         name = this.toString();
     }
 
-    menuChoices(String givenName)
-    {
+    menuChoices(String givenName) {
         name = givenName;
     }
 
@@ -48,54 +54,113 @@ public enum menuChoices {
                 return false;
             case quit:
                 return false;
+            //menus
             case mainMenu:
                 new GUI_Gebruik( Menus.mainMenu, guiWriter );
-                menuToShow.showMenu(); break; //make new menu
+                menuToShow.showMenu();
+                break; //make new menu
             case statistics:
                 new GUI_Gebruik( Menus.statistics, guiWriter );
-                menuToShow.showMenu();break;
+                menuToShow.showMenu();
+                break;
             case metingen:
                 new GUI_Gebruik( Menus.metingen, guiWriter );
                 menuToShow.showMenu();
+                break;
+            case printGLH:
+                new GUI_Gebruik( Menus.printGLH, guiWriter );
+                menuToShow.showMenu();
+                break;
+            case printmms:
+                new GUI_Gebruik( Menus.printmms, guiWriter );
+                //getting data
             case setData:
-                new GUI_Gebruik( Menus.setData, guiWriter );break;
+                new GUI_Gebruik( Menus.setData, guiWriter );
+                break;
             case getDataOfYear:
-                new GUI_Gebruik( Menus.getDataOfYear, guiWriter );break;
+                new GUI_Gebruik( Menus.getDataOfYear, guiWriter );
+                break;
             case getDataYearBack:
-                guiWriter.setNewYear( java.time.LocalDateTime.now().getYear() );break;
-            case year09: guiWriter.setNewYear( 2009 );break;
-            case year10: guiWriter.setNewYear( 2010 );break;
-            case year11: guiWriter.setNewYear( 2011 );break;
-            case year12: guiWriter.setNewYear( 2012 );break;
-            case year13: guiWriter.setNewYear( 2013 );break;
-            case year14: guiWriter.setNewYear( 2014 );break;
-            case year15: guiWriter.setNewYear( 2015 );break;
-            case year16: guiWriter.setNewYear( 2016 );break;
-            case test:
-                startTest(); //test function
-                waitRedButtonShowMenu(menuToShow, GUI_User);
+                guiWriter.setNewYear( java.time.LocalDateTime.now().getYear() );
+                break;
+            case year09:
+                guiWriter.setNewYear( 2009 );
+                break;
+            case year10:
+                guiWriter.setNewYear( 2010 );
+                break;
+            case year11:
+                guiWriter.setNewYear( 2011 );
+                break;
+            case year12:
+                guiWriter.setNewYear( 2012 );
+                break;
+            case year13:
+                guiWriter.setNewYear( 2013 );
+                break;
+            case year14:
+                guiWriter.setNewYear( 2014 );
+                break;
+            case year15:
+                guiWriter.setNewYear( 2015 );
+                break;
+            case year16:
+                guiWriter.setNewYear( 2016 );
+                break;
+            //metingen
+            case printMostRecentOutsideTemp:
+                guiWriter.printMostRecentOutsideTemp();
+                waitRedButtonShowMenu( menuToShow, GUI_User );
+                break;
+            case printCurrentWindSpeed:
+                guiWriter.printCurrentWindSpeed();
+                waitRedButtonShowMenu( menuToShow, GUI_User );
+                break;
+            //statistics
+            case printLastWeekGLH:
+                guiWriter.printLastWeekGLH();
+                waitRedButtonShowMenu( menuToShow, GUI_User );
+                break;
+            case printLastMonthGLH:
+                guiWriter.printLastMonthGLH();
+                waitRedButtonShowMenu( menuToShow, GUI_User );
+                break;
+            case printLastWeekMMS:
+                guiWriter.printLastWeekMMS();
+                waitRedButtonShowMenu( menuToShow, GUI_User );
+                break;
+            case printLastMonthMMS:
+                guiWriter.printLastMonthMMS();
+                waitRedButtonShowMenu( menuToShow, GUI_User );
+                break;
+            case printHasHeatWave:
+                guiWriter.printHasHeatWave();
+                waitRedButtonShowMenu( menuToShow, GUI_User );
+                break;
+            case printMaxAmountOfSequentRain:
+                guiWriter.printMaxAmountOfSequentRain();
+                waitRedButtonShowMenu( menuToShow, GUI_User );
+                break;
+            case printLongestRainfall:
+                guiWriter.printLongestRainfall();
+                break;
+            case printLongestTemperatureRise:
+                guiWriter.printLongestTemperatureRise();
+                waitRedButtonShowMenu( menuToShow, GUI_User );
+                break;
             default:
                 return false;//exit that menu
         }
         return true;
     }
 
-    private static void waitRedButtonShowMenu(GUI_Menu guiInterface, GUI_Gebruik guiGebruiker)
-    {
+    private static void waitRedButtonShowMenu(GUI_Menu guiInterface, GUI_Gebruik guiGebruiker) {
         guiGebruiker.waitForButton( 100, GUI_Gebruik.Button.red );
         guiInterface.showMenu();
     }
 
-    public  String getName()
-    {
+    public String getName() {
         return name;
     }
-
-    /**
-     * a test function to test if te menu calls the function correctly
-     * todo delete when done with task
-     */
-    private static void startTest() {
-        System.out.println( "function test was correctly called" );
-    }
 }
+

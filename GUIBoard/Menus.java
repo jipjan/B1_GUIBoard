@@ -11,13 +11,13 @@ public enum Menus
 {
     //all the menus that exist and the contents of them
     mainMenu(       menuChoices.statistics, menuChoices.metingen, menuChoices.setData),
-    statistics(     menuChoices.back, menuChoices.test ),
-    metingen(       menuChoices.back, menuChoices.test ),
+    statistics(     menuChoices.printGLH, menuChoices.printmms, menuChoices.printHasHeatWave, menuChoices.printMaxAmountOfSequentRain, menuChoices.printLongestRainfall, menuChoices.printLongestTemperatureRise, menuChoices.back), //todo add back
+    metingen(       menuChoices.printMostRecentOutsideTemp, menuChoices.printCurrentWindSpeed),
     setData(        menuChoices.getDataYearBack, menuChoices.getDataOfYear),//todo
     getDataOfYear(  menuChoices.year09, menuChoices.year10, menuChoices.year11, menuChoices.year12,
-                    menuChoices.year13, menuChoices.year14, menuChoices.year15, menuChoices.year16);//todo
-
-
+                    menuChoices.year13, menuChoices.year14, menuChoices.year15, menuChoices.year16),//todo
+    printGLH(       menuChoices.printLastWeekGLH, menuChoices.printLastMonthGLH),
+    printmms(       menuChoices.printLastWeekMMS, menuChoices.printLastMonthMMS);
     //in what the contents of the menus is written
     public final ArrayList<menuChoices> functions = new ArrayList<>();
 
