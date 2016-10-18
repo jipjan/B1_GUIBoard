@@ -58,18 +58,12 @@ public class LoadingDataAnimation
     public void startAnimation()
     {
         status = true;
-        new Thread(new Runnable() {
-            public void run()
-            {
-                animation();
-            }
-        }).start();
+        new Thread(() -> animation()).start();
     }
 
     public void stopAnimation()
     {
-        status = false;
-        
+        status = false;        
         //Sleep to make sure the animation has stopped.
         sleep();
     }
