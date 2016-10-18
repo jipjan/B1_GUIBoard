@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.time.*;
 
 public class WriteToGUI
@@ -11,40 +10,102 @@ public class WriteToGUI
     Period period;
     LoadingDataAnimation animation = new LoadingDataAnimation();
 
+    /**
+     * This constructor starts the class with the last 365 days.
+     * We send the end date of the 365 day period to the class.
+     */
     public WriteToGUI() 
     {
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        
-        IO.init();
-        GUI_Matrix_Helper.clrDisplay();
-        
-        retrievingDataMessage();
-        
-        analysis = new Analysis();
-        ws = new WeatherStation();
-        period = new Period();
-        period.setStart(year, 1, 1);
-        period.setEnd(year, 12, 31);
-        
-        rm = period.getRawMeasurements(ws);
-        
-        animation.stopAnimation();
-        clearGUI();
-        Windcompass.DrawWindcompass(90, 55);
+        LocalDateTime current = LocalDateTime.now();
+        int year = current.getYear();
+        int month = current.getMonthValue();
+        int day = current.getDayOfMonth();
+        initialise();
+        loadData(year, month, day);
     }
     
+    /**
+     * This constructor starts the class with a given year.
+     * We send the end of the 365 day period to the class.
+     * Note: 366 days every four years.
+     */
     public WriteToGUI(int year) 
     {
+        initialise();
+        loadData(year, 12, 31);
+    }
+    
+    /**
+     * This constructor starts the class with a period of 365 days.
+     * ending on the given year, month and day.
+     * The parameter day is the day of the month not the day of the year.
+     */
+    public WriteToGUI(int year, int month, int day)
+    {
+        initialise();
+        loadData(year, month, day);
+    }
+    
+    /**
+     * This method initialises the class.
+     * Multiple Constructors can call this saving code.
+     */
+    private void initialise()
+    {   
         IO.init();
         GUI_Matrix_Helper.clrDisplay();
-        
-        retrievingDataMessage();
         
         analysis = new Analysis();
         ws = new WeatherStation();
         period = new Period();
-        period.setStart(year, 1, 1);
-        period.setEnd(year, 12, 31);
+        rm = new ArrayList<>();
+        
+        //Initialise the array.
+        //RawMeasurement rawMeasurement = new RawMeasurement();
+        //rm.add(rawMeasurement);
+    }
+    
+    /**
+     * This method loads the data from the database into the variabele rm.
+     * While loading this method calls the start animation method so a loading animation is showed in the GUI.
+     * The parameter year is the ending year you want the data to load from.
+     * The parameter month is the month of the year you want the data to load from.
+     * The parameter day is the day of the month you want the data to load from.
+     */
+    private void loadData(int year, int month, int day)
+    {
+        LocalDateTime current = LocalDateTime.now();
+        int currentYear = current.getYear();
+        int currentMonth = current.getMonthValue();
+        int currentDay = current.getDayOfMonth();
+        int daysInMonth = 0;
+        LocalDate end;
+        
+        retrievingDataMessage();
+        
+        //Clear the previous data to prevent full memory.
+        rm.clear();
+        
+        //this code makes sure the end date cannot be in the future.
+        if(year > currentYear)
+        {
+            year = currentYear;
+            
+            if(month > currentMonth)
+            {
+                month = currentMonth;
+                
+                if(day > currentDay)
+                {
+                    day = currentDay;
+                }
+            }
+        }
+        
+        period.setEnd(year, month, day);
+        end = period.getEnd();
+        LocalDate start = end.minusDays(365);
+        period.setStart(end.minusDays(365));
         
         rm = period.getRawMeasurements(ws);
         
@@ -53,6 +114,9 @@ public class WriteToGUI
         Windcompass.DrawWindcompass(90, 55);
     }
     
+    /**
+     * This method turns a timestamp in a more pretty to display format and returns that as a String.
+     */
     private String timeStampToString(LocalDateTime timeStamp)
     {
         String seconds = doubleDigits(timeStamp.getSecond());
@@ -65,6 +129,11 @@ public class WriteToGUI
         return years + "-" + months + "-" + days + " " + hours + ":" + minutes + ":" + seconds;
     }
     
+    /**
+     * This method returns a given digit in a string.
+     * If the digit is below 10 we make it a double digit again by adding a 0 in front of it.
+     * Example: 9 becomed 09. 10 stays 10. Both return as String.
+     */
     private String doubleDigits(int digit)
     {
         String doubleDigit;
@@ -81,18 +150,28 @@ public class WriteToGUI
         return doubleDigit;
     }
     
+    /**
+     * This method calls the method to clear the GUI and calls the method to start a loading animation.
+     */
     private void retrievingDataMessage()
     {
         clearGUI();
         animation.startAnimation();
     }
 
+    /**
+     * This method clears all the fields of the GUI.
+     */
     private void clearGUI()
     {
         GUI_Digits_Helper.clearAll(); 
         GUI_Matrix_Helper.clrDisplay();
     }
 
+    /**
+     * This method writes a number to the given location on the GUI board.
+     * Note: you cannot write to the matrix with this method.
+     */
     private void guiWriter(int vakje, double getal)
     {
         if(getal < 0)
@@ -137,7 +216,10 @@ public class WriteToGUI
             }
         }
     }
-
+    
+    /**
+     * This method prints the most recent outside temperature from the database of the weatherstation to the GUI.
+     */
     public void printMostRecentOutsideTemp()
     {
         clearGUI();
@@ -149,6 +231,12 @@ public class WriteToGUI
         GUI_Matrix_Helper.stringToMatrix("Buitentemperatuur");
     }
     
+    /**
+     * This method prints a week worth of data to the GUI, starting exactly 7 days ago than the date of today.
+     * G: gemiddelde.
+     * L: laagste.
+     * H: hoogste.
+     */
     public void printLastWeekGLH()
     {
         retrievingDataMessage();
@@ -183,6 +271,12 @@ public class WriteToGUI
         );
     }
     
+    /**
+     * This method prints a week worth of data to the GUI, starting exactly 7 days ago than the date of today.
+     * M: mediaan.
+     * M: modus.
+     * S: standaardafwijking.
+     */
     public void printLastWeekMMS()
     {
         retrievingDataMessage();
@@ -217,7 +311,13 @@ public class WriteToGUI
 
         );
     }
-    
+       
+    /**
+     * This method prints a month worth of data to the GUI, starting exactly a month ago than the date of today.
+     * G: gemiddelde.
+     * L: laagste.
+     * H: hoogste.
+     */
     public void printLastMonthGLH()
     {
         retrievingDataMessage();
@@ -253,6 +353,12 @@ public class WriteToGUI
         );
     }
     
+    /**
+     * This method prints a month worth of data to the GUI, starting exactly a month ago than the date of today.
+     * M: mediaan.
+     * M: modus.
+     * S: standaardafwijking.
+     */
     public void printLastMonthMMS()
     {
         retrievingDataMessage();
@@ -288,6 +394,10 @@ public class WriteToGUI
         );
     }
     
+    /**
+     * This writes the longest temperature rise to the GUI that was found in the data
+     * of variable rm.
+     */
     public void printCurrentWindSpeed()
     {
         clearGUI();
@@ -299,6 +409,9 @@ public class WriteToGUI
         GUI_Matrix_Helper.stringToMatrix("Windsnelheid"+"\n"+"in km/u");
     }
     
+    /**
+     * This writes to the GUI if the data of variable rm contains a heatwave.
+     */
     public void printHasHeatWave()
     {
         clearGUI();
@@ -313,6 +426,10 @@ public class WriteToGUI
         }
     }
     
+    /**
+     * This writes the most sequential rain that has fallen to the GUI that was found in the data
+     * of variable rm.
+     */
     public void printMaxAmountOfSequentRain()
     {
         clearGUI();
@@ -322,6 +439,10 @@ public class WriteToGUI
         GUI_Matrix_Helper.stringToMatrix("Maximale Regenval" + "\n" + "tussen: " + period.getStart() + "\n" + "en " + period.getEnd() + " in mm.");
     }
     
+    /**
+     * This writes the longest rainfall to the GUI that was found in the data
+     * of variable rm.
+     */
     public void printLongestRainfall()
     {
         String startDateTime;
@@ -336,6 +457,10 @@ public class WriteToGUI
         GUI_Matrix_Helper.stringToMatrix("De langste regenval" + "\n" + "v " + startDateTime + "\n" + "t " + endDateTime);
     }
     
+    /**
+     * This writes the longest drought to the GUI that was found in the data
+     * of variable rm.
+     */
     public void printLongestDrought(int maxMillimeterRainfall)
     {
         String startDateTime;
@@ -351,11 +476,48 @@ public class WriteToGUI
         GUI_Matrix_Helper.stringToMatrix("De langste droogte:" + "\n" + "van: " + startDateTime + "\n" + "tot: " + endDateTime);
     }
     
+    /**
+     * This writes the longest temperature rise to the GUI that was found in the data
+     * of variable rm.
+     */
     public void printLongestTemperatureRise()
     {
         Period longestTempRisePeriod = analysis.longestTemperatureRise(rm, period);
         GUI_Matrix_Helper.stringToMatrix("De langste tempstijging:" + "\n" + "van: " + longestTempRisePeriod.getStart() + "\n" + "tot: " + longestTempRisePeriod.getEnd());
     }
+    
+    /**
+     * This method returns the start year of the loaded data where the main
+     * methods run there code on.
+     */
+    public int getYear()
+    {
+        LocalDate startDate = period.getStart();
+        return startDate.getYear();
+    }
+    
+    /**
+     * This method returns the period of the loaded data where the main
+     * methods run there code on. 
+     */
+    public Period getPeriod()
+    {
+        return period;
+    }
+    
+    /**
+     * This method call a method that loads the weatherstation data of the given year.
+     */
+    public void setNewYear(int year)
+    {
+        loadData(year, 12, 31);
+    }
+    
+    /**
+     * This method calls a method that loads 365 days of data from the database ending on the given year, month and day.
+     */
+    public void setNewEndPeriod(int year, int month, int day)
+    {
+        loadData(year, month, day);
+    }
 }
-
-
