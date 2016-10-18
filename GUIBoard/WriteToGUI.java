@@ -26,9 +26,11 @@ public class WriteToGUI
         period.setStart(year, 1, 1);
         period.setEnd(year, 12, 31);
         
-        clearGUI();
+        rm = period.getRawMeasurements(ws);
+        
         animation.stopAnimation();
-        Windcompass.DrawWindcompass(45, 55);
+        clearGUI();
+        Windcompass.DrawWindcompass(90, 55);
     }
     
     public WriteToGUI(int year) 
@@ -48,7 +50,7 @@ public class WriteToGUI
         
         animation.stopAnimation();
         clearGUI();
-        Windcompass.DrawWindcompass(45, 55);
+        Windcompass.DrawWindcompass(90, 55);
     }
     
     private String timeStampToString(LocalDateTime timeStamp)
@@ -246,7 +248,7 @@ public class WriteToGUI
         
         //Tekst on dot matrix
         GUI_Matrix_Helper.stringToMatrix(
-        "Temperatuur last week"+"\n"+"     Gemiddelde"+"\n"+"Laagste      Hoogste"
+        "Temperatuur last month"+"\n"+"     Gemiddelde"+"\n"+"Laagste      Hoogste"
 
         );
     }
@@ -281,7 +283,7 @@ public class WriteToGUI
         
         //Tekst on dot matrix
         GUI_Matrix_Helper.stringToMatrix(
-        "Temperatuur last week"+"\n"+"Standaardafwijking"+"\n"+"Modus         Mediaan"
+        "Temperatuur last month"+"\n"+"Standaardafwijking"+"\n"+"Modus         Mediaan"
 
         );
     }
