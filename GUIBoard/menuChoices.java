@@ -11,21 +11,21 @@
 public enum menuChoices {
     //all the functions a menu can get
     mainMenu( "Start menu " ),
-    statistics(),
+    statistics("Statestieke " ),
     metingen(),
-    back(),
-    quit(),
+    back("terug " ),
+    quit("stop " ),
     //datesetting
-    setData( "Set the data to get" ),
-    getDataYearBack( "get data from one year back till now" ),
-    getDataOfYear( "get data from a specific year" ),
+    setData( "wijzig data " ),
+    getDataYearBack( "krijg data 1 jaar " ),
+    getDataOfYear( "krijg data van jaar " ),
     year09( "2009" ), year10( "2010" ), year11( "2011" ), year12( "2012" ), year13( "2013" ), year14( "2014" ), year15( "2015" ), year16( "2016" ),
     //metingen
-    printMostRecentOutsideTemp( "most recent outside temperature" ),
+    printMostRecentOutsideTemp( "recente buiten temp " ),
     printCurrentWindSpeed(),
     //statistics
     printGLH( "laagste, hoogste, gemiddlede " ),  //todo
-    printmms( "show mediaan modus & standaard afwijking" ),  //todo
+    printmms( "median,modus,afwijk " ),  //todo
     printLastWeekGLH(),
     printLastWeekMMS(),
     printLastMonthGLH(),
