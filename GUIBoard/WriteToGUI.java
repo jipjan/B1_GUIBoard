@@ -243,6 +243,7 @@ public class WriteToGUI
         rm = period.getRawMeasurements(ws);
         Statistics stat = new Statistics(rm);
         
+        animation.stopAnimation();
         clearGUI();
         
         //Top digits, Average
