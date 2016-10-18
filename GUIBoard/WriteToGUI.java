@@ -178,7 +178,7 @@ public class WriteToGUI
         
         //Tekst on dot matrix
         GUI_Matrix_Helper.stringToMatrix(
-        "Temperatuur last week"+"\n"+"     Gemiddelde"+"\n"+"Laagste      Hoogste"
+        "Temp afgelopen week"+"\n"+"     Gemiddelde"+"\n"+"Laagste      Hoogste"
 
         );
     }
@@ -213,7 +213,7 @@ public class WriteToGUI
         
         //Tekst on dot matrix
         GUI_Matrix_Helper.stringToMatrix(
-        "Temperatuur last week"+"\n"+"Standaardafwijking"+"\n"+"Modus         Mediaan"
+        "Temp afgelopen week"+"\n"+"Standaardafwijking"+"\n"+"Modus         Mediaan"
 
         );
     }
@@ -248,7 +248,7 @@ public class WriteToGUI
         
         //Tekst on dot matrix
         GUI_Matrix_Helper.stringToMatrix(
-        "Temperatuur last month"+"\n"+"     Gemiddelde"+"\n"+"Laagste      Hoogste"
+        "Temp afgelopen maand"+"\n"+"     Gemiddelde"+"\n"+"Laagste      Hoogste"
 
         );
     }
@@ -283,7 +283,7 @@ public class WriteToGUI
         
         //Tekst on dot matrix
         GUI_Matrix_Helper.stringToMatrix(
-        "Temperatuur last month"+"\n"+"Standaardafwijking"+"\n"+"Modus         Mediaan"
+        "Temp afgelopen maand"+"\n"+"Standaardafwijking"+"\n"+"Modus         Mediaan"
 
         );
     }

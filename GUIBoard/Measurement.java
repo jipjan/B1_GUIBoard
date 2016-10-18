@@ -164,8 +164,12 @@ public class Measurement
    
    public void PrintAlles()
    {
-       System.out.println(
-       "Datum en tijd: \t\t\t"+Time()+
+       System.out.println(toString());
+   }
+   
+   public String toString()
+   {
+       return "Datum en tijd: \t\t\t"+Time()+
        "\nBarometer: \t\t\t"+BarometerData()+"kPa"+
        "\nBinnentemperatuur: \t\t"+TemperatuurInsideData()+"°C"+
        "\nBuitentemperatuur: \t\t"+TemperatuurOutsideData()+"°C"+
@@ -180,8 +184,7 @@ public class Measurement
        "\nHeat index: \t\t\t"+heatIndex()+
        "\nDauwpunt: \t\t\t"+dewPoint()+
        "\nZonsopgang: \t\t\t"+ SunRiseData()+
-       "\nZonsondergang: \t\t\t"+ SunSetData()
-       
-       );
+       "\nZonsondergang: \t\t\t"+ SunSetData();
    }
+    
 }
