@@ -21,13 +21,13 @@ public enum menuChoices {
             case quit:
                 return false;
             case mainMenu:
-                new GUI_Gebruik( menus.mainMenu );
+                new GUI_Gebruik( Menus.mainMenu );
                 break; //make new menu
             case statistics:
-                new GUI_Gebruik( menus.statistics );
+                new GUI_Gebruik( Menus.statistics );
                 break;
             case metingen:
-                new GUI_Gebruik( menus.metingen );
+                new GUI_Gebruik( Menus.metingen );
                 break;
             case test:
                 startTest(); //test function

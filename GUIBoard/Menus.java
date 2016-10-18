@@ -5,18 +5,18 @@ import java.util.ArrayList;
  * @author Jacco Steegman
  * @version 1.0
  */
-public enum menus
+public enum Menus
 {
     //all the menus that exist and the contents of them
-    mainMenu( menuChoices.statistics, menuChoices.metingen ),
+    mainMenu( menuChoices.statistics, menuChoices.metingen, menuChoices.test, menuChoices.test ),
     statistics( menuChoices.back, menuChoices.test ),
-    metingen( menuChoices.back );
+    metingen( menuChoices.back, menuChoices.test );
 
     //in what the contents of the menus is written
     public final ArrayList<menuChoices> functions = new ArrayList<>();
 
     //creator for each menu
-    menus(menuChoices... options)
+    Menus(menuChoices... options)
     {
         for (int i = 0; i < options.length; i++) {
             this.functions.add( options[i] );

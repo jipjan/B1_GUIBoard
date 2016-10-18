@@ -24,11 +24,12 @@ public class GUI_Gebruik {
      *
      * @param menuIdentity which menu it has to be
      */
-    public GUI_Gebruik(menus menuIdentity)
+    public GUI_Gebruik(Menus menuIdentity)
     {
         IO.init();
         lastButonPrest();
         menuViewer = new GUI_Menu( menuIdentity.getMenuOptionsInString() );
+        menuViewer.showMenu(); //shows the menu on guiboard
         runMenus( menuIdentity);
     }
 
@@ -38,17 +39,14 @@ public class GUI_Gebruik {
      * @param menuIdentity the identity the menu has to take form in
      */
 
-    private void runMenus(menus menuIdentity) {
-        menuViewer.showMenu(); //shows the menu on guiboard
-
+    private void runMenus(Menus menuIdentity) {
         //declaration of beginning variables
         int menuItemIndex = 0; //menu item index
         int frame = 0;
         boolean runMenu = true;
         //runMenu will be falls to if this menu must be stopped
         while (runMenu) {
-            //determine which buton is pressed and what to do with that information
-            Buton pressedButon = lastButonPrest();
+            Buton pressedButon = lastButonPrest(); //determine which buton is pressed and what to do with that information
             switch (pressedButon) {
                 case red: //if red button is pressed go back or call new function/menu
                     runMenu = menuChoices.callFunction( menuIdentity.getMenuChoice( menuItemIndex ) ); //returns falls if any of the functions want this menu to stop
@@ -59,9 +57,9 @@ public class GUI_Gebruik {
                     menuViewer.showMenu();                 //show the new menu state
                     break;
                 case left:
-                    menuItemIndex = -1;
+                    menuItemIndex = menuItemIndex - 1 ;
                     if (menuItemIndex < 0) //catch exception if the user presses the 'up'(left) button to many times
-                        menuItemIndex = +menuIdentity.functions.size();
+                        menuItemIndex += menuIdentity.functions.size();
                     menuViewer.setFocusItem( menuItemIndex );
                     menuViewer.showMenu();
                     break;
