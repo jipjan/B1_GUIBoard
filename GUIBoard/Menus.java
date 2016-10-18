@@ -12,6 +12,8 @@ public enum Menus
     statistics( menuChoices.back, menuChoices.test ),
     metingen( menuChoices.back, menuChoices.test );
 
+
+
     //in what the contents of the menus is written
     public final ArrayList<menuChoices> functions = new ArrayList<>();
 
@@ -42,7 +44,7 @@ public enum Menus
         String[] arrayStringList = new String[functions.size()];
 
         for (int i = 0; i < functions.size(); i++)
-            arrayStringList[i] = functions.get( i ).toString();
+            arrayStringList[i] = functions.get(i).getName();
         return arrayStringList;
     }
 }

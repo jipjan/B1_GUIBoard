@@ -29,7 +29,7 @@ public class GUI_Gebruik {
         IO.init();
         lastButonPrest();
         menuViewer = new GUI_Menu( menuIdentity.getMenuOptionsInString() );
-        menuViewer.showMenu(); //shows the menu on guiboard
+        menuViewer.showMenu();
         runMenus( menuIdentity);
     }
 
@@ -40,37 +40,40 @@ public class GUI_Gebruik {
      */
 
     private void runMenus(Menus menuIdentity) {
+
         //declaration of beginning variables
         int menuItemIndex = 0; //menu item index
-        int frame = 0;
         boolean runMenu = true;
         //runMenu will be falls to if this menu must be stopped
         while (runMenu) {
+            System.out.println("restart botton test");
             Buton pressedButon = lastButonPrest(); //determine which buton is pressed and what to do with that information
             switch (pressedButon) {
                 case red: //if red button is pressed go back or call new function/menu
-                    runMenu = menuChoices.callFunction( menuIdentity.getMenuChoice( menuItemIndex ) ); //returns falls if any of the functions want this menu to stop
+                    runMenu = menuChoices.callFunction( menuIdentity.getMenuChoice( menuItemIndex ), menuViewer); //returns falls if any of the functions want this menu to stop
+                    lastButonPrest();
                     break;
                 case middle:
                     menuItemIndex++;
-                    menuViewer.setFocusItem( menuItemIndex );//set next item in list
-                    menuViewer.showMenu();                 //show the new menu state
+                    menuViewer.setFocusItem( menuItemIndex );//set next item in list//show the new menu state
+                    lastButonPrest();
+                    menuViewer.showMenu();
                     break;
                 case left:
                     menuItemIndex = menuItemIndex - 1 ;
                     if (menuItemIndex < 0) //catch exception if the user presses the 'up'(left) button to many times
                         menuItemIndex += menuIdentity.functions.size();
                     menuViewer.setFocusItem( menuItemIndex );
+                    lastButonPrest();
                     menuViewer.showMenu();
                     break;
                 case none:
                     try {                              //if for some reason the thread wakes up early
                         java.lang.Thread.sleep( 200 ); //make the thread wait 200 ms
                     } catch (InterruptedException e) {
-                    }  //what to do if the thread wakes up early (do nothing special)
-                    frame++;                     //add a frame (if the menu needs to animate something)
-                    menuViewer.setFrame( frame );//set the frame count
-                    menuViewer.showMenu();
+                        System.out.println("Thread did not sleep long enough end endid " + e+ "early");
+                    }                                  //what to do if the thread wakes up early (do nothing special)
+                    menuViewer.newFrame();//set a new frame
                     break;
             }
         }

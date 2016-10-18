@@ -9,10 +9,23 @@
  */
 public enum menuChoices {
     //all the functions a menu can get
-    mainMenu, statistics, metingen, back, quit, test;
+    mainMenu("Start menu"), statistics(), metingen(), back(), quit(), test("dit is een erg lange test functie om te kijken hoe goed de scroll functie werkt"), ;
+
+    public final String name;
+
+    menuChoices()
+    {
+        name = this.toString();
+    }
+
+    menuChoices(String givenName)
+    {
+        name = givenName;
+    }
+
 
     //what to do if the function gets chosen
-    public static boolean callFunction(menuChoices menuChoice) {
+    public static boolean callFunction(menuChoices menuChoice, GUI_Menu menuToShow) {
         switch (menuChoice) {
             default:
                 return false;//exit that menu
@@ -22,17 +35,25 @@ public enum menuChoices {
                 return false;
             case mainMenu:
                 new GUI_Gebruik( Menus.mainMenu );
+                menuToShow.showMenu();
                 break; //make new menu
             case statistics:
                 new GUI_Gebruik( Menus.statistics );
+                menuToShow.showMenu();
                 break;
             case metingen:
                 new GUI_Gebruik( Menus.metingen );
+                menuToShow.showMenu();
                 break;
             case test:
                 startTest(); //test function
         }
         return true;
+    }
+
+    public  String getName()
+    {
+        return name;
     }
 
     /**

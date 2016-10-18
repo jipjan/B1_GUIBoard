@@ -68,7 +68,6 @@ public class GUI_Menu
         frame = 0;
     }
 
-
     /**
      * sets the MaxTextLength to its default values.
      */
@@ -76,11 +75,9 @@ public class GUI_Menu
     {
         itemMaxTextLength[0] = 20;
         itemMaxTextLength[1] = 20;
-        itemMaxTextLength[2] = 11;
+        itemMaxTextLength[2] = 20;
     }
-    
-    
-    
+
     /**
      * setter for array menuItems.
      *      makes setFocusItem smaller if it is to big for the new menu.
@@ -109,9 +106,14 @@ public class GUI_Menu
      *
      * given frame an int that can go op as long as you want
      */
-    public void setFrame(int givenFrame)
+    public void newFrame()
     {
-        frame = givenFrame <= Integer.MAX_VALUE ? givenFrame : 0;
+        if(menuItems[focusItem].length() >= itemMaxTextLength[focusItem%3]) {
+            int givenFrame = frame + 1;
+            frame = givenFrame <= Integer.MAX_VALUE ? givenFrame : 0;
+            System.out.println("new frame set");
+            showMenu();
+        }
         //frame = givenFrame % 2147483646; //max value -1 of int in java can give an animation glitch if the int goes higher        
     }
     
@@ -120,6 +122,7 @@ public class GUI_Menu
      */
     public void showMenu()
     {
+        System.out.println("GUI updated");
         int focusItemMenuHight = (focusItem/3) * 3; // iets met focus item focusItem;
         int itemsToDisplay = menuItems.length - focusItemMenuHight;
         
@@ -128,7 +131,8 @@ public class GUI_Menu
         else if (itemsToDisplay == 2)
             menuToDisplay(menuItems[focusItemMenuHight], menuItems[(focusItemMenuHight+1)], "-");
         else
-            menuToDisplay(menuItems[focusItemMenuHight], menuItems[(focusItemMenuHight+1)], menuItems[(focusItemMenuHight+2)]);        
+            menuToDisplay(menuItems[focusItemMenuHight], menuItems[(focusItemMenuHight+1)], menuItems[(focusItemMenuHight+2)]);
+
     }
 
     /**
