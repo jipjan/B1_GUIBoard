@@ -25,15 +25,15 @@ public enum menuChoices {
     printCurrentWindSpeed(),
     //statistics
     printGLH( "laagste, hoogste, gemiddlede " ),  //todo
-    printmms( "median,modus,standraard afwijking " ),  //todo
-    printLastWeekGLH(),
-    printLastWeekMMS(),
-    printLastMonthGLH(),
-    printLastMonthMMS(),
-    printHasHeatWave(),
-    printMaxAmountOfSequentRain(),
-    printLongestRainfall(),
-    printLongestTemperatureRise();
+    printmms( "median, modus, standraard afwijking " ),  //todo
+    printLastWeekGLH("GLH van laatste week"),
+    printLastWeekMMS("MMS van laatste week"),
+    printLastMonthGLH("GLH van laatste maand"),
+    printLastMonthMMS("MMS van laatste maand"),
+    printHasHeatWave("hittegolf"),
+    printMaxAmountOfSequentRain("meeste regendagen"),
+    printLongestRainfall("langste regen periode"),
+    printLongestTemperatureRise("langste temperatuur stijging");
 
 
     public final String name;
