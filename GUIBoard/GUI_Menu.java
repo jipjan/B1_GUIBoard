@@ -147,13 +147,14 @@ public class GUI_Menu
      */
     private String textToDisplay(String text1, String text2, String text3)
     {
-        char[][] textToDisplay = {text1.toCharArray(), text2.toCharArray(), text3.toCharArray()}; //makes character array of the individual strings and puts them in a array[menu hight][each Char]
-        int focusItemMenuHight = focusItem %3; //hight of the focus Item in the menu
-        int animationStep = (frame% (textToDisplay[focusItemMenuHight].length - itemMaxTextLength[focusItemMenuHight]+1));
+        //makes character array of the individual strings and puts them in a array[menu hight][each Char]
+        char[][] textToDisplay = {text1.toCharArray(), text2.toCharArray(), text3.toCharArray()};
         String ReturnString = "";
         
         for (int i = 0; i < 3; i++) { //voor elke rij in het menu
             if ((i == focusItem) && (itemMaxTextLength[i] < textToDisplay[i].length)) { //if the focus Item is longer than the max length it may display animate it
+                int focusItemMenuHight = focusItem %3; //hight of the focus Item in the menu
+                int animationStep = (frame % (textToDisplay[focusItemMenuHight].length - itemMaxTextLength[focusItemMenuHight]+1));
                 for (int j = 0; j < itemMaxTextLength[i]; j++)  //for every leter in the array (to display)
                     ReturnString = ReturnString + textToDisplay[i][j+animationStep]; //add it to the return string from the point animation step point
             } else {                                                                    //else dont animate the text
