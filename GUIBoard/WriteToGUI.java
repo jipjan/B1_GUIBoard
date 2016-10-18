@@ -482,8 +482,9 @@ public class WriteToGUI
      */
     public void printLongestTemperatureRise()
     {
+        clearGUI();
         Period longestTempRisePeriod = analysis.longestTemperatureRise(rm, period);
-        GUI_Matrix_Helper.stringToMatrix("De langste tempstijging:" + "\n" + "van: " + longestTempRisePeriod.getStart() + "\n" + "tot: " + longestTempRisePeriod.getEnd());
+        GUI_Matrix_Helper.stringToMatrix("Langste tempstijging:" + "\n" + "van: " + longestTempRisePeriod.getStart() + "\n" + "tot: " + longestTempRisePeriod.getEnd());
     }
     
     public void displayGrafiekLast30Days()

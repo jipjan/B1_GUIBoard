@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.*;
 
 /**
  * This class contains all analysis methods for data from the weatherstation.
@@ -162,43 +163,40 @@ public class Analysis
      * Check what the longest period of temperature rise is
      * @return Period with longest temperature rise.
      */
-    public Period longestTemperatureRise(ArrayList<RawMeasurement> data,  Period period)
+    public Period longestTemperatureRise(ArrayList<RawMeasurement> data, Period period)
     {
-        LocalDate beginDate = period.getStart();
+        Statistics statistics = new Statistics(data);
+        ArrayList<Short> avData = statistics.getAveragesOnDays(Statistics.Unit.OutsideTemp);
         
-        Period longestTempRisePeriod = new Period();
-        longestTempRisePeriod.setStart(beginDate);
-        longestTempRisePeriod.setEnd(beginDate.minusDays(1));
-        
-        double lastTemp = getAvgTempOfDay(beginDate);
-        double tempOfI= 0;
-        
-        int periodLength = 0;
-        for (int i = 1; i < period.numberOfDays(); i++)
+        int highest = Integer.MIN_VALUE;
+        int longestRise = 0;
+        int count = 0;
+        LocalDate startDate = period.getStart();
+        LocalDate endDate = period.getStart();
+        LocalDate extraEndDate = period.getStart();
+        LocalDate extraStartDate = period.getStart();
+        for(int i = 0; i < avData.size();i++)
         {
-            
-            LocalDate dateOfI = beginDate.plusDays(i);
-            tempOfI = getAvgTempOfDay(dateOfI);
-            periodLength++;
-            
-            if (tempOfI <= lastTemp)
+            if(avData.get(i) > highest)
             {
-                periodLength = 0;
-            } else if(periodLength >= longestTempRisePeriod.numberOfDays())
+                highest = avData.get(i);
+                count += 1;
+                extraEndDate = extraEndDate.plusDays(1);
+            }
+            else
             {
-                longestTempRisePeriod.setStart(dateOfI.minusDays(periodLength));
-                longestTempRisePeriod.setEnd(dateOfI);
-                periodLength = 0;
-            }           
-            
-            lastTemp = tempOfI;
+                if(count > longestRise)
+                {
+                    longestRise = count;
+                    startDate = extraStartDate;
+                    endDate = extraEndDate;
+                }
+                else{}
+                count = 0;
+                extraStartDate = extraEndDate;
+            }
         }
-        
-        if (longestTempRisePeriod.getStart().compareTo(longestTempRisePeriod.getEnd()) <= 0)
-        {
-            longestTempRisePeriod.setEnd(period.getEnd());
-        }
-        
+        Period longestTempRisePeriod = new Period(startDate,endDate);
         return longestTempRisePeriod;
     }
 }
