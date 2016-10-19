@@ -24,7 +24,7 @@ public enum menuChoices {
     printMostRecentOutsideTemp( "recente buiten temperatuur " ),
     printCurrentWindSpeed(),
     //statistics
-    printGLH( "laagste, hoogste, gemiddlede " ),  //todo
+    printGLH( "laagste, hoogste, gemiddelde " ),  //todo
     printmms( "mediaan, modus, standaard afwijking " ),  //todo
     printLastWeekGLH("GLH van laatste week"),
     printLastWeekMMS("MMS van laatste week"),
