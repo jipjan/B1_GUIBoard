@@ -426,7 +426,7 @@ public class WriteToGUI
         
         if(analysis.hasHeatWave(rm))
         {
-            GUI_Matrix_Helper.stringToMatrix("Er was een hittgolf" + "\n" + "tussen: " + period.getStart() + "\n" + "en " + period.getEnd());
+            GUI_Matrix_Helper.stringToMatrix("Er was een hittegolf" + "\n" + "tussen: " + period.getStart() + "\n" + "en " + period.getEnd());
         }
         else
         {
