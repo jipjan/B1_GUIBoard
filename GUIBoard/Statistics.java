@@ -8,7 +8,7 @@ public class Statistics
 {
     // private list to use in the statistics calculations.
     private ArrayList<RawMeasurement> list;
-
+    
     /**
      * Enum with all the possible units to use in the statistics calculations.
      */
@@ -23,40 +23,53 @@ public class Statistics
         list = measurements;
     }   
 
+    
+    private short getValue(int i, Unit unit)
+    {
+        return (short) getValue(i, unit, false);
+    }
+    
     /**
      * Get specific unit from the list.
      * @param i     Index to use for the list
      * @param unit  Unit to retrieve from the list
      * @return      The value from the list
      */
-    private short getValue(int i, Unit unit)
+    private double getValue(int i, Unit unit, boolean converted)
     {
         if (i < list.size())
             switch (unit)
             {
-                case InsideTemp: return list.get(i).getInsideTemp();
-                case OutsideTemp: return list.get(i).getOutsideTemp();
-                case Windspeed: return list.get(i).getWindSpeed();
+                case InsideTemp: return converted ? MetingenHandler.temperatuur(list.get(i).getInsideTemp()) : list.get(i).getInsideTemp();
+                case OutsideTemp: return converted ? MetingenHandler.temperatuur(list.get(i).getOutsideTemp()) : list.get(i).getOutsideTemp();
+                case Windspeed: return converted ? MetingenHandler.windSnelheid(list.get(i).getWindSpeed()) : list.get(i).getWindSpeed();
                 case OutsideHum: return list.get(i).getOutsideHum();
-                case RainRate: return list.get(i).getRainRate();
-                case UVLevel: return list.get(i).getUVLevel();
+                case RainRate: return converted ? MetingenHandler.regenmeter(list.get(i).getRainRate()) : list.get(i).getRainRate();
+                case UVLevel: return converted ? MetingenHandler.uvIndex(list.get(i).getUVLevel()) : list.get(i).getUVLevel();
                 case Solarrad: return list.get(i).getSolarRad();
                 case Barometer: return list.get(i).getBarometer();
             }
         return 0;
     }
 
+    
+    public double getAverage(Unit unit)
+    {
+        return getAverage(unit, false);
+    }
+    
     /**
      * Get average of the value in the measurements.
-     * @param unit  Unit to retrieve from the list
-     * @return      The average
+     * @param unit      Unit to retrieve from the list
+     * @param converted Convert value before calculation
+     * @return          The average
      */
-    public double getAverage(Unit unit)
+    public double getAverage(Unit unit, boolean converted)
     {
         if (list.size() == 0) return 0;
         double average = 0;
         for(int i = 0; i < list.size(); i++)
-            average += getValue(i, unit);
+            average += getValue(i, unit, converted);
         return average / list.size();
     }
 
@@ -117,7 +130,7 @@ public class Statistics
         Calendar cal2 = Calendar.getInstance();
         cal1.setTime(t1);
         cal2.setTime(t2);
-        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);	
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);  
     }
 
     /**
@@ -183,18 +196,13 @@ public class Statistics
         return highest;
     }
 
-    /**
-     * Calculate deviant from a unit in the list.
-     * @param unit  The unit to calculate the deviant of
-     * @return      The deviant as a double
-     */
     public double getDeviant(Unit unit)
     {
+        double average = getAverage(unit, true);
         double deviant = 0;
-        double average = getAverage(unit);
-        for (int i = 0; i < list.size(); i++)
-            deviant += Math.pow(getValue(i, unit) - average, 2);
-        return Math.pow(deviant / (list.size() - 1), 0.5);
+        for (int i = 0; i < list.size(); i++)        
+            deviant += Math.pow(getValue(i, unit, true) - average, 2);
+        return Math.pow(deviant / (list.size() - 1), 0.5d);
     }
 
     /**
