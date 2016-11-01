@@ -300,7 +300,7 @@ public class WriteToGUI
         
         //Top digits, Standaardafwijking
         int vakje = 0x10;
-        double getal = MetingenHandler.temperatuurDouble(stat.getDeviant(Statistics.Unit.OutsideTemp));
+        double getal = stat.getDeviant(Statistics.Unit.OutsideTemp);
         guiWriter(vakje,getal);
         
         //Top digits, Modus
